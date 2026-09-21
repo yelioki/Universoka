@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+<title>Universo Ka | El Consejo de Maestros</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Cinzel', serif;
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:40px 20px;
+  overflow-x:hidden;
+  color:white;
+  background:
+  linear-gradient(
+  rgba(0,0,0,0.45),
+  rgba(0,0,0,0.65)),
+  url("./fondo-ka.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+/* =========================
+NIEBLA
+========================= */
+.neblina{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.niebla{
+  position:absolute;
+  width:1400px;
+  opacity:0.18;
+  filter:blur(10px);
+}
+
+.n1{
+  top:-10%;
+  left:-40%;
+  animation:moverNiebla1 45s linear infinite;
+}
+
+.n2{
+  bottom:-10%;
+  right:-40%;
+  animation:moverNiebla2 60s linear infinite;
+}
+
+@keyframes moverNiebla1{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(150vw); }
+}
+
+@keyframes moverNiebla2{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(-150vw); }
+}
+
+/* =========================
+PARTICULAS
+========================= */
+.particulas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+
+.particulas span{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#7be6d6;
+  box-shadow:
+  0 0 10px #7be6d6,
+  0 0 20px #7be6d6;
+  animation:flotar 8s linear infinite;
+}
+
+@keyframes flotar{
+  0%{ transform:translateY(120px); opacity:0; }
+  30%{ opacity:1; }
+  100%{ transform:translateY(-250px); opacity:0; }
+}
+
+/* =========================
+PANEL
+========================= */
+.avatar-panel{
+  position:relative;
+  width:100%;
+  max-width:470px;
+  padding:32px 24px;
+  text-align:center;
+  z-index:20;
+  backdrop-filter:blur(14px);
+  background:
+  linear-gradient(
+  rgba(10,20,20,0.45),
+  rgba(10,20,20,0.65)),
+  url("panel-ka.png");
+  border:1px solid rgba(123,230,214,0.12);
+  background-image:url("panel-ka.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-radius:32px;
+  box-shadow:
+  0 0 50px rgba(0,0,0,0.45),
+  0 0 120px rgba(123,230,214,0.08);
+  animation:flotarPanel 6s ease-in-out infinite;
+}
+
+/* =========================
+TITULOS
+========================= */
+h1{
+  font-size:30px;
+  margin-bottom:12px;
+  text-shadow: 0 0 10px rgba(123,230,214,0.35);
+}
+
+.subtitulo{
+  font-size:14px;
+  line-height:1.7;
+  opacity:0.95;
+  margin-bottom:26px;
+}
+
+/* =========================
+AVATAR
+========================= */
+.avatar-container{
+  position:relative;
+  width:180px;
+  height:180px;
+  margin:auto auto 20px;
+}
+
+.aura{
+  position:absolute;
+  inset:-15px;
+  width:210px;
+  height:210px;
+  object-fit:contain;
+  animation:girarAura 18s linear infinite;
+}
+
+@keyframes girarAura{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+
+@keyframes respirarAvatar{
+  0%,100%{ transform:translate(-50%,-50%) scale(1); }
+  50%{ transform:translate(-50%,-50%) scale(1.04); }
+}
+
+.marco-avatar{
+  position:absolute;
+  inset:0;
+  width:205px;
+  height:205px;
+  top:-12px;
+  left:-12px;
+  object-fit:contain;
+  z-index:1;
+}
+
+.avatar{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:155px;
+  height:155px;
+  border-radius:50%;
+  overflow:hidden;
+  z-index:2;
+  box-shadow: 0 0 25px rgba(123,230,214,0.45);
+  animation:respirarAvatar 4s ease-in-out infinite;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.35s;
+}
+
+.avatar:hover img{
+  transform:scale(1.08);
+}
+
+/* =========================
+BOTONES
+========================= */
+.selector{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.btn-mini,
+.btn-principal{
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+  font-family:'Cinzel', serif;
+}
+
+.btn-mini{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background: linear-gradient(135deg, #7be6d6, #2e8f8c);
+  color:white;
+  font-size:18px;
+}
+
+.btn-principal{
+  width:100%;
+  padding:15px;
+  border-radius:20px;
+  background: linear-gradient(135deg, #6fe3d4, #2d8f89);
+  color:white;
+  font-size:16px;
+  margin-top:20px;
+}
+
+.btn-mini:hover,
+.btn-principal:hover{
+  transform:scale(1.05);
+  box-shadow: 0 0 20px rgba(123,230,214,0.35);
+}
+
+/* =========================
+CAMPOS
+========================= */
+.campo{
+  margin-bottom:15px;
+  text-align:left;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  font-size:11px;
+  opacity:0.7;
+}
+
+input{
+  width:100%;
+  padding:16px 18px;
+  border-radius:24px;
+  border: 1px solid rgba(123,230,214,0.35);
+  outline:none;
+  font-size:15px;
+  color:#dffaf6;
+  background: rgba(30,120,125,0.65);
+  backdrop-filter:blur(10px);
+  box-shadow: inset 0 0 20px rgba(123,230,214,0.04), 0 0 20px rgba(0,0,0,0.15);
+  transition:0.4s;
+  font-family:'Cinzel', serif;
+}
+
+input:focus{
+  border: 1px solid rgba(123,230,214,0.45);
+  box-shadow: 0 0 20px rgba(123,230,214,0.18), 0 0 50px rgba(123,230,214,0.08);
+  transform:scale(1.02);
+}
+
+input::placeholder{
+  color: rgba(255,255,255,0.45);
+}
+
+/* =========================
+MENSAJE
+========================= */
+#ka-mensaje{
+  margin-top:18px;
+  font-size:14px;
+  line-height:1.6;
+  opacity:0.95;
+  min-height:45px;
+  color:#dffaf6;
+  text-shadow: 0 0 12px rgba(123,230,214,0.18);
+  font-style:italic;
+}
+
+/* =========================
+VOLVER
+========================= */
+.volver{
+  position:fixed;
+  top:20px;
+  left:20px;
+  z-index:50;
+  padding:12px 18px;
+  border:none;
+  border-radius:20px;
+  background:rgba(255,255,255,0.85);
+  color:#17393b;
+  font-weight:bold;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  font-family:'Cinzel', serif;
+}
+
+/* =========================
+PORTAL TRANSICION
+========================= */
+.portal-transicion{
+  position:fixed;
+  inset:0;
+  background: radial-gradient(circle, rgba(123,230,214,0.8), rgba(0,0,0,1));
+  opacity:0;
+  pointer-events:none;
+  z-index:999;
+  transition:1.5s;
+}
+
+/* =========================
+ANIMACIONES EXTRA
+========================= */
+@keyframes flotarPanel{
+  0%,100%{ transform:translateY(0px); }
+  50%{ transform:translateY(-6px); }
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+@media(max-width:768px){
+  h1{ font-size:24px; }
+  .avatar-panel{ padding:28px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="portal-transicion" id="portal"></div>
+
+<!-- NIEBLA -->
+<div class="neblina">
+  <img src="niebla1.png" class="niebla n1">
+  <img src="niebla2.png" class="niebla n2">
+</div>
+
+<!-- PARTICULAS -->
+<div class="particulas"></div>
+
+<!-- BOTON VOLVER -->
+<button class="volver" onclick="window.location.href='index.html'">
+  ← Regresar al Umbral
+</button>
+
+<!-- PANEL PRINCIPAL -->
+<div class="avatar-panel">
+
+  <h1>El Consejo de Maestros</h1>
+  
+  <p class="subtitulo">
+    Cada maestro custodia un mundo de creación.<br><br>
+    Ellos serán tus compañeros durante el viaje.<br>
+    Elige con quién deseas comenzar.
+  </p>
+
+  <!-- AVATAR -->
+  <div class="avatar-container">
+    <img src="aura.png" class="aura">
+    <img src="marco-avatar.png" class="marco-avatar">
+    <div class="avatar">
+      <img id="imagenAvatar" src="mawari.png">
+    </div>
+  </div>
+
+  <!-- BOTONES DE NAVEGACIÓN -->
+  <div class="selector">
+    <button class="btn-mini" onclick="cambiarAnterior()">⬅</button>
+    <button class="btn-mini" onclick="cambiarSiguiente()">➡</button>
+  </div>
+
+  <!-- INFORMACIÓN DINÁMICA DEL MAESTRO -->
+  <h2 id="tituloMaestro" style="font-size: 20px; color: #7be6d6; margin-top: 15px; margin-bottom: 5px;">Lira</h2>
+  <p id="descMaestro" style="font-size: 13px; opacity: 0.85; margin-bottom: 20px; line-height: 1.5;">Convierte ideas en invitaciones, cajas, etiquetas y recuerdos inolvidables.</p>
+
+  <!-- CAMPO PARA EL NOMBRE DE LA CREADORA -->
+  <div class="campo">
+    <label>¿Cómo te llamas en este mundo?</label>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre aquí...">
+  </div>
+
+  <!-- BOTÓN DE ENTRADA -->
+  <button class="btn-principal" onclick="guardar()">
+    Elegir este Maestro
+  </button>
+
+  <p id="ka-mensaje">
+    Ka escucha tu energía de crear… el portal comenzará a reconocerte 🌿
+  </p>
+
+</div>
+
+<script>
+/* =========================
+PARTICULAS
+========================= */
+const contenedor = document.querySelector('.particulas');
+for(let i=0; i<40; i++){
+  let p = document.createElement('span');
+  p.style.left = Math.random()*100+'vw';
+  p.style.top = Math.random()*100+'vh';
+  p.style.animationDuration = (4+Math.random()*6)+'s';
+  contenedor.appendChild(p);
+}
+
+/* =========================
+EL CONSEJO DE MAESTROS
+========================= */
+const maestros = [
+  {
+    imagen: "mawari.png",
+    nombre: "Lira",
+    titulo: "Maestra de Papelería Viva",
+    descripcion: "Convierte ideas en invitaciones, cajas, etiquetas y recuerdos inolvidables."
+  },
+  {
+    imagen: "kaorai.png",
+    nombre: "Orun",
+    titulo: "Maestro del Modelado 3D",
+    descripcion: "Da forma a tus ideas para impresión 3D."
+  },
+  {
+    imagen: "seyuma.png",
+    nombre: "Numa",
+    titulo: "Maestra de Mockups",
+    descripcion: "Presenta tus creaciones como si ya existieran en el mundo físico."
+  },
+  {
+    imagen: "orukai.png",
+    nombre: "Kael",
+    titulo: "Maestro de Inteligencia Artificial",
+    descripcion: "Encuentra la mejor herramienta IA para cada paso de tu viaje."
+  }
+];
+
+let indice = 0;
+const img = document.getElementById("imagenAvatar");
+const mensaje = document.getElementById("ka-mensaje");
+
+/* =========================
+ACTUALIZAR PANTALLA
+========================= */
+function actualizarAvatar(){
+  // Cambia la imagen
+  img.src = maestros[indice].imagen;
+  
+  // Cambia el texto del maestro
+  document.getElementById("tituloMaestro").innerText = maestros[indice].nombre;
+  document.getElementById("descMaestro").innerText = maestros[indice].titulo + " — " + maestros[indice].descripcion;
+  
+  // Susurro de Ka
+  mensaje.innerText = "Ka siente la presencia de un nuevo guardián... ✨";
+}
+
+/* =========================
+FLECHAS DE NAVEGACIÓN
+========================= */
+function cambiarSiguiente(){
+  indice = (indice + 1) % maestros.length;
+  actualizarAvatar();
+}
+
+function cambiarAnterior(){
+  indice = (indice - 1 + maestros.length) % maestros.length;
+  actualizarAvatar();
+}
+
+/* =========================
+GUARDAR Y ABRIR PORTAL
+========================= */
+function guardar(){
+  const nombre = document.getElementById("nombre").value.trim();
+
+  if(!nombre){
+    mensaje.innerText = "Ka susurra… tu nombre es parte de tu esencia 🌿";
+    return;
+  }
+
+  // Guardamos la memoria del visitante
+  localStorage.setItem("nombreAvatar", nombre);
+  localStorage.setItem("maestroElegido", maestros[indice].imagen);
+  localStorage.setItem("nombreMaestro", maestros[indice].nombre);
+
+  mensaje.innerText = `Bienvenida, ${nombre}… El Maestro ${maestros[indice].nombre} te espera ✨`;
+
+  // Activamos la luz del portal
+  document.getElementById("portal").style.opacity = "1";
+
+  setTimeout(()=>{
+    window.location.href = "mapa.html";
+  }, 1800);
+}
+
+// Iniciamos la vista con el primer maestro
+actualizarAvatar();
+
+/* =========================
+FRASES ALEATORIAS DE KA
+========================= */
+const frasesKa = [
+  "Las raíces recuerdan tu energía... 🌿",
+  "Ka escucha el eco de tu presencia... ✨",
+  "Los portales observan tu llegada...",
+  "El tepuy despierta lentamente...",
+  "La Lúmina responde a tu esencia..."
+];
+
+setInterval(()=>{
+  const frase = frasesKa[Math.floor(Math.random()*frasesKa.length)];
+  mensaje.innerText = frase;
+}, 7000);
+
+/* =================--------
+PARALLAX CON EL MOUSE
+========================= */
+document.addEventListener("mousemove", (e)=>{
+  const x = (window.innerWidth/2 - e.pageX)/120;
+  const y = (window.innerHeight/2 - e.pageY)/120;
+  document.body.style.backgroundPosition = `${x}px ${y}px`;
+});
+
+/* =========================
+SONIDO DEL BOSQUE
+========================= */
+document.body.addEventListener("click", ()=>{
+  const audio = document.getElementById("sonidoAmbiente");
+  audio.volume = 0.35;
+  audio.play();
+}, {once:true});
+
+</script>
+
+<audio id="sonidoAmbiente" loop preload="auto">
+  <source src="bosque.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>

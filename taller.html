@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+<title>El Taller – Universo Ka</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Cinzel', serif;
+}
+
+body{
+  overflow:hidden;
+  height:100vh;
+  color:white;
+  background:
+  linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)),
+  url("tepuy-fondo.jpg");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* =========================
+ESCENA Y NIEBLA
+========================= */
+.escena{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
+
+.neblina{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  overflow:hidden;
+}
+
+.niebla{
+  position:absolute;
+  width:1500px;
+  opacity:0.14;
+  filter:blur(10px);
+}
+
+.n1{ top:-10%; left:-40%; animation:moverNiebla1 50s linear infinite; }
+.n2{ bottom:-10%; right:-40%; animation:moverNiebla2 65s linear infinite; }
+
+@keyframes moverNiebla1{ 0%{transform:translateX(0);} 100%{transform:translateX(150vw);} }
+@keyframes moverNiebla2{ 0%{transform:translateX(0);} 100%{transform:translateX(-150vw);} }
+
+/* =========================
+PARTICULAS
+========================= */
+.particulas{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+}
+
+.particulas span{
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#7be6d6;
+  box-shadow: 0 0 10px #7be6d6, 0 0 20px #7be6d6;
+  animation:flotar 10s linear infinite;
+}
+
+@keyframes flotar{
+  0%{ transform:translateY(120px); opacity:0; }
+  30%{ opacity:1; }
+  100%{ transform:translateY(-250px); opacity:0; }
+}
+
+/* =========================
+PANEL CRISTAL
+========================= */
+.panel-taller{
+  position:relative;
+  width:90%;
+  max-width:480px;
+  padding:45px 30px;
+  text-align:center;
+  z-index:20;
+  background: rgba(10,30,30,0.55);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(123,230,214,0.25);
+  border-radius:36px;
+  box-shadow: 0 0 80px rgba(123,230,214,0.1);
+  animation: aparecerPanel 2.5s ease forwards;
+  opacity:0;
+}
+
+@keyframes aparecerPanel{
+  to{ opacity:1; transform:translateY(0); }
+  from{ opacity:0; transform:translateY(40px); }
+}
+
+/* =========================
+AVATAR
+========================= */
+.maestro-avatar{
+  width:150px;
+  height:150px;
+  margin:0 auto 25px;
+  border-radius:50%;
+  overflow:hidden;
+  border: 3px solid rgba(123,230,214,0.6);
+  box-shadow: 0 0 40px rgba(123,230,214,0.5);
+  animation: respirar 4s ease-in-out infinite;
+}
+
+@keyframes respirar{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.06); }
+}
+
+.maestro-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* =========================
+TEXTOS
+========================= */
+h2{
+  color:#7be6d6;
+  font-size:24px;
+  margin-bottom:12px;
+  text-shadow: 0 0 15px rgba(123,230,214,0.4);
+}
+
+.bienvenida{
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:35px;
+  opacity:0.9;
+}
+
+.bienvenida span{
+  color:#ffe58f;
+  font-weight:bold;
+}
+
+/* =========================
+BOTON PORTAL
+========================= */
+.btn-portal{
+  display:inline-block;
+  width:100%;
+  padding:18px;
+  border-radius:28px;
+  background: linear-gradient(135deg, #6fe3d4, #2d8f89);
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  text-decoration:none;
+  transition:0.4s;
+  box-shadow: 0 0 25px rgba(123,230,214,0.4);
+  font-family:'Cinzel', serif;
+}
+
+.btn-portal:hover{
+  transform:scale(1.05);
+  box-shadow: 0 0 40px rgba(123,230,214,0.7);
+}
+
+/* =========================
+VOLVER
+========================= */
+.volver{
+  position:fixed;
+  top:20px;
+  left:20px;
+  z-index:50;
+  padding:12px 18px;
+  border:none;
+  border-radius:20px;
+  background:rgba(255,255,255,0.85);
+  color:#17393b;
+  font-weight:bold;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  font-family:'Cinzel', serif;
+}
+
+@media(max-width:768px){
+  .panel-taller{ padding: 30px 20px; }
+  h2{ font-size: 20px; }
+}
+
+</style>
+</head>
+
+<body>
+
+<button class="volver" onclick="window.location.href='index.html'">
+  ← Regresar al Umbral
+</button>
+
+<div class="escena">
+
+  <!-- NIEBLA -->
+  <div class="neblina">
+    <img src="niebla1.png" class="niebla n1">
+    <img src="niebla2.png" class="niebla n2">
+  </div>
+
+  <!-- PARTICULAS -->
+  <div class="particulas"></div>
+
+  <!-- PANEL PRINCIPAL -->
+  <div class="panel-taller">
+    
+    <div class="maestro-avatar">
+      <img id="fotoMaestro" src="mawari.png">
+    </div>
+
+    <h2 id="tituloMaestro">El Taller de Lira</h2>
+    
+    <p class="bienvenida">
+      Bienvenido, <span id="nombreUsuario">Creadora</span>.<br><br>
+      Tu guía te espera al otro lado del portal para comenzar a dar forma a tu idea.
+    </p>
+
+    <!-- EL BOTON MAGICO QUE ABRE POE EN OTRA PESTAÑA -->
+    <a href="https://poe.com/Lira_Ka" target="_blank" class="btn-portal">
+      Cruzar el Portal
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================
+PARTICULAS
+========================= */
+const particulas = document.querySelector('.particulas');
+for(let i=0; i<45; i++){
+  let p = document.createElement('span');
+  p.style.left = Math.random()*100+'vw';
+  p.style.top = Math.random()*100+'vh';
+  p.style.animationDuration = (5+Math.random()*6)+'s';
+  particulas.appendChild(p);
+}
+
+/* =========================
+LEER MEMORIA
+========================= */
+const nombreGuardado = localStorage.getItem("nombreAvatar") || "Creadora";
+const maestroElegido = localStorage.getItem("maestroElegido") || "mawari.png";
+const nombreMaestro = localStorage.getItem("nombreMaestro") || "Lira";
+
+document.getElementById("nombreUsuario").innerText = nombreGuardado;
+document.getElementById("fotoMaestro").src = maestroElegido;
+document.getElementById("tituloMaestro").innerText = `El Taller de ${nombreMaestro}`;
+
+/* =========================
+SONIDO
+========================= */
+document.body.addEventListener("click", ()=>{
+  const audio = document.getElementById("sonidoAmbiente");
+  audio.volume = 0.35;
+  audio.play();
+}, {once:true});
+
+</script>
+
+<audio id="sonidoAmbiente" loop preload="auto">
+  <source src="bosque.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Universo Ka — La Travesía</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  width:100%;
+  height:100vh;
+
+  overflow:hidden;
+
+  font-family:'Segoe UI',sans-serif;
+
+  background:black;
+
+  opacity:0;
+
+  animation:aparecerPagina 2.5s ease forwards;
+}
+
+@keyframes aparecerPagina{
+
+  from{
+    opacity:0;
+  }
+
+  to{
+    opacity:1;
+  }
+}
+
+/* =========================
+ESCENA PRINCIPAL
+========================= */
+
+.escena{
+
+  position:relative;
+
+  width:100%;
+  height:100vh;
+
+  overflow:hidden;
+
+  animation:fondoMover 30s ease-in-out infinite alternate;
+}
+/* =========================
+CAPA NEGRA INICIAL
+========================= */
+
+#entrada-suave{
+
+  position:fixed;
+
+  inset:0;
+
+  background:black;
+
+  z-index:999;
+
+  animation:desvanecerEntrada 3s ease forwards;
+}
+
+@keyframes desvanecerEntrada{
+
+  0%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+
+/* =========================
+VIDEO FONDO
+========================= */
+
+#video-fondo{
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  z-index:1;
+}
+
+/* =========================
+MOVIMIENTO SUAVE
+========================= */
+
+@keyframes fondoMover{
+
+  0%{
+    background-position:center center;
+  }
+
+  100%{
+    background-position:center 55%;
+  }
+}
+
+/* =========================
+OSCURECER
+========================= */
+
+.escena::after{
+
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  to bottom,
+  rgba(0,0,0,0.15),
+  rgba(0,0,0,0.45),
+  rgba(0,0,0,0.78));
+
+  z-index:2;
+}
+
+/* =========================
+NIEBLA
+========================= */
+
+.neblina{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:5;
+  pointer-events:none;
+}
+
+.niebla-img{
+  position:absolute;
+
+  width:1800px;
+
+  opacity:0.22;
+
+  filter:blur(8px);
+}
+
+.niebla1{
+  top:-10%;
+  left:-50%;
+
+  animation:moverNiebla1 55s linear infinite;
+}
+
+.niebla2{
+  bottom:-15%;
+  right:-50%;
+
+  animation:moverNiebla2 70s linear infinite;
+}
+
+@keyframes moverNiebla1{
+
+  0%{
+    transform:translateX(0);
+  }
+
+  100%{
+    transform:translateX(180vw);
+  }
+}
+
+@keyframes moverNiebla2{
+
+  0%{
+    transform:translateX(0);
+  }
+
+  100%{
+    transform:translateX(-180vw);
+  }
+}
+
+/* =========================
+PARTICULAS
+========================= */
+
+.particulas{
+  position:absolute;
+  inset:0;
+  z-index:8;
+}
+
+.particulas span{
+
+  position:absolute;
+
+  width:5px;
+  height:5px;
+
+  border-radius:50%;
+
+  background:#7be6d6;
+
+  box-shadow:
+  0 0 10px #7be6d6,
+  0 0 25px #7be6d6;
+
+  animation:flotar 8s linear infinite;
+}
+
+@keyframes flotar{
+
+  0%{
+    transform:translateY(120px);
+    opacity:0;
+  }
+
+  30%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(-220px);
+    opacity:0;
+  }
+}
+
+/* =========================
+LUCIERNAGAS
+========================= */
+
+.luciernagas{
+  position:absolute;
+  inset:0;
+  z-index:10;
+}
+
+.luz{
+
+  position:absolute;
+
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:#fff2a6;
+
+  box-shadow:
+  0 0 12px #fff2a6,
+  0 0 30px #ffd700,
+  0 0 55px rgba(255,215,0,0.6);
+
+  animation:
+  parpadear 4s ease-in-out infinite,
+  moverLuz 10s ease-in-out infinite;
+}
+
+@keyframes parpadear{
+
+  0%{
+    opacity:0.3;
+    transform:scale(0.8);
+  }
+
+  50%{
+    opacity:1;
+    transform:scale(1.2);
+  }
+
+  100%{
+    opacity:0.4;
+    transform:scale(0.9);
+  }
+}
+
+@keyframes moverLuz{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-25px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+}
+
+/* =========================
+PNG LUCIERNAGAS
+========================= */
+
+.img-luciernaga{
+
+  position:absolute;
+
+  width:55px;
+  height:55px;
+
+  background-image:url("luciernaga.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+
+  filter:drop-shadow(0 0 18px #ffd700);
+
+  animation:
+  parpadear 5s ease-in-out infinite,
+  moverLuz 8s ease-in-out infinite;
+}
+
+/* =========================
+LIBELULAS
+========================= */
+
+.libelulas{
+  position:absolute;
+  inset:0;
+  z-index:11;
+}
+
+.libelula{
+
+  position:absolute;
+
+  width:70px;
+  height:70px;
+
+  background-image:url("libelula.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+
+  animation:volar 18s linear infinite;
+}
+
+@keyframes volar{
+
+  0%{
+    transform:translateX(-120px);
+    opacity:0;
+  }
+
+  10%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateX(120vw);
+    opacity:0;
+  }
+}
+
+/* =========================
+CANOA
+========================= */
+
+.canoa{
+
+  position:absolute;
+
+  bottom:-8%;
+
+  left:50%;
+
+  width:70vw;
+  max-width:900px;
+
+  transform:translateX(-50%);
+
+  z-index:20;
+
+  opacity:0.95;
+
+  animation:flotarCanoa 6s ease-in-out infinite;
+}
+
+@keyframes flotarCanoa{
+
+  0%{
+    transform:translateX(-50%) translateY(0px);
+  }
+
+  50%{
+    transform:translateX(-50%) translateY(-12px);
+  }
+
+  100%{
+    transform:translateX(-50%) translateY(0px);
+  }
+}
+
+/* =========================
+KA UI
+========================= */
+
+#ka-ui{
+
+  position:absolute;
+
+  bottom:18%;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  z-index:40;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#ka-presencia{
+
+  position:relative;
+
+  width:500px;
+  height:500px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+  align-items:center;
+
+  text-align:center;
+}
+
+/* =========================
+ARO ENERGIA
+========================= */
+
+#aro-ka{
+
+  position:absolute;
+
+  width:320px;
+  height:320px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle,
+  rgba(123,230,214,0.18),
+  rgba(123,230,214,0.05),
+  transparent 72%);
+
+  border:
+  1px solid rgba(123,230,214,0.25);
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+  0 0 35px rgba(123,230,214,0.35),
+  0 0 90px rgba(123,230,214,0.18);
+
+  animation:respirarKa 5s ease-in-out infinite;
+}
+
+@keyframes respirarKa{
+
+  0%{
+    transform:scale(0.96);
+    opacity:0.6;
+  }
+
+  50%{
+    transform:scale(1.03);
+    opacity:1;
+  }
+
+  100%{
+    transform:scale(0.96);
+    opacity:0.6;
+  }
+}
+
+/* =========================
+TEXTO KA
+========================= */
+
+#ka-texto{
+
+  position:relative;
+
+  width:340px;
+
+  color:white;
+
+  font-size:18px;
+
+  line-height:1.9;
+
+  text-shadow:
+  0 0 15px rgba(255,255,255,0.15);
+
+  z-index:2;
+
+  opacity:0;
+
+  animation:aparecerTexto 3s ease forwards;
+}
+
+@keyframes aparecerTexto{
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0px);
+  }
+}
+
+/* =========================
+BOTON
+========================= */
+
+#ka-presencia button{
+
+  margin-top:30px;
+
+  padding:14px 28px;
+
+  border:none;
+
+  border-radius:40px;
+
+  background:
+  linear-gradient(
+  135deg,
+  rgba(116,225,210,0.9),
+  rgba(45,143,137,0.9));
+
+  color:white;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  z-index:2;
+
+  transition:0.4s;
+}
+
+#ka-presencia button:hover{
+
+  transform:scale(1.06);
+
+  box-shadow:
+  0 0 25px rgba(116,225,210,0.5);
+}
+
+</style>
+</head>
+
+<body>
+<div id="entrada-suave"></div>
+
+<div class="escena">
+
+<!-- VIDEO -->
+
+<video autoplay muted loop playsinline id="video-fondo">
+
+  <source src="rio-ka.mp4" type="video/mp4">
+
+</video>
+
+<!-- NIEBLA -->
+
+<div class="neblina">
+
+  <img src="niebla1.png" class="niebla-img niebla1">
+
+  <img src="niebla1.png" class="niebla-img niebla2">
+
+</div>
+
+<!-- PARTICULAS -->
+
+<div class="particulas"></div>
+
+<!-- LUCIERNAGAS -->
+
+<div class="luciernagas"></div>
+
+<!-- LIBELULAS -->
+
+<div class="libelulas"></div>
+
+<!-- CANOA -->
+
+<img src="canoa.png" class="canoa">
+
+<!-- KA -->
+
+<div id="ka-ui">
+
+  <div id="ka-presencia">
+
+    <div id="aro-ka"></div>
+
+        <div id="ka-texto" style="cursor: pointer;">
+      &nbsp;
+    </div>
+
+    
+</div>
+
+<!-- AUDIO -->
+
+<audio id="sonidoAmbiente" loop preload="auto">
+
+  <source src="bosque.mp3" type="audio/mpeg">
+
+</audio>
+
+<script>
+
+/* =========================
+PARTICULAS
+========================= */
+
+const contenedor = document.querySelector('.particulas');
+
+for(let i=0;i<35;i++){
+  let p = document.createElement('span');
+  p.style.left = Math.random()*100+'vw';
+  p.style.top = Math.random()*100+'vh';
+  p.style.animationDuration = (4+Math.random()*6)+'s';
+  contenedor.appendChild(p);
+}
+
+/* =========================
+LUCIERNAGAS
+========================= */
+
+const contLuciernagas = document.querySelector('.luciernagas');
+
+for(let i=0;i<18;i++){
+  let l = document.createElement('span');
+  l.classList.add("luz");
+  l.style.left = Math.random()*100+'%';
+  l.style.top = Math.random()*100+'%';
+  contLuciernagas.appendChild(l);
+}
+
+/* =========================
+PNG LUCIERNAGAS
+========================= */
+
+for(let i=0;i<6;i++){
+  let img = document.createElement('span');
+  img.classList.add("img-luciernaga");
+  img.style.left = Math.random()*100+'%';
+  img.style.top = Math.random()*100+'%';
+  contLuciernagas.appendChild(img);
+}
+
+/* =========================
+LIBELULAS
+========================= */
+
+const contLibelulas = document.querySelector('.libelulas');
+
+for(let i=0;i<5;i++){
+  let d = document.createElement('span');
+  d.classList.add("libelula");
+  d.style.top = Math.random()*80+'%';
+  d.style.animationDuration = (12+Math.random()*8)+'s';
+  contLibelulas.appendChild(d);
+}
+
+/* =========================
+MENSAJES KA (La magia corregida)
+========================= */
+
+let mensajesKa = [
+  "Observa.",
+  "Escucha.",
+  "Siente.",
+  "Recuerda."
+];
+
+let pasoKa = 0;
+const texto = document.getElementById("ka-texto");
+
+// Mostrar el primer mensaje al entrar
+setTimeout(() => {
+  texto.innerText = mensajesKa[pasoKa];
+  texto.style.animation = "aparecerTexto 2s ease forwards";
+}, 1800);
+
+// Avanzar al hacer clic
+texto.onclick = function() {
+  pasoKa++;
+
+  // 1. APAGAMOS LA ANIMACIÓN INICIAL PARA QUE JS PUEDA MOVER EL TEXTO
+  texto.style.animation = "none"; 
+
+  if (pasoKa < mensajesKa.length) {
+    
+    // Efecto de salida sutil
+    texto.style.opacity = "0";
+    texto.style.transform = "translateY(-20px)";
+    texto.style.transition = "0.5s";
+
+    setTimeout(() => {
+      texto.innerText = mensajesKa[pasoKa];
+      texto.style.transform = "translateY(20px)";
+      
+      // Efecto de entrada
+      setTimeout(() => {
+        texto.style.opacity = "1";
+        texto.style.transform = "translateY(0px)";
+      }, 100);
+    }, 500);
+
+  } else {
+    // Si ya terminó, empezar la despedida
+    texto.innerText = "El viaje comienza...";
+    texto.style.opacity = "1";
+    texto.style.transform = "translateY(0px)";
+    
+    setTimeout(() => {
+      document.body.style.transition = "opacity 3s ease";
+      document.body.style.opacity = "0";
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 3000);
+    }, 1500);
+  }
+};
+
+/* =========================
+SONIDO
+========================= */
+
+document.body.addEventListener("click", () => {
+  const sonido = document.getElementById("sonidoAmbiente");
+  sonido.volume = 0.45;
+  sonido.play();
+}, { once:true });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,672 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Universo Ka — Portal de Lira</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    background:#05080c;
+    color:white;
+    font-family:Segoe UI, sans-serif;
+    overflow:hidden;
+}
+
+/* ==============================
+   TÍTULO
+============================== */
+
+.titulo-mapa{
+    position:absolute;
+    top:40px;
+    width:100%;
+    text-align:center;
+    z-index:10;
+}
+
+.titulo-mapa h1{
+    font-size:42px;
+    letter-spacing:8px;
+}
+
+.titulo-mapa p{
+    margin-top:8px;
+    opacity:.7;
+}
+
+
+/* ==============================
+   VOLVER
+============================== */
+
+.volver{
+    position:absolute;
+    top:30px;
+    left:30px;
+    z-index:20;
+
+    padding:10px 18px;
+
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:20px;
+
+    background:rgba(0,0,0,.4);
+    color:white;
+
+    cursor:pointer;
+}
+
+
+/* ==============================
+   CENTRO
+============================== */
+
+.centro-mapa{
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* ==============================
+   PORTAL
+============================== */
+
+.contenedor-portal{
+    text-align:center;
+}
+
+.portal-luz{
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff 0%,
+            #ffe89a 15%,
+            #b7e8ff 35%,
+            #7b72ff 55%,
+            transparent 72%
+        );
+
+    box-shadow:
+        0 0 30px #fff,
+        0 0 70px #9c8cff,
+        0 0 130px #695cff;
+
+    cursor:pointer;
+
+    animation:
+        pulsar 3s infinite ease-in-out;
+
+    transition:.4s;
+}
+
+.portal-luz:hover{
+    transform:scale(1.08);
+}
+
+@keyframes pulsar{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+}
+
+
+/* ==============================
+   TEXTO
+============================== */
+
+.texto-portal{
+    margin-top:25px;
+}
+
+.texto-portal h2{
+    font-size:26px;
+}
+
+.texto-portal p{
+    margin-top:8px;
+    opacity:.7;
+}
+
+
+/* ==============================
+   CHAT DE LIRA
+============================== */
+
+#chatLira{
+
+    display:none;
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:min(600px,90vw);
+    height:70vh;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,30,40,.97),
+            rgba(5,10,18,.98)
+        );
+
+    border:1px solid rgba(255,255,255,.2);
+
+    border-radius:25px;
+
+    box-shadow:
+        0 0 50px rgba(130,110,255,.4);
+
+    z-index:100;
+
+    padding:25px;
+
+    flex-direction:column;
+}
+
+
+/* CABECERA */
+
+.cabecera-lira{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.cabecera-lira h2{
+    color:#ffe89a;
+}
+
+.cerrar{
+
+    border:none;
+    background:none;
+    color:white;
+
+    font-size:25px;
+
+    cursor:pointer;
+}
+
+
+/* MENSAJES */
+
+#mensajesLira{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:10px;
+
+    margin-bottom:15px;
+}
+
+.mensaje{
+
+    padding:12px 15px;
+
+    margin-bottom:12px;
+
+    border-radius:15px;
+
+    max-width:85%;
+
+    line-height:1.5;
+}
+
+.usuario{
+
+    margin-left:auto;
+
+    background:rgba(120,100,255,.3);
+}
+
+.lira{
+
+    background:rgba(255,232,154,.12);
+
+    border:1px solid rgba(255,232,154,.2);
+}
+
+
+/* INPUT */
+
+.entrada{
+
+    display:flex;
+    gap:10px;
+}
+
+#entradaLira{
+
+    flex:1;
+
+    padding:13px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(255,255,255,.2);
+
+    background:rgba(0,0,0,.4);
+
+    color:white;
+
+    outline:none;
+}
+
+#enviarLira{
+
+    padding:0 20px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:#ffe89a;
+
+    color:#17130a;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+
+/* ==============================
+   TRANSICIÓN
+============================== */
+
+#mensajeConexion{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:rgba(0,0,0,.85);
+
+    z-index:90;
+
+    font-size:22px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- TÍTULO -->
+
+<div class="titulo-mapa">
+
+    <h1>UNIVERSO KA</h1>
+
+    <p>El Mapa de los Maestros</p>
+
+</div>
+
+
+<!-- VOLVER -->
+
+<button
+    class="volver"
+    onclick="volverAtras()">
+
+    ← Volver
+
+</button>
+
+
+<!-- CENTRO -->
+
+<div class="centro-mapa">
+
+    <div class="contenedor-portal">
+
+        <div
+            class="portal-luz"
+            onclick="abrirPortal()">
+        </div>
+
+        <div class="texto-portal">
+
+            <h2>Portal de Lira</h2>
+
+            <p>
+                Entra al corazón del conocimiento
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MENSAJE DE CONEXIÓN -->
+
+<div id="mensajeConexion">
+
+    Conectando con Lira... 🧚‍♀️
+
+</div>
+
+
+<!-- CHAT -->
+
+<div id="chatLira">
+
+    <div class="cabecera-lira">
+
+        <h2>🧚‍♀️ Lira</h2>
+
+        <button
+            class="cerrar"
+            onclick="cerrarChat()">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <div id="mensajesLira">
+
+        <div class="mensaje lira">
+
+            Soy Lira, Guardiana del Taller
+            de Papelería Viva. ✨
+
+            <br><br>
+
+            Cuéntame qué quieres crear.
+
+        </div>
+
+    </div>
+
+
+    <div class="entrada">
+
+        <input
+            id="entradaLira"
+            type="text"
+            placeholder="Escribe tu idea para Lira..."
+            onkeydown="if(event.key==='Enter') enviarALira()">
+
+        <button
+            id="enviarLira"
+            onclick="enviarALira()">
+
+            Enviar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   CONFIGURACIÓN
+========================================= */
+
+const API_URL =
+    "http://127.0.0.1:3001/api/v1/workspace/universo_ka_completo/chat";
+
+
+/*
+   🔐 PEGA AQUÍ TU API KEY
+
+   NO me la envíes.
+*/
+
+const API_KEY =
+    "QMQP0YP-1394K85-QX0JBNA-3YZ9MRB";
+
+
+/* =========================================
+   ABRIR PORTAL
+========================================= */
+
+function abrirPortal(){
+
+    const mensaje =
+        document.getElementById("mensajeConexion");
+
+    mensaje.style.display = "flex";
+
+
+    setTimeout(function(){
+
+        mensaje.style.display = "none";
+
+        document.getElementById(
+            "chatLira"
+        ).style.display = "flex";
+
+    },700);
+
+}
+
+
+/* =========================================
+   CERRAR CHAT
+========================================= */
+
+function cerrarChat(){
+
+    document.getElementById(
+        "chatLira"
+    ).style.display = "none";
+
+}
+
+
+/* =========================================
+   ENVIAR A LIRA
+========================================= */
+
+async function enviarALira(){
+
+    const input =
+        document.getElementById(
+            "entradaLira"
+        );
+
+    const mensajes =
+        document.getElementById(
+            "mensajesLira"
+        );
+
+
+    const texto =
+        input.value.trim();
+
+
+    if(!texto) return;
+
+
+    /* mensaje del usuario */
+
+    const mensajeUsuario =
+        document.createElement("div");
+
+    mensajeUsuario.className =
+        "mensaje usuario";
+
+    mensajeUsuario.textContent =
+        texto;
+
+    mensajes.appendChild(
+        mensajeUsuario
+    );
+
+
+    input.value = "";
+
+
+    /* mensaje temporal */
+
+    const pensando =
+        document.createElement("div");
+
+    pensando.className =
+        "mensaje lira";
+
+    pensando.textContent =
+        "Lira está pensando... ✨";
+
+    mensajes.appendChild(
+        pensando
+    );
+
+
+    mensajes.scrollTop =
+        mensajes.scrollHeight;
+
+
+    try{
+
+        const respuesta =
+            await fetch(
+                API_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Authorization":
+                            "Bearer " + API_KEY,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        message:texto
+                    })
+                }
+            );
+
+
+        const datos =
+            await respuesta.json();
+
+
+        pensando.remove();
+
+
+        if(!respuesta.ok){
+
+            throw new Error(
+                datos.error ||
+                "No se pudo conectar con Lira."
+            );
+
+        }
+
+
+        const respuestaLira =
+            document.createElement("div");
+
+        respuestaLira.className =
+            "mensaje lira";
+
+
+        respuestaLira.textContent =
+            datos.textResponse ||
+            datos.text ||
+            "Lira no devolvió una respuesta.";
+
+
+        mensajes.appendChild(
+            respuestaLira
+        );
+
+
+        mensajes.scrollTop =
+            mensajes.scrollHeight;
+
+
+    }
+
+    catch(error){
+
+        pensando.textContent =
+            "⚠️ No pude conectar con Lira.";
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================================
+   VOLVER
+========================================= */
+
+function volverAtras(){
+
+    window.history.back();
+
+}
+
+
+console.log(
+    "🌌 Portal de Lira preparado"
+);
+
+</script>
+
+</body>
+
+</html>
+```

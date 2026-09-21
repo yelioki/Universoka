@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Universo Ka — El Umbral</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  overflow:hidden;
+  background:black;
+  font-family:'Segoe UI',sans-serif;
+  transition:1.2s;
+}
+
+/* =========================
+CARGA
+========================= */
+
+#carga{
+  position:fixed;
+  inset:0;
+  background:black;
+  z-index:999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  animation:desaparecerCarga 2.5s ease forwards;
+  animation-delay:1.5s;
+}
+
+#luz-carga{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#ffe58f;
+  box-shadow:0 0 20px #ffe58f, 0 0 50px #ffd700;
+  animation:pulsarCarga 2s ease-in-out infinite;
+}
+
+@keyframes pulsarCarga{
+  0%{transform:scale(0.7);opacity:0.3;}
+  50%{transform:scale(1.4);opacity:1;}
+  100%{transform:scale(0.7);opacity:0.3;}
+}
+
+@keyframes desaparecerCarga{
+  to{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+}
+
+/* =========================
+ESCENA
+========================= */
+
+.escena{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* VIDEO */
+
+#video-transicion{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(0.8) saturate(1.08);
+  z-index:1;
+}
+
+/* OSCURECER */
+
+.escena::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0.72));
+  z-index:2;
+}
+
+/* PARTÍCULAS */
+
+.particulas{
+  position:absolute;
+  inset:0;
+  z-index:5;
+}
+
+.particulas span{
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#ffe58f;
+  box-shadow:0 0 10px #ffe58f;
+  animation:flotar 10s linear infinite;
+}
+
+@keyframes flotar{
+  0%{transform:translateY(120px);opacity:0;}
+  20%{opacity:1;}
+  100%{transform:translateY(-240px);opacity:0;}
+}
+
+/* TEXTO */
+
+#mensaje{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90%;
+  max-width:900px;
+  text-align:center;
+  color:white;
+  font-size:42px;
+font-weight:300;
+letter-spacing:8px;
+text-transform:uppercase;
+  line-height:1.8;
+  z-index:10;
+  opacity:0;
+  animation:aparecer 1.2s ease forwards;
+  animation-delay:1s;
+}
+
+@keyframes aparecer{
+  to{opacity:1;}
+}
+
+/* DESTELLO */
+
+.destello{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, rgba(255,255,255,0.14), transparent 65%);
+  z-index:4;
+  animation:respirar 6s ease-in-out infinite;
+}
+
+@keyframes respirar{
+  0%{opacity:0.2;}
+  50%{opacity:0.7;}
+  100%{opacity:0.2;}
+}
+
+
+/* =========================
+FADE FINAL
+========================= */
+
+#fade-ka{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, rgba(255,255,255,0), rgba(255,255,255,0));
+  z-index:50;
+  pointer-events:none;
+  transition:3s ease;
+}
+
+#fade-ka.activo{
+  background:
+  radial-gradient(
+  circle,
+  rgba(255,230,140,0.18),
+  rgba(255,215,0,0.25),
+  rgba(0,0,0,0.55)
+  );
+}
+@media(max-width: 768px){
+  #mensaje {
+    font-size: 28px; 
+    letter-spacing: 4px; 
+    line-height: 1.5;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- CARGA -->
+<div id="carga">
+  <div id="luz-carga"></div>
+</div>
+
+<div class="escena">
+
+<!-- VIDEO -->
+<video autoplay muted loop playsinline id="video-transicion">
+  <source src="umbral-ka.mp4" type="video/mp4">
+</video>
+
+<!-- DESTELLO -->
+<div class="destello"></div>
+
+<!-- PARTÍCULAS -->
+<div class="particulas"></div>
+
+<!-- MENSAJE -->
+<div id="mensaje">
+  Cruza.
+</div>
+
+
+<!-- FADE -->
+<div id="fade-ka"></div>
+
+</div>
+
+<!-- AUDIO -->
+<audio loop id="ambiente">
+  <source src="umbral-ka.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* PARTÍCULAS */
+const contenedor = document.querySelector('.particulas');
+
+for(let i=0;i<40;i++){
+  let p = document.createElement('span');
+  p.style.left = Math.random()*100+'vw';
+  p.style.top = Math.random()*100+'vh';
+  p.style.animationDuration = (5+Math.random()*8)+'s';
+  contenedor.appendChild(p);
+}
+
+/* AUDIO */
+const audio = document.getElementById("ambiente");
+audio.volume = 0.45;
+
+document.body.addEventListener("click", () => {
+  audio.play();
+}, { once:true });
+
+/* =========================
+TRANSICIÓN LIMPIA
+========================= */
+
+setTimeout(() => {
+
+  const fade = document.getElementById("fade-ka");
+  const mensaje = document.getElementById("mensaje");
+  const video = document.getElementById("video-transicion");
+
+  /* activar fade */
+  fade.classList.add("activo");
+
+  /* ocultar mensaje */
+  mensaje.style.transition = "1.5s";
+  mensaje.style.opacity = "0";
+
+setTimeout(() => {
+
+mensaje.style.display = "none";
+
+}, 1200);
+  
+  /* bajar audio */
+  let volumen = audio.volume;
+
+  const bajar = setInterval(() => {
+    if(volumen > 0.02){
+      volumen -= 0.02;
+      audio.volume = volumen;
+    } else {
+      clearInterval(bajar);
+    }
+  },120);
+
+  /* salida final + cambio de página */
+  setTimeout(() => {
+
+  video.style.transition = "2.5s ease";
+video.style.filter = "brightness(1.8) contrast(1.1)";
+
+setTimeout(() => {
+  document.body.style.opacity = "0";
+}, 700);
+
+setTimeout(() => {
+  window.location.href = "travesia.html";
+}, 1900);
+
+    
+  }, 2500);
+
+}, 5000);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Universo Ka</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  font-family:'Segoe UI',sans-serif;
+  background:
+  radial-gradient(circle at center,
+  #2f6f73 0%,
+  #17393b 40%,
+  #0b1d1f 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* =========================
+TUNEL / FONDO
+========================= */
+.tunel{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  background-image:url("tunel.jpg");
+  background-size:cover;
+  background-position:center;
+  box-shadow:
+  inset 0 0 150px rgba(0,0,0,0.8),
+  inset 0 0 300px rgba(0,0,0,0.5);
+}
+
+.tunel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+  z-index:2;
+}
+
+/* =========================
+NIEBLA
+========================= */
+.niebla-img{
+  position:absolute;
+  width:1400px;
+  opacity:0.25;
+  filter:blur(8px);
+  pointer-events:none;
+}
+
+.niebla1{
+  top:0;
+  left:-40%;
+  animation:moverNieblaPNG1 45s linear infinite;
+}
+
+.niebla2{
+  bottom:-10%;
+  right:-40%;
+  animation:moverNieblaPNG2 55s linear infinite;
+}
+
+@keyframes moverNieblaPNG1{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(140vw); }
+}
+
+@keyframes moverNieblaPNG2{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(-140vw); }
+}
+
+.neblina{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:3;
+  pointer-events:none;
+}
+
+.niebla{
+  position:absolute;
+  width:1200px;
+  height:500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.10), rgba(255,255,255,0));
+  filter:blur(70px);
+  opacity:0.35;
+}
+
+.n1{ top:10%; left:-30%; animation:moverNiebla1 40s linear infinite; }
+.n2{ bottom:-10%; right:-30%; animation:moverNiebla2 55s linear infinite; }
+.n3{ top:40%; left:-40%; animation:moverNiebla3 60s linear infinite; }
+
+@keyframes moverNiebla1{ 0%{ transform:translateX(0); } 100%{ transform:translateX(120vw); } }
+@keyframes moverNiebla2{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-120vw); } }
+@keyframes moverNiebla3{ 0%{ transform:translateX(0); } 100%{ transform:translateX(140vw); } }
+
+/* =========================
+LIANAS
+========================= */
+.lianas{
+  position:absolute;
+  inset:0;
+  z-index:12;
+  pointer-events:none;
+}
+
+.liana{
+  position:absolute;
+  filter: drop-shadow(0 0 25px rgba(0,0,0,0.6));
+  opacity:0.96;
+}
+
+.liana1{
+  bottom:-250px;
+  left:-140px;
+  width:950px;
+  transform:rotate(-28deg);
+  animation:lianaIzq 8s ease-in-out infinite;
+}
+
+.liana2{
+  bottom:-250px;
+  right:-140px;
+  width:950px;
+  transform:rotate(28deg) scaleX(-1);
+  animation:lianaDer 10s ease-in-out infinite;
+}
+
+@keyframes lianaIzq{
+  0%{ transform:rotate(-28deg) translateY(0px); }
+  50%{ transform:rotate(-30deg) translateY(-15px); }
+  100%{ transform:rotate(-28deg) translateY(0px); }
+}
+
+@keyframes lianaDer{
+  0%{ transform:rotate(28deg) scaleX(-1) translateY(0px); }
+  50%{ transform:rotate(30deg) scaleX(-1) translateY(-10px); }
+  100%{ transform:rotate(28deg) scaleX(-1) translateY(0px); }
+}
+
+/* =========================
+PARTICULAS
+========================= */
+.particulas{
+  position:absolute;
+  inset:0;
+  z-index:5;
+}
+
+.particulas span{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#7be6d6;
+  box-shadow: 0 0 10px #7be6d6, 0 0 20px #7be6d6;
+  animation:flotar 8s linear infinite;
+}
+
+@keyframes flotar{
+  0%{ transform:translateY(120px); opacity:0; }
+  30%{ opacity:1; }
+  100%{ transform:translateY(-250px); opacity:0; }
+}
+
+/* =========================
+LUCIERNAGAS
+========================= */
+.luciernagas{
+  position:absolute;
+  inset:0;
+  z-index:20;
+}
+
+.luz{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#fff5a8;
+  box-shadow: 0 0 10px #fff5a8, 0 0 25px #ffd700, 0 0 45px rgba(255,215,0,0.6);
+  animation: parpadear 3s ease-in-out infinite, subirLuz 10s linear infinite;
+}
+
+@keyframes parpadear{
+  0%{ opacity:0.4; transform:scale(0.8); }
+  50%{ opacity:1; transform:scale(1.2); }
+  100%{ opacity:0.5; transform:scale(0.9); }
+}
+
+@keyframes subirLuz{
+  0%{ transform:translateY(0px); }
+  50%{ transform:translateY(-25px); }
+  100%{ transform:translateY(0px); }
+}
+
+.img-luciernaga{
+  position:absolute;
+  width:55px;
+  height:55px;
+  background-image:url("luciernaga.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  filter:drop-shadow(0 0 15px #ffd700);
+}
+
+/* =========================
+LIBELULAS
+========================= */
+.libelulas{
+  position:absolute;
+  inset:0;
+  z-index:9;
+}
+
+.libelula{
+  position:absolute;
+  width:70px;
+  height:70px;
+  background-image:url("libelula.png");
+  background-size:contain;
+  background-repeat:no-repeat;
+  animation:volar 16s linear infinite;
+}
+
+@keyframes volar{
+  0%{ transform:translateX(-120px); opacity:0; }
+  10%{ opacity:1; }
+  100%{ transform:translateX(120vw); opacity:0; }
+}
+
+/* =========================
+KA UI
+========================= */
+#ka-ui{
+  position:absolute;
+  bottom:10%;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:40;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none;
+}
+
+#ka-presencia{
+  position:relative;
+  width:500px;
+  height:420px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+#aro-ka{
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(123,230,214,0.18), rgba(123,230,214,0.05), transparent 72%);
+  border: 1px solid rgba(123,230,214,0.22);
+  backdrop-filter:blur(12px);
+  box-shadow: 0 0 35px rgba(123,230,214,0.35), 0 0 90px rgba(123,230,214,0.15);
+  animation:respirarKa 5s ease-in-out infinite;
+}
+
+@keyframes respirarKa{
+  0%{ transform:scale(0.95); opacity:0.6; }
+  50%{ transform:scale(1.03); opacity:1; }
+  100%{ transform:scale(0.95); opacity:0.6; }
+}
+
+#ka-texto{
+  position:relative;
+  width:320px;
+  color:white;
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:15px;
+  text-shadow: 0 0 15px rgba(255,255,255,0.12);
+  z-index:2;
+}
+
+#ka-presencia button{
+  pointer-events:auto;
+  opacity:0;
+  animation: aparecerBoton 2s forwards;
+  animation-delay:2s;
+  margin-top:28px;
+  padding:12px 28px;
+  border:none;
+  border-radius:40px;
+  background: linear-gradient(135deg, rgba(95,212,194,0.9), rgba(45,143,137,0.9));
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.4s;
+  z-index:2;
+}
+
+@keyframes aparecerBoton{
+  0%{ opacity:0; transform:translateY(20px); }
+  100%{ opacity:1; transform:translateY(0); }
+}
+
+#ka-presencia button:hover{
+  transform:scale(1.05);
+  box-shadow: 0 0 25px rgba(95,212,194,0.45);
+}
+
+@media(max-width: 768px){
+  #ka-texto { font-size: 16px; width: 280px; }
+  #aro-ka { width: 260px; height: 260px; }
+  #ka-presencia button { font-size: 14px; padding: 10px 22px; }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="tunel">
+
+  <!-- NIEBLA -->
+  <div class="neblina">
+    <img src="niebla1.png" class="niebla-img niebla1">
+    <img src="niebla1.png" class="niebla-img niebla2">
+  </div>
+
+  <!-- LIANAS -->
+  <div class="lianas">
+    <img src="liana1.png" class="liana liana1">
+    <img src="liana2.png" class="liana liana2">
+  </div>
+
+  <!-- PARTICULAS -->
+  <div class="particulas"></div>
+
+  <!-- LUCIERNAGAS -->
+  <div class="luciernagas"></div>
+
+  <!-- LIBELULAS -->
+  <div class="libelulas"></div>
+
+  <!-- KA -->
+  <div id="ka-ui">
+    <div id="ka-presencia">
+      <div id="aro-ka"></div>
+      <div id="ka-texto">
+        Bienvenido a Universo Ka.
+      </div>
+      <button onclick="entrarUniverso()">
+        Comenzar a crear
+      </button>
+    </div>
+  </div>
+
+</div> <!-- CIERRA TUNEL -->
+
+<!-- AUDIO DENTRO DEL BODY -->
+<audio id="sonidoAmbiente" loop preload="auto">
+  <source src="bosque.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* =========================
+PARTICULAS
+========================= */
+const contenedor = document.querySelector('.particulas');
+for(let i=0;i<35;i++){
+  let p = document.createElement('span');
+  p.style.left = Math.random()*100+'vw';
+  p.style.top = Math.random()*100+'vh';
+  p.style.animationDuration = (4+Math.random()*6)+'s';
+  contenedor.appendChild(p);
+}
+
+/* =========================
+LUCIERNAGAS CSS
+========================= */
+const contLuciernagas = document.querySelector('.luciernagas');
+for(let i=0;i<18;i++){
+  let l = document.createElement('span');
+  l.classList.add("luz");
+  l.style.left = Math.random()*100+'%';
+  l.style.top = Math.random()*100+'%';
+  contLuciernagas.appendChild(l);
+} // <--- AQUÍ CERRÉ EL PRIMER CICLO CORRECTAMENTE
+
+/* =========================
+LUCIERNAGAS PNG
+========================= */
+for(let i=0;i<6;i++){
+  let img = document.createElement('span');
+  img.classList.add("img-luciernaga");
+  img.style.left = Math.random()*100+'%';
+  img.style.top = Math.random()*100+'%';
+  img.style.animation = `parpadear ${3 + Math.random()*4}s ease-in-out infinite`;
+  contLuciernagas.appendChild(img);
+}
+
+/* =========================
+LIBELULAS
+========================= */
+const contLibelulas = document.querySelector('.libelulas');
+for(let i=0;i<4;i++){
+  let d = document.createElement('span');
+  d.classList.add("libelula");
+  d.style.top = Math.random()*80+'%';
+  d.style.animationDuration = (12+Math.random()*6)+'s';
+  contLibelulas.appendChild(d);
+}
+
+/* =========================
+FUNCION ENTRAR
+========================= */
+function entrarUniverso(){
+  document.body.style.transition = "1.5s";
+  document.body.style.opacity = "0";
+  setTimeout(()=>{
+    window.location.href="avatar.html"; 
+  },1500);
+}
+
+/* =========================
+SONIDO
+========================= */
+document.body.addEventListener("click", () => {
+  const sonido = document.getElementById("sonidoAmbiente");
+  sonido.volume = 0.5;
+  sonido.play();
+}, { once:true });
+
+</script>
+
+</body>
+</html>
