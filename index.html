@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Universo Ka</title>
+<title>Universo Ka — El Llamado</title>
 
 <style>
 
@@ -15,149 +16,111 @@
 }
 
 body{
-  width:100%;
-  height:100vh;
   overflow:hidden;
+  background:black;
   font-family:'Segoe UI',sans-serif;
-  background:
-  radial-gradient(circle at center,
-  #2f6f73 0%,
-  #17393b 40%,
-  #0b1d1f 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 
-/* =========================
-TUNEL / FONDO
-========================= */
-.tunel{
+.escena{
   position:relative;
   width:100%;
   height:100vh;
   overflow:hidden;
-  background-image:url("tunel.jpg");
-  background-size:cover;
-  background-position:center;
-  box-shadow:
-  inset 0 0 150px rgba(0,0,0,0.8),
-  inset 0 0 300px rgba(0,0,0,0.5);
 }
 
-.tunel::after{
-  content:"";
+/* VIDEO */
+
+#video-fondo{
   position:absolute;
   inset:0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:
+  brightness(0.42)
+  saturate(0.8);
+  z-index:1;
+}
+
+/* OSCURECER */
+
+.escena::after{
+
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  to bottom,
+  rgba(0,0,0,0.15),
+  rgba(0,0,0,0.45),
+  rgba(0,0,0,0.82));
+
   z-index:2;
 }
 
-/* =========================
-NIEBLA
-========================= */
-.niebla-img{
+/* BRILLO */
+
+.brillo{
+
   position:absolute;
-  width:1400px;
-  opacity:0.25;
-  filter:blur(8px);
-  pointer-events:none;
+  inset:0;
+
+  background:
+  radial-gradient(
+  circle at center,
+  rgba(255,215,0,0.06),
+  transparent 60%);
+
+  z-index:3;
+
+  animation:respirar 8s ease-in-out infinite;
 }
 
-.niebla1{
-  top:0;
-  left:-40%;
-  animation:moverNieblaPNG1 45s linear infinite;
+@keyframes respirar{
+
+  0%{opacity:0.3;}
+  50%{opacity:0.7;}
+  100%{opacity:0.3;}
 }
 
-.niebla2{
-  bottom:-10%;
-  right:-40%;
-  animation:moverNieblaPNG2 55s linear infinite;
-}
-
-@keyframes moverNieblaPNG1{
-  0%{ transform:translateX(0); }
-  100%{ transform:translateX(140vw); }
-}
-
-@keyframes moverNieblaPNG2{
-  0%{ transform:translateX(0); }
-  100%{ transform:translateX(-140vw); }
-}
+/* NIEBLA */
 
 .neblina{
   position:absolute;
   inset:0;
   overflow:hidden;
-  z-index:3;
+  z-index:4;
   pointer-events:none;
 }
 
 .niebla{
+
   position:absolute;
-  width:1200px;
-  height:500px;
-  background: radial-gradient(circle, rgba(255,255,255,0.10), rgba(255,255,255,0));
-  filter:blur(70px);
-  opacity:0.35;
+  width:1900px;
+
+  opacity:0.15;
+
+  filter:blur(10px);
+
+  animation:moverNiebla 80s linear infinite;
 }
 
-.n1{ top:10%; left:-30%; animation:moverNiebla1 40s linear infinite; }
-.n2{ bottom:-10%; right:-30%; animation:moverNiebla2 55s linear infinite; }
-.n3{ top:40%; left:-40%; animation:moverNiebla3 60s linear infinite; }
+@keyframes moverNiebla{
 
-@keyframes moverNiebla1{ 0%{ transform:translateX(0); } 100%{ transform:translateX(120vw); } }
-@keyframes moverNiebla2{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-120vw); } }
-@keyframes moverNiebla3{ 0%{ transform:translateX(0); } 100%{ transform:translateX(140vw); } }
+  0%{
+    transform:translateX(-40%);
+  }
 
-/* =========================
-LIANAS
-========================= */
-.lianas{
-  position:absolute;
-  inset:0;
-  z-index:12;
-  pointer-events:none;
+  100%{
+    transform:translateX(120%);
+  }
 }
 
-.liana{
-  position:absolute;
-  filter: drop-shadow(0 0 25px rgba(0,0,0,0.6));
-  opacity:0.96;
-}
+/* PARTICULAS */
 
-.liana1{
-  bottom:-250px;
-  left:-140px;
-  width:950px;
-  transform:rotate(-28deg);
-  animation:lianaIzq 8s ease-in-out infinite;
-}
-
-.liana2{
-  bottom:-250px;
-  right:-140px;
-  width:950px;
-  transform:rotate(28deg) scaleX(-1);
-  animation:lianaDer 10s ease-in-out infinite;
-}
-
-@keyframes lianaIzq{
-  0%{ transform:rotate(-28deg) translateY(0px); }
-  50%{ transform:rotate(-30deg) translateY(-15px); }
-  100%{ transform:rotate(-28deg) translateY(0px); }
-}
-
-@keyframes lianaDer{
-  0%{ transform:rotate(28deg) scaleX(-1) translateY(0px); }
-  50%{ transform:rotate(30deg) scaleX(-1) translateY(-10px); }
-  100%{ transform:rotate(28deg) scaleX(-1) translateY(0px); }
-}
-
-/* =========================
-PARTICULAS
-========================= */
 .particulas{
   position:absolute;
   inset:0;
@@ -165,292 +128,362 @@ PARTICULAS
 }
 
 .particulas span{
+
   position:absolute;
-  width:6px;
-  height:6px;
+
+  width:3px;
+  height:3px;
+
   border-radius:50%;
-  background:#7be6d6;
-  box-shadow: 0 0 10px #7be6d6, 0 0 20px #7be6d6;
-  animation:flotar 8s linear infinite;
+
+  background:rgba(255,255,255,0.35);
+
+  animation:flotar 12s linear infinite;
 }
 
 @keyframes flotar{
-  0%{ transform:translateY(120px); opacity:0; }
-  30%{ opacity:1; }
-  100%{ transform:translateY(-250px); opacity:0; }
+
+  0%{
+    transform:translateY(120px);
+    opacity:0;
+  }
+
+  20%{
+    opacity:0.4;
+  }
+
+  100%{
+    transform:translateY(-220px);
+    opacity:0;
+  }
 }
 
-/* =========================
-LUCIERNAGAS
-========================= */
-.luciernagas{
+/* LUCIERNAGA */
+
+.luciernaga{
+
   position:absolute;
-  inset:0;
-  z-index:20;
-}
 
-.luz{
-  position:absolute;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#fff5a8;
-  box-shadow: 0 0 10px #fff5a8, 0 0 25px #ffd700, 0 0 45px rgba(255,215,0,0.6);
-  animation: parpadear 3s ease-in-out infinite, subirLuz 10s linear infinite;
-}
-
-@keyframes parpadear{
-  0%{ opacity:0.4; transform:scale(0.8); }
-  50%{ opacity:1; transform:scale(1.2); }
-  100%{ opacity:0.5; transform:scale(0.9); }
-}
-
-@keyframes subirLuz{
-  0%{ transform:translateY(0px); }
-  50%{ transform:translateY(-25px); }
-  100%{ transform:translateY(0px); }
-}
-
-.img-luciernaga{
-  position:absolute;
-  width:55px;
-  height:55px;
-  background-image:url("luciernaga.png");
-  background-size:contain;
-  background-repeat:no-repeat;
-  filter:drop-shadow(0 0 15px #ffd700);
-}
-
-/* =========================
-LIBELULAS
-========================= */
-.libelulas{
-  position:absolute;
-  inset:0;
-  z-index:9;
-}
-
-.libelula{
-  position:absolute;
-  width:70px;
-  height:70px;
-  background-image:url("libelula.png");
-  background-size:contain;
-  background-repeat:no-repeat;
-  animation:volar 16s linear infinite;
-}
-
-@keyframes volar{
-  0%{ transform:translateX(-120px); opacity:0; }
-  10%{ opacity:1; }
-  100%{ transform:translateX(120vw); opacity:0; }
-}
-
-/* =========================
-KA UI
-========================= */
-#ka-ui{
-  position:absolute;
-  bottom:10%;
+  top:48%;
   left:50%;
-  transform:translateX(-50%);
-  z-index:40;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  pointer-events:none;
-}
 
-#ka-presencia{
-  position:relative;
-  width:500px;
-  height:420px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
+  transform:translate(-50%,-50%);
 
-#aro-ka{
-  position:absolute;
-  width:300px;
-  height:300px;
+  width:16px;
+  height:16px;
+
   border-radius:50%;
-  background: radial-gradient(circle, rgba(123,230,214,0.18), rgba(123,230,214,0.05), transparent 72%);
-  border: 1px solid rgba(123,230,214,0.22);
-  backdrop-filter:blur(12px);
-  box-shadow: 0 0 35px rgba(123,230,214,0.35), 0 0 90px rgba(123,230,214,0.15);
-  animation:respirarKa 5s ease-in-out infinite;
+
+  background:#ffe58f;
+
+  box-shadow:
+  0 0 12px #ffe58f,
+  0 0 30px #ffd700,
+  0 0 60px rgba(255,215,0,0.5);
+
+  z-index:10;
+
+  pointer-events:none;
+
+  opacity:0.7;
+
+  animation:
+  parpadearSuave 6s ease-in-out infinite,
+  flotarLuz 6s ease-in-out infinite;
 }
 
-@keyframes respirarKa{
-  0%{ transform:scale(0.95); opacity:0.6; }
-  50%{ transform:scale(1.03); opacity:1; }
-  100%{ transform:scale(0.95); opacity:0.6; }
-}
+/* ACTIVACION */
 
-#ka-texto{
-  position:relative;
-  width:320px;
-  color:white;
-  font-size:18px;
-  line-height:1.6;
-  margin-bottom:15px;
-  text-shadow: 0 0 15px rgba(255,255,255,0.12);
-  z-index:2;
-}
+.luciernaga.activa{
 
-#ka-presencia button{
   pointer-events:auto;
-  opacity:0;
-  animation: aparecerBoton 2s forwards;
-  animation-delay:2s;
-  margin-top:28px;
-  padding:12px 28px;
-  border:none;
-  border-radius:40px;
-  background: linear-gradient(135deg, rgba(95,212,194,0.9), rgba(45,143,137,0.9));
-  color:white;
-  font-weight:bold;
+
   cursor:pointer;
-  transition:0.4s;
-  z-index:2;
+
+  animation:
+  pulsarKa 1.5s ease-in-out infinite,
+  flotarLuz 5s ease-in-out infinite;
 }
 
-@keyframes aparecerBoton{
-  0%{ opacity:0; transform:translateY(20px); }
-  100%{ opacity:1; transform:translateY(0); }
+.luciernaga.activa:hover{
+
+  transform:
+  translate(-50%,-50%)
+  scale(1.3);
 }
 
-#ka-presencia button:hover{
-  transform:scale(1.05);
-  box-shadow: 0 0 25px rgba(95,212,194,0.45);
+/* TEXTO GUIA */
+
+#guia{
+
+  position:absolute;
+
+  top:41%;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:320px;
+
+  text-align:center;
+
+  color:#f7f4e8;
+
+  font-size:16px;
+
+  letter-spacing:1px;
+
+  line-height:1.5;
+
+  opacity:0;
+
+  z-index:20;
+
+  text-shadow:
+    0 0 12px rgba(255,255,255,0.35);
+
+  transition:1.5s;
+}
+
+#guia.visible{
+  opacity:0.7;
+}
+
+/* ANIMACIONES */
+
+@keyframes parpadearSuave{
+
+  0%{
+    opacity:0.3;
+  }
+
+  50%{
+    opacity:0.7;
+  }
+
+  100%{
+    opacity:0.3;
+  }
+}
+
+@keyframes pulsarKa{
+
+  0%{
+    transform:translate(-50%,-50%) scale(0.9);
+
+    box-shadow:
+    0 0 10px #ffe58f,
+    0 0 25px #ffd700,
+    0 0 45px rgba(255,215,0,0.4);
+  }
+
+  50%{
+    transform:translate(-50%,-50%) scale(1.35);
+
+    box-shadow:
+    0 0 25px #fff4b0,
+    0 0 55px #ffd700,
+    0 0 120px rgba(255,215,0,0.9);
+  }
+
+  100%{
+    transform:translate(-50%,-50%) scale(0.9);
+
+    box-shadow:
+    0 0 10px #ffe58f,
+    0 0 25px #ffd700,
+    0 0 45px rgba(255,215,0,0.4);
+  }
+}
+
+@keyframes flotarLuz{
+
+  0%{margin-top:0px;}
+  50%{margin-top:-20px;}
+  100%{margin-top:0px;}
+}
+
+/* MENSAJE */
+
+#mensaje{
+
+  position:absolute;
+
+  bottom:16%;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:85%;
+  max-width:760px;
+
+  text-align:center;
+
+  color:white;
+
+  font-size:24px;
+
+  line-height:1.8;
+
+  z-index:20;
+
+  opacity:0;
+
+  text-shadow:
+  0 0 20px rgba(255,255,255,0.15);
+
+  animation:aparecer 4s ease forwards;
+  animation-delay:3s;
+}
+
+@keyframes aparecer{
+
+  to{
+    opacity:1;
+  }
 }
 
 @media(max-width: 768px){
-  #ka-texto { font-size: 16px; width: 280px; }
-  #aro-ka { width: 260px; height: 260px; }
-  #ka-presencia button { font-size: 14px; padding: 10px 22px; }
+  #mensaje {
+    font-size: 17px; /* Más pequeño y cómodo en el cel */
+    bottom: 12%;     /* Lo subes un poquito para que no choque con el borde */
+    line-height: 1.6;
+  }
+  #guia {
+    font-size: 14px;
+    width: 260px;
+  }
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="tunel">
+<div class="escena">
 
-  <!-- NIEBLA -->
-  <div class="neblina">
-    <img src="niebla1.png" class="niebla-img niebla1">
-    <img src="niebla1.png" class="niebla-img niebla2">
-  </div>
+<!-- VIDEO -->
 
-  <!-- LIANAS -->
-  <div class="lianas">
-    <img src="liana1.png" class="liana liana1">
-    <img src="liana2.png" class="liana liana2">
-  </div>
+<video autoplay muted loop playsinline id="video-fondo">
 
-  <!-- PARTICULAS -->
-  <div class="particulas"></div>
+  <source src="mundo-real.mp4" type="video/mp4">
 
-  <!-- LUCIERNAGAS -->
-  <div class="luciernagas"></div>
+</video>
 
-  <!-- LIBELULAS -->
-  <div class="libelulas"></div>
+<!-- BRILLO -->
 
-  <!-- KA -->
-  <div id="ka-ui">
-    <div id="ka-presencia">
-      <div id="aro-ka"></div>
-      <div id="ka-texto">
-        Bienvenido a Universo Ka.
-      </div>
-      <button onclick="entrarUniverso()">
-        Comenzar a crear
-      </button>
-    </div>
-  </div>
+<div class="brillo"></div>
 
-</div> <!-- CIERRA TUNEL -->
+<!-- NIEBLA -->
 
-<!-- AUDIO DENTRO DEL BODY -->
-<audio id="sonidoAmbiente" loop preload="auto">
-  <source src="bosque.mp3" type="audio/mpeg">
+<div class="neblina">
+
+  <img src="niebla1.png" class="niebla">
+
+</div>
+
+<!-- PARTICULAS -->
+
+<div class="particulas"></div>
+
+<!-- LUCIERNAGA -->
+
+<div class="luciernaga" id="luz"></div>
+
+<!-- GUIA -->
+
+<div id="guia">
+
+  Sigue la chispa...
+
+</div>
+
+<!-- MENSAJE -->
+
+<div id="mensaje">
+
+El mundo continuó avanzando...<br>
+
+pero algo en tu interior seguía buscando.<br><br>
+
+<span class="segunda-frase">
+
+No era un lugar.<br>
+
+Era una forma de volver a crear.
+
+</span>
+
+</div>
+
+<!-- AUDIO -->
+
+<audio loop id="ambiente">
+
+  <source src="llamado-ka.mp3" type="audio/mpeg">
+
 </audio>
+
+</div> <!-- CIERRA LA ESCENA -->
 
 <script>
 
-/* =========================
-PARTICULAS
-========================= */
-const contenedor = document.querySelector('.particulas');
+/* PARTICULAS */
+
+const contenedor =
+document.querySelector('.particulas');
+
 for(let i=0;i<35;i++){
-  let p = document.createElement('span');
-  p.style.left = Math.random()*100+'vw';
-  p.style.top = Math.random()*100+'vh';
-  p.style.animationDuration = (4+Math.random()*6)+'s';
+
+  let p =
+  document.createElement('span');
+
+  p.style.left =
+  Math.random()*100+'vw';
+
+  p.style.top =
+  Math.random()*100+'vh';
+
+  p.style.animationDuration =
+  (8+Math.random()*10)+'s';
+
   contenedor.appendChild(p);
 }
 
-/* =========================
-LUCIERNAGAS CSS
-========================= */
-const contLuciernagas = document.querySelector('.luciernagas');
-for(let i=0;i<18;i++){
-  let l = document.createElement('span');
-  l.classList.add("luz");
-  l.style.left = Math.random()*100+'%';
-  l.style.top = Math.random()*100+'%';
-  contLuciernagas.appendChild(l);
-} // <--- AQUÍ CERRÉ EL PRIMER CICLO CORRECTAMENTE
+/* AUDIO */
 
-/* =========================
-LUCIERNAGAS PNG
-========================= */
-for(let i=0;i<6;i++){
-  let img = document.createElement('span');
-  img.classList.add("img-luciernaga");
-  img.style.left = Math.random()*100+'%';
-  img.style.top = Math.random()*100+'%';
-  img.style.animation = `parpadear ${3 + Math.random()*4}s ease-in-out infinite`;
-  contLuciernagas.appendChild(img);
-}
+const audio =
+document.getElementById("ambiente");
 
-/* =========================
-LIBELULAS
-========================= */
-const contLibelulas = document.querySelector('.libelulas');
-for(let i=0;i<4;i++){
-  let d = document.createElement('span');
-  d.classList.add("libelula");
-  d.style.top = Math.random()*80+'%';
-  d.style.animationDuration = (12+Math.random()*6)+'s';
-  contLibelulas.appendChild(d);
-}
+audio.volume = 0.45;
 
-/* =========================
-FUNCION ENTRAR
-========================= */
-function entrarUniverso(){
-  document.body.style.transition = "1.5s";
-  document.body.style.opacity = "0";
-  setTimeout(()=>{
-    window.location.href="avatar.html"; 
-  },1500);
-}
-
-/* =========================
-SONIDO
-========================= */
 document.body.addEventListener("click", () => {
-  const sonido = document.getElementById("sonidoAmbiente");
-  sonido.volume = 0.5;
-  sonido.play();
+
+  audio.play();
+
 }, { once:true });
+
+/* ACTIVAR LUZ */
+
+const luz =
+document.getElementById("luz");
+
+const guia =
+document.getElementById("guia");
+
+setTimeout(() => {
+
+  luz.classList.add("activa");
+
+  guia.classList.add("visible");
+
+  luz.onclick = function(){
+
+    window.location.href =
+    "transicion.html";
+  };
+
+}, 9000);
 
 </script>
 
