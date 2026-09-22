@@ -163,7 +163,8 @@ body{
 .luciernaga{
 
   position:absolute;
-
+  
+  touch-action:manipulation;
   top:48%;
   left:50%;
 
@@ -211,12 +212,33 @@ body{
   translate(-50%,-50%)
   scale(1.3);
 }
+.luciernaga.activa::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:70px;
+  height:70px;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:transparent;
+
+  pointer-events:auto;
+}
 
 /* TEXTO GUIA */
 
 #guia{
 
   position:absolute;
+  pointer-events:none;
 
   top:41%;
   left:50%;
@@ -477,13 +499,17 @@ setTimeout(() => {
 
   guia.classList.add("visible");
 
-  luz.onclick = function(){
-
-    window.location.href =
-    "transicion.html";
-  };
-
 }, 9000);
+
+
+/* TOQUE / CLICK */
+
+luz.addEventListener("pointerup", function(){
+
+  window.location.href =
+  "transicion.html";
+
+});
 
 </script>
 
