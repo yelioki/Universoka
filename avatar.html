@@ -747,6 +747,7 @@ etiquetas y recuerdos inolvidables.
   <!-- ENTRADA -->
 
 <button
+ id="btnElegir"
  class="btn-principal"
  onclick="guardar()">
 
@@ -802,6 +803,7 @@ const maestros = [
   {
     imagen:"mawari.png",
     nombre:"Lira",
+    activo:true,
     titulo:"Maestra de Papelería Viva",
     descripcion:
       "Convierte ideas en invitaciones, cajas, etiquetas y recuerdos inolvidables."
@@ -810,6 +812,7 @@ const maestros = [
   {
     imagen:"kaorai.png",
     nombre:"Orun",
+    activo:false,
     titulo:"Maestro del Modelado 3D",
     descripcion:
       "Da forma a tus ideas para impresión 3D."
@@ -818,6 +821,7 @@ const maestros = [
   {
     imagen:"seyuma.png",
     nombre:"Numa",
+    activo:false,
     titulo:"Maestra de Mockups",
     descripcion:
       "Presenta tus creaciones como si ya existieran en el mundo físico."
@@ -826,6 +830,7 @@ const maestros = [
   {
     imagen:"orukai.png",
     nombre:"Kael",
+    activo:false,
     titulo:"Maestro de Inteligencia Artificial",
     descripcion:
       "Encuentra la mejor herramienta IA para cada paso de tu viaje."
@@ -835,6 +840,7 @@ const maestros = [
 
 
 let indice = 0;
+let ocupadoHasta = 0;
 
 const img =
   document.getElementById("imagenAvatar");
@@ -864,8 +870,15 @@ function actualizarAvatar(){
     " — " +
     maestros[indice].descripcion;
 
-  mensaje.innerText =
-    "Ka siente la presencia de un nuevo guardián... ✨";
+  const btn = document.getElementById("btnElegir");
+  const activo = maestros[indice].activo;
+  btn.innerText = activo ? "Elegir este Maestro" : "Pronto…";
+  btn.style.opacity = activo ? "1" : "0.6";
+
+  mensaje.innerText = activo
+    ? "Ka siente la presencia de un nuevo guardián... ✨"
+    : "Este Guardián todavía está en camino. Por ahora Lira te guía ✨";
+  ocupadoHasta = Date.now() + 6000;
 
 }
 
@@ -913,6 +926,8 @@ function abrirRegalo(){
   mensaje.innerText =
     "La ofrenda ha sido abierta… vuelve cuando estés lista para continuar. ✨";
 
+    ocupadoHasta = Date.now() + 6000;
+
 }
 
 
@@ -921,6 +936,17 @@ GUARDAR
 ========================= */
 
 function guardar(){
+
+  if(!maestros[indice].activo){
+
+    mensaje.innerText =
+      "Este Guardián todavía está en camino. Por ahora Lira te guía ✨";
+
+    ocupadoHasta = Date.now() + 6000;
+
+    return;
+
+  }
 
   const nombre =
     document.getElementById(
@@ -932,6 +958,8 @@ function guardar(){
 
     mensaje.innerText =
       "Ka susurra… tu nombre es parte de tu esencia 🌿";
+
+    ocupadoHasta = Date.now() + 6000;
 
     return;
 
@@ -1010,6 +1038,8 @@ const frasesKa = [
 
 
 setInterval(()=>{
+
+  if(Date.now() < ocupadoHasta) return;
 
   const frase =
     frasesKa[

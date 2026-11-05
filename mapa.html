@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -19,7 +18,14 @@
 
 body{
     min-height:100vh;
-    background:#05080c;
+    background:
+        radial-gradient(
+            circle at center,
+            #102c30 0%,
+            #071217 45%,
+            #030608 100%
+        );
+
     color:white;
     font-family:Segoe UI, sans-serif;
     overflow:hidden;
@@ -31,7 +37,7 @@ body{
 
 .titulo-mapa{
     position:absolute;
-    top:40px;
+    top:38px;
     width:100%;
     text-align:center;
     z-index:10;
@@ -40,11 +46,16 @@ body{
 .titulo-mapa h1{
     font-size:42px;
     letter-spacing:8px;
+    color:#f5f1df;
+
+    text-shadow:
+        0 0 15px rgba(44,144,144,.6);
 }
 
 .titulo-mapa p{
     margin-top:8px;
-    opacity:.7;
+    color:#b5a258;
+    opacity:.85;
 }
 
 /* ==============================
@@ -59,13 +70,20 @@ body{
 
     padding:10px 18px;
 
-    border:1px solid rgba(255,255,255,.3);
+    border:1px solid rgba(181,162,88,.4);
     border-radius:20px;
 
     background:rgba(0,0,0,.4);
-    color:white;
+    color:#f5f1df;
 
     cursor:pointer;
+
+    transition:.3s;
+}
+
+.volver:hover{
+    background:#2c9090;
+    transform:translateX(-3px);
 }
 
 /* ==============================
@@ -73,19 +91,25 @@ body{
 ============================== */
 
 .centro-mapa{
+
     height:100vh;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
+    position:relative;
 }
 
 /* ==============================
-   PORTAL
+   PORTAL DE LIRA
 ============================== */
 
 .contenedor-portal{
     text-align:center;
+    position:relative;
 }
 
 .portal-luz{
@@ -116,6 +140,8 @@ body{
         pulsar 3s infinite ease-in-out;
 
     transition:.4s;
+
+    margin:auto;
 }
 
 .portal-luz:hover{
@@ -135,7 +161,7 @@ body{
 }
 
 /* ==============================
-   TEXTO
+   TEXTO LIRA
 ============================== */
 
 .texto-portal{
@@ -144,6 +170,7 @@ body{
 
 .texto-portal h2{
     font-size:26px;
+    color:#b5a258;
 }
 
 .texto-portal p{
@@ -152,7 +179,83 @@ body{
 }
 
 /* ==============================
-   MENSAJE DE CONEXIÓN
+   REGALO
+============================== */
+
+.regalo{
+
+    position:absolute;
+
+    right:13%;
+    bottom:18%;
+
+    width:100px;
+    height:100px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:65px;
+
+    filter:
+        drop-shadow(0 0 12px rgba(181,162,88,.8));
+
+    animation:
+        flotar 3s infinite ease-in-out;
+
+    transition:.4s;
+}
+
+.regalo:hover{
+
+    transform:
+        scale(1.15)
+        rotate(-5deg);
+
+    filter:
+        drop-shadow(0 0 25px rgba(181,162,88,1));
+}
+
+@keyframes flotar{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+}
+
+/* ==============================
+   TEXTO DEL REGALO
+============================== */
+
+.texto-regalo{
+
+    position:absolute;
+
+    right:10%;
+    bottom:10%;
+
+    text-align:center;
+
+    color:#b5a258;
+
+    opacity:.85;
+
+    font-size:14px;
+
+    pointer-events:none;
+}
+
+/* ==============================
+   MENSAJE CONEXIÓN
 ============================== */
 
 #mensajeConexion{
@@ -171,6 +274,117 @@ body{
     z-index:90;
 
     font-size:22px;
+
+    color:#f5f1df;
+}
+
+/* ==============================
+   MENSAJE REGALO
+============================== */
+
+#mensajeRegalo{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.88);
+
+    z-index:100;
+}
+
+.contenido-regalo{
+
+    width:90%;
+    max-width:500px;
+
+    padding:40px;
+
+    text-align:center;
+
+    border:
+
+        1px solid
+        rgba(181,162,88,.5);
+
+    border-radius:25px;
+
+    background:#071216;
+
+    box-shadow:
+
+        0 0 50px
+        rgba(44,144,144,.25);
+}
+
+.contenido-regalo h2{
+
+    color:#b5a258;
+
+    margin-bottom:15px;
+}
+
+.contenido-regalo p{
+
+    color:#f5f1df;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+}
+
+.cerrar-regalo{
+
+    padding:10px 22px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#2c9090;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+/* ==============================
+   MÓVIL
+============================== */
+
+@media(max-width:700px){
+
+    .titulo-mapa h1{
+        font-size:28px;
+        letter-spacing:5px;
+    }
+
+    .portal-luz{
+        width:145px;
+        height:145px;
+    }
+
+    .regalo{
+        right:8%;
+        bottom:20%;
+        font-size:50px;
+    }
+
+    .texto-regalo{
+        right:5%;
+        bottom:13%;
+    }
+
+    .volver{
+        top:20px;
+        left:15px;
+    }
+
 }
 
 </style>
@@ -179,7 +393,10 @@ body{
 
 <body>
 
-<!-- TÍTULO -->
+
+<!-- ==============================
+     TÍTULO
+============================== -->
 
 <div class="titulo-mapa">
 
@@ -190,7 +407,9 @@ body{
 </div>
 
 
-<!-- VOLVER -->
+<!-- ==============================
+     VOLVER
+============================== -->
 
 <button
     class="volver"
@@ -201,9 +420,14 @@ body{
 </button>
 
 
-<!-- CENTRO -->
+<!-- ==============================
+     CENTRO
+============================== -->
 
 <div class="centro-mapa">
+
+
+    <!-- PORTAL LIRA -->
 
     <div class="contenedor-portal">
 
@@ -217,17 +441,39 @@ body{
             <h2>Portal de Lira</h2>
 
             <p>
-                Entra al corazón del conocimiento
+                Lira te guía por mis plantillas y diseños
             </p>
 
         </div>
 
     </div>
 
+
+    <!-- REGALO -->
+
+    <div
+        class="regalo"
+        onclick="abrirRegalo()">
+
+        🎁
+
+    </div>
+
+
+    <div class="texto-regalo">
+
+        Un pequeño regalo<br>
+        del Universo Ka ✨
+
+    </div>
+
+
 </div>
 
 
-<!-- MENSAJE DE CONEXIÓN -->
+<!-- ==============================
+     CONEXIÓN LIRA
+============================== -->
 
 <div id="mensajeConexion">
 
@@ -236,25 +482,59 @@ body{
 </div>
 
 
+<!-- ==============================
+     VENTANA REGALO
+============================== -->
+
+<div id="mensajeRegalo">
+
+    <div class="contenido-regalo">
+
+        <h2>🎁 Un regalo del Universo Ka</h2>
+
+        <p>
+
+            Hay cosas que todavía están
+            esperando cobrar vida.
+
+            <br><br>
+
+            Este pequeño portal es una
+            promesa de todo lo que iremos
+            descubriendo juntos.
+
+            <br><br>
+
+            ✨ Las ideas cobran vida cuando
+            encuentran una forma.
+
+        </p>
+
+        <button
+            class="cerrar-regalo"
+            onclick="cerrarRegalo()">
+
+            Seguir explorando ✨
+
+        </button>
+
+    </div>
+
+</div>
+
+
 <script>
 
 /* =========================================
-   URL DEL PORTAL REAL DE LIRA
+   PORTAL DE LIRA: abre la guía de Lira en la página de Yelioki
 ========================================= */
 
-/*
-   PEGA AQUÍ LA URL /exec DE TU NUEVO
-   PROYECTO DE APPS SCRIPT.
-
-
-*/
-
 const PORTAL_LIRA =
-    "https://script.google.com/macros/s/AKfycbxN3vS1Vc9BjRPY75GMm1RFqMKGnsCY5lxXToGmEUTGQTeWJebUClcOCHV9P2rxYd_S/exec";
+    "https://yelioki.github.io/#lira";
 
 
 /* =========================================
-   ABRIR PORTAL
+   ABRIR LIRA
 ========================================= */
 
 function abrirPortal(){
@@ -266,13 +546,38 @@ function abrirPortal(){
 
     mensaje.style.display = "flex";
 
-
     setTimeout(function(){
 
         window.location.href =
             PORTAL_LIRA;
 
     },700);
+
+}
+
+
+/* =========================================
+   ABRIR REGALO
+========================================= */
+
+function abrirRegalo(){
+
+    document.getElementById(
+        "mensajeRegalo"
+    ).style.display = "flex";
+
+}
+
+
+/* =========================================
+   CERRAR REGALO
+========================================= */
+
+function cerrarRegalo(){
+
+    document.getElementById(
+        "mensajeRegalo"
+    ).style.display = "none";
 
 }
 
@@ -289,7 +594,7 @@ function volverAtras(){
 
 
 console.log(
-    "🌌 Mapa de Universo Ka preparado"
+    "🌌 Universo Ka — Mapa de los Maestros activo"
 );
 
 </script>
@@ -297,4 +602,3 @@ console.log(
 </body>
 
 </html>
-
