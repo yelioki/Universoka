@@ -697,7 +697,7 @@ for(let i=0;i<5;i++){
 }
 
 /* =========================
-MENSAJES KA (La magia corregida)
+MENSAJES KA (avanzan solos; si tocas, avanzan más rápido)
 ========================= */
 
 let mensajesKa = [
@@ -707,46 +707,52 @@ let mensajesKa = [
   "Recuerda."
 ];
 
-let pasoKa = 0;
+let pasoKa = -1;
+let temporizador = null;
+let terminado = false;
 const texto = document.getElementById("ka-texto");
 
-// Mostrar el primer mensaje al entrar
-setTimeout(() => {
-  texto.innerText = mensajesKa[pasoKa];
-  texto.style.animation = "aparecerTexto 2s ease forwards";
-}, 1800);
+function mostrar(msg){
+  texto.style.animation = "none";
+  texto.style.transition = "0.6s";
+  texto.style.opacity = "0";
+  texto.style.transform = "translateY(-20px)";
 
-// Avanzar al hacer clic
-texto.onclick = function() {
-  pasoKa++;
-
-  // 1. APAGAMOS LA ANIMACIÓN INICIAL PARA QUE JS PUEDA MOVER EL TEXTO
-  texto.style.animation = "none"; 
-
-  if (pasoKa < mensajesKa.length) {
-    
-    // Efecto de salida sutil
-    texto.style.opacity = "0";
-    texto.style.transform = "translateY(-20px)";
-    texto.style.transition = "0.5s";
+  setTimeout(() => {
+    texto.innerText = msg;
+    texto.style.transform = "translateY(20px)";
 
     setTimeout(() => {
-      texto.innerText = mensajesKa[pasoKa];
-      texto.style.transform = "translateY(20px)";
-      
-      // Efecto de entrada
-      setTimeout(() => {
-        texto.style.opacity = "1";
-        texto.style.transform = "translateY(0px)";
-      }, 100);
-    }, 500);
+      texto.style.opacity = "1";
+      texto.style.transform = "translateY(0px)";
+    }, 100);
+  }, 600);
+}
+
+function siguiente(){
+  if(terminado) return;
+  clearTimeout(temporizador);
+  pasoKa++;
+
+  if(pasoKa < mensajesKa.length){
+
+    if(pasoKa === 0){
+      texto.innerText = mensajesKa[0];
+      texto.style.animation = "aparecerTexto 2s ease forwards";
+    } else {
+      mostrar(mensajesKa[pasoKa]);
+    }
+
+    // avanza sola a los 3,4 segundos
+    temporizador = setTimeout(siguiente, 3400);
 
   } else {
-    // Si ya terminó, empezar la despedida
+    terminado = true;
+    texto.style.animation = "none";
     texto.innerText = "El viaje comienza...";
     texto.style.opacity = "1";
     texto.style.transform = "translateY(0px)";
-    
+
     setTimeout(() => {
       document.body.style.transition = "opacity 3s ease";
       document.body.style.opacity = "0";
@@ -756,16 +762,21 @@ texto.onclick = function() {
       }, 3000);
     }, 1500);
   }
-};
+}
+
+setTimeout(siguiente, 1800);
+texto.onclick = siguiente;
 
 /* =========================
-SONIDO
+SONIDO (intenta sonar solo; si el navegador no deja, suena al primer toque)
 ========================= */
 
-document.body.addEventListener("click", () => {
-  const sonido = document.getElementById("sonidoAmbiente");
-  sonido.volume = 0.45;
-  sonido.play();
+const sonido = document.getElementById("sonidoAmbiente");
+sonido.volume = 0.45;
+sonido.play().catch(() => {});
+
+document.body.addEventListener("pointerdown", () => {
+  sonido.play().catch(() => {});
 }, { once:true });
 
 </script>

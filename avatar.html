@@ -8,7 +8,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 
-<title>Universo Ka | El Consejo de Maestros</title>
+<title>Universo Ka | Lira te guía</title>
 
 <style>
 
@@ -599,20 +599,10 @@ onclick="window.location.href='llamado.html'">
 <div class="avatar-panel">
 
   <h1>
-    El Consejo de Maestros
+    Lira te guía
   </h1>
 
-  <p class="subtitulo">
-
-
-Cada maestro custodia un mundo de creación.<br><br>
-
-Ellos serán tus compañeros durante el viaje.<br>
-
-Elige con quién deseas comenzar.
-
-
-  </p>
+  
 
   <!-- AVATAR -->
 
@@ -638,29 +628,7 @@ Elige con quién deseas comenzar.
 
   </div>
 
-  <!-- BOTONES -->
-
-  <div class="selector">
-
-
-<button
-  class="btn-mini"
-  onclick="cambiarAnterior()">
-
-  ⬅
-
-</button>
-
-<button
-  class="btn-mini"
-  onclick="cambiarSiguiente()">
-
-  ➡
-
-</button>
-
-
-  </div>
+  
 
   <!-- INFORMACIÓN DEL MAESTRO -->
 
@@ -707,7 +675,7 @@ etiquetas y recuerdos inolvidables.
 <input
   type="text"
   id="nombre"
-  placeholder="Escribe tu nombre aquí...">
+  placeholder="Escribe tu nombre (opcional)">
 
 
   </div>
@@ -751,7 +719,7 @@ etiquetas y recuerdos inolvidables.
  class="btn-principal"
  onclick="guardar()">
 
-Elegir este Maestro
+Ir con Lira
 
 
   </button>
@@ -793,120 +761,10 @@ for(let i=0;i<40;i++){
 
 }
 
-
-/* =========================
-MAESTROS
-========================= */
-
-const maestros = [
-
-  {
-    imagen:"mawari.png",
-    nombre:"Lira",
-    activo:true,
-    titulo:"Maestra de Papelería Viva",
-    descripcion:
-      "Convierte ideas en invitaciones, cajas, etiquetas y recuerdos inolvidables."
-  },
-
-  {
-    imagen:"kaorai.png",
-    nombre:"Orun",
-    activo:false,
-    titulo:"Maestro del Modelado 3D",
-    descripcion:
-      "Da forma a tus ideas para impresión 3D."
-  },
-
-  {
-    imagen:"seyuma.png",
-    nombre:"Numa",
-    activo:false,
-    titulo:"Maestra de Mockups",
-    descripcion:
-      "Presenta tus creaciones como si ya existieran en el mundo físico."
-  },
-
-  {
-    imagen:"orukai.png",
-    nombre:"Kael",
-    activo:false,
-    titulo:"Maestro de Inteligencia Artificial",
-    descripcion:
-      "Encuentra la mejor herramienta IA para cada paso de tu viaje."
-  }
-
-];
-
-
-let indice = 0;
-let ocupadoHasta = 0;
-
-const img =
-  document.getElementById("imagenAvatar");
-
 const mensaje =
   document.getElementById("ka-mensaje");
 
-
-/* =========================
-ACTUALIZAR
-========================= */
-
-function actualizarAvatar(){
-
-  img.src =
-    maestros[indice].imagen;
-
-  document.getElementById(
-    "tituloMaestro"
-  ).innerText =
-    maestros[indice].nombre;
-
-  document.getElementById(
-    "descMaestro"
-  ).innerText =
-    maestros[indice].titulo +
-    " — " +
-    maestros[indice].descripcion;
-
-  const btn = document.getElementById("btnElegir");
-  const activo = maestros[indice].activo;
-  btn.innerText = activo ? "Elegir este Maestro" : "Pronto…";
-  btn.style.opacity = activo ? "1" : "0.6";
-
-  mensaje.innerText = activo
-    ? "Ka siente la presencia de un nuevo guardián... ✨"
-    : "Este Guardián todavía está en camino. Por ahora Lira te guía ✨";
-  ocupadoHasta = Date.now() + 6000;
-
-}
-
-
-/* =========================
-FLECHAS
-========================= */
-
-function cambiarSiguiente(){
-
-  indice =
-    (indice + 1) %
-    maestros.length;
-
-  actualizarAvatar();
-
-}
-
-
-function cambiarAnterior(){
-
-  indice =
-    (indice - 1 + maestros.length) %
-    maestros.length;
-
-  actualizarAvatar();
-
-}
+let ocupadoHasta = 0;
 
 
 /* =========================
@@ -926,96 +784,54 @@ function abrirRegalo(){
   mensaje.innerText =
     "La ofrenda ha sido abierta… vuelve cuando estés lista para continuar. ✨";
 
-    ocupadoHasta = Date.now() + 6000;
+  ocupadoHasta = Date.now() + 6000;
 
 }
 
 
 /* =========================
-GUARDAR
+IR CON LIRA
 ========================= */
 
 function guardar(){
-
-  if(!maestros[indice].activo){
-
-    mensaje.innerText =
-      "Este Guardián todavía está en camino. Por ahora Lira te guía ✨";
-
-    ocupadoHasta = Date.now() + 6000;
-
-    return;
-
-  }
 
   const nombre =
     document.getElementById(
       "nombre"
     ).value.trim();
 
+  try{
 
-  if(!nombre){
+    if(nombre){
+      localStorage.setItem(
+        "nombreAvatar",
+        nombre
+      );
+    } else {
+      localStorage.removeItem(
+        "nombreAvatar"
+      );
+    }
 
-    mensaje.innerText =
-      "Ka susurra… tu nombre es parte de tu esencia 🌿";
-
-    ocupadoHasta = Date.now() + 6000;
-
-    return;
-
-  }
-
-
-  localStorage.setItem(
-    "nombreAvatar",
-    nombre
-  );
-
-
-  localStorage.setItem(
-    "maestroElegido",
-    maestros[indice].imagen
-  );
-
-
-  localStorage.setItem(
-    "nombreMaestro",
-    maestros[indice].nombre
-  );
-
+  }catch(e){}
 
   mensaje.innerText =
-    "¡Energía reconocida! Abriendo el portal hacia el taller... 🧚‍♀️";
+    "Ka reconoce tu energía… abriendo el camino hacia Lira 🧚‍♀️";
 
+  ocupadoHasta = Date.now() + 6000;
 
   document.getElementById(
     "portal"
   ).style.opacity = "1";
 
-
-  /*
-    AQUÍ DEJAMOS POR AHORA
-    LA DIRECCIÓN REAL DE LIRA.
-
-    NO CAMBIAMOS LA CONEXIÓN
-    HASTA QUE LA REVISÉMOS.
-  */
-
   setTimeout(()=>{
 
     window.location.href =
-      "mapa.html";
+      "https://yelioki.github.io/#lira";
 
   },2000);
 
 }
-
-
-/* =========================
-INICIO
-========================= */
-
-actualizarAvatar();
 
 
 /* =========================
