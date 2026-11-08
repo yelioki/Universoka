@@ -1,0 +1,27 @@
+{
+  "_ayuda": "Cada tema es un bloque entre llaves. 'desde' y 'hasta' (MES-DIA) hacen que el tema aparezca solo en esas fechas. Colores y fondos pueden ser #hex o el nombre de una imagen (por ejemplo lienzo/fondo-navidad.jpg). Los sellos pueden ser emojis o imagenes PNG. Si dejas una lista vacia o la borras, se usa la de siempre.",
+  "temas": [
+    { "id": "siempre", "nombre": "Siempre ✨" },
+    {
+      "id": "navidad", "nombre": "Navidad 🎄", "desde": "12-01", "hasta": "01-06",
+      "colores": ["#C0392B", "#1E7B4A", "#F6C945", "#FFFFFF", "#29281F", "#2C9090"],
+      "fondos": ["#0b1d1f", "#F4EFE3", "#C0392B", "#1E7B4A"],
+      "sellos": ["🎄", "⭐", "🎁", "❄️", "🔔", "🦌", "✨"],
+      "retos": ["Diseña un topper navideño para la mesa.", "Dibuja la tarjeta de Navidad que te gustaría recibir.", "Crea un sticker para sellar un regalo."]
+    },
+    {
+      "id": "primavera", "nombre": "Primavera 🌸", "desde": "09-21", "hasta": "12-20",
+      "colores": ["#E85D75", "#F6C945", "#7BC67E", "#6A5ACD", "#2C9090", "#FFFFFF", "#29281F"],
+      "fondos": ["#F7D9D5", "#DDEFF0", "#F4EFE3", "#E6F2D8"],
+      "sellos": ["🌸", "🌷", "🦋", "🐝", "🌼", "🍃", "💛"],
+      "retos": ["Diseña la invitación de una fiesta en el jardín.", "Dibuja un topper de flores para una torta.", "Crea un sticker de una mariposa con tus colores favoritos."]
+    },
+    {
+      "id": "madre", "nombre": "Día de la Madre 💐", "desde": "05-01", "hasta": "05-15",
+      "colores": ["#E85D75", "#AE8780", "#B5A258", "#FFFFFF", "#29281F", "#2C9090"],
+      "fondos": ["#F7D9D5", "#F4EFE3", "#FFFFFF"],
+      "sellos": ["🌹", "💐", "💛", "🦋", "✨", "🌷"],
+      "retos": ["Diseña un topper con la palabra que le dices a tu mamá.", "Dibuja una tarjeta para quien te cuidó.", "Crea una taza con una frase para ella."]
+    }
+  ]
+}

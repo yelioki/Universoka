@@ -65,6 +65,7 @@ h2{font-size:20px;margin:26px 0 10px;text-align:center}
   <div class="marco" id="marco"><canvas id="lienzo" width="800" height="1000"></canvas></div>
 
   <div class="glass panel">
+    <div class="fila" id="filaTemas" hidden><span class="etq">Tema</span></div>
     <div class="fila"><span class="etq">Herramienta</span>
       <button class="chip on" data-tool="pincel">✏️ Pincel</button>
       <button class="chip" data-tool="goma">🧽 Goma</button>
@@ -91,66 +92,117 @@ h2{font-size:20px;margin:26px 0 10px;text-align:center}
 </main>
 
 <script>
-var RETOS = [
-  "Dibuja un topper con el nombre de alguien que quieres.",
-  "Crea el sticker de una criatura del bosque que nadie ha visto.",
-  "Diseña la portada de un cuaderno para tu yo del futuro.",
-  "Dibuja tu avatar en su lugar favorito del tepuy.",
-  "Inventa un sello mágico para un sobre de invitación.",
-  "Dibuja cómo se ve tu idea, aunque todavía no la entiendas.",
-  "Crea un fondo de fiesta con tus colores favoritos.",
-  "Dibuja una luciérnaga que guarde un recuerdo.",
-  "Diseña una taza para alguien que te hace sonreír.",
-  "Haz un garabato con los ojos cerrados y conviértelo en un personaje."
-];
-var COLORES = ["#2C9090","#B5A258","#AE8780","#424A22","#29281F","#FFFFFF","#E85D75","#F6C945","#6A5ACD","#7be6d6"];
-var FONDOS = ["#F4EFE3","#FFFFFF","#17393b","#0b1d1f","#F7D9D5","#DDEFF0"];
-var EMOJIS = ["✨","🌿","🦋","🌸","🍄","💛","🌙","⭐"];
-var AVATARES = ["mawari.png","kaorai.png","seyuma.png","orukai.png"];
-
+/* Tema base: se usa si no existe lienzo-temas.json o si un tema no define alguna lista */
+var BASE = {
+  id: "siempre", nombre: "Siempre ✨",
+  colores: ["#2C9090","#B5A258","#AE8780","#424A22","#29281F","#FFFFFF","#E85D75","#F6C945","#6A5ACD","#7be6d6"],
+  fondos: ["#F4EFE3","#FFFFFF","#17393b","#0b1d1f","#F7D9D5","#DDEFF0"],
+  sellos: ["✨","🌿","🦋","🌸","🍄","💛","🌙","⭐","mawari.png","kaorai.png","seyuma.png","orukai.png"],
+  retos: [
+    "Dibuja un topper con el nombre de alguien que quieres.",
+    "Crea el sticker de una criatura del bosque que nadie ha visto.",
+    "Diseña la portada de un cuaderno para tu yo del futuro.",
+    "Dibuja tu avatar en su lugar favorito del tepuy.",
+    "Inventa un sello mágico para un sobre de invitación.",
+    "Dibuja cómo se ve tu idea, aunque todavía no la entiendas.",
+    "Crea un fondo de fiesta con tus colores favoritos.",
+    "Dibuja una luciérnaga que guarde un recuerdo.",
+    "Diseña una taza para alguien que te hace sonreír.",
+    "Haz un garabato con los ojos cerrados y conviértelo en un personaje."
+  ]
+};
+var temas = [BASE], tema = BASE;
 var cv = document.getElementById("lienzo"), ctx = cv.getContext("2d");
-var marco = document.getElementById("marco");
+var marco = document.getElementById("marco"), msg = document.getElementById("msg");
 ctx.lineCap = "round"; ctx.lineJoin = "round";
-var tool = "pincel", color = COLORES[0], fondo = FONDOS[0], sello = EMOJIS[0], pila = [], dibujando = false, ult = null;
-var msg = document.getElementById("msg");
+var tool = "pincel", color = BASE.colores[0], fondo = BASE.fondos[0], sello = BASE.sellos[0];
+var pila = [], dibujando = false, ult = null, rIdx = 0;
+var imgs = {}, bgImg = null;
 function dice(t) { msg.textContent = t; }
+function esImg(v) { return /\.(png|jpe?g|webp|gif|svg)$/i.test(v); }
+function cargaImg(v) { if (!imgs[v]) { var im = new Image(); im.src = v; imgs[v] = im; } return imgs[v]; }
+function mdNum(s) { var p = String(s).split("-"); return (+p[0]) * 100 + (+p[1]); }
+function enRango(t) {
+  if (!t.desde || !t.hasta) return true;
+  var d = new Date(), hoy = (d.getMonth() + 1) * 100 + d.getDate(), a = mdNum(t.desde), b = mdNum(t.hasta);
+  return a <= b ? (hoy >= a && hoy <= b) : (hoy >= a || hoy <= b);
+}
+function norm(t, i) {
+  return { id: t.id || ("tema" + i), nombre: t.nombre || t.id || ("Tema " + (i + 1)), desde: t.desde, hasta: t.hasta,
+    colores: (t.colores && t.colores.length) ? t.colores : BASE.colores,
+    fondos: (t.fondos && t.fondos.length) ? t.fondos : BASE.fondos,
+    sellos: (t.sellos && t.sellos.length) ? t.sellos : BASE.sellos,
+    retos: (t.retos && t.retos.length) ? t.retos : BASE.retos };
+}
 
-/* Reto */
-var rIdx = Math.floor(Math.random() * RETOS.length);
-function mostrarReto() { document.getElementById("retoTexto").textContent = RETOS[rIdx]; }
-document.getElementById("otroReto").onclick = function () { rIdx = (rIdx + 1) % RETOS.length; mostrarReto(); };
-mostrarReto();
+function limpiar(id) { var f = document.getElementById(id); Array.prototype.slice.call(f.children).forEach(function (c) { if (!c.classList.contains("etq")) c.remove(); }); return f; }
+function marcarUno(fila, sel, btn) { Array.prototype.forEach.call(fila.querySelectorAll(sel), function (x) { x.classList.remove("on"); }); btn.classList.add("on"); }
 
-/* Paletas */
-function hacerSwatches(id, lista, alElegir, actual) {
-  var fila = document.getElementById(id);
-  lista.forEach(function (c) {
-    var b = document.createElement("button"); b.className = "sw" + (c === actual ? " on" : ""); b.style.background = c; b.setAttribute("aria-label", "Color " + c);
-    b.onclick = function () { Array.prototype.forEach.call(fila.querySelectorAll(".sw"), function (x) { x.classList.remove("on"); }); b.classList.add("on"); alElegir(c); };
-    fila.appendChild(b);
+function pintarColores() {
+  var f = limpiar("filaColores");
+  tema.colores.forEach(function (c) {
+    var b = document.createElement("button"); b.className = "sw" + (c === color ? " on" : ""); b.style.background = c; b.setAttribute("aria-label", "Color " + c);
+    b.onclick = function () { marcarUno(f, ".sw", b); color = c; if (tool === "goma") setTool("pincel"); };
+    f.appendChild(b);
   });
 }
-hacerSwatches("filaColores", COLORES, function (c) { color = c; if (tool === "goma") setTool("pincel"); }, color);
-hacerSwatches("filaFondo", FONDOS, function (c) { fondo = c; marco.style.background = c; }, fondo);
-marco.style.background = fondo;
-
-/* Sellos */
-var imgs = {};
-var filaSellos = document.getElementById("filaSellos");
-function ponerSello(valor, esImg) {
-  var b = document.createElement("button"); b.className = "sello" + (valor === sello ? " on" : "");
-  if (esImg) { var im = new Image(); im.src = valor; im.alt = ""; imgs[valor] = im; b.appendChild(im); } else { b.textContent = valor; }
-  b.onclick = function () { Array.prototype.forEach.call(filaSellos.querySelectorAll(".sello"), function (x) { x.classList.remove("on"); }); b.classList.add("on"); sello = valor; };
-  filaSellos.appendChild(b);
+function ponerFondo(v) {
+  fondo = v; bgImg = null;
+  if (esImg(v)) { bgImg = cargaImg(v); marco.style.background = "url('" + v + "') center/cover no-repeat"; }
+  else { marco.style.background = v; }
 }
-EMOJIS.forEach(function (e) { ponerSello(e, false); });
-AVATARES.forEach(function (a) { ponerSello(a, true); });
+function pintarFondos() {
+  var f = limpiar("filaFondo");
+  tema.fondos.forEach(function (v) {
+    var b = document.createElement("button"); b.className = "sw" + (v === fondo ? " on" : ""); b.setAttribute("aria-label", "Fondo");
+    b.style.background = esImg(v) ? "url('" + v + "') center/cover" : v;
+    b.onclick = function () { marcarUno(f, ".sw", b); ponerFondo(v); };
+    f.appendChild(b);
+  });
+}
+function pintarSellos() {
+  var f = limpiar("filaSellos");
+  tema.sellos.forEach(function (v) {
+    var b = document.createElement("button"); b.className = "sello" + (v === sello ? " on" : "");
+    if (esImg(v)) { var im = document.createElement("img"); im.src = v; im.alt = ""; b.appendChild(im); cargaImg(v); } else { b.textContent = v; }
+    b.onclick = function () { marcarUno(f, ".sello", b); sello = v; };
+    f.appendChild(b);
+  });
+}
+function mostrarReto() { document.getElementById("retoTexto").textContent = tema.retos[rIdx % tema.retos.length]; }
+document.getElementById("otroReto").onclick = function () { rIdx = (rIdx + 1) % tema.retos.length; mostrarReto(); };
+
+function aplicarTema(t) {
+  tema = t; color = t.colores[0]; sello = t.sellos[0];
+  rIdx = Math.floor(Math.random() * t.retos.length);
+  ponerFondo(t.fondos[0]);
+  pintarColores(); pintarFondos(); pintarSellos(); mostrarReto();
+  Array.prototype.forEach.call(document.querySelectorAll("#filaTemas .chip"), function (b) { b.classList.toggle("on", b.dataset.id === t.id); });
+}
+function iniciar() {
+  var forzado = (location.search.match(/[?&]tema=([^&]+)/) || [])[1];
+  var visibles = temas.filter(function (t) { return t.id === forzado || t.id === "siempre" || enRango(t); });
+  if (!visibles.length) visibles = [temas[0]];
+  var elegido = visibles.filter(function (t) { return t.id === forzado; })[0]
+    || visibles.filter(function (t) { return t.desde && t.hasta; })[0] || visibles[0];
+  if (visibles.length > 1) {
+    var f = document.getElementById("filaTemas"); f.hidden = false;
+    visibles.forEach(function (t) {
+      var b = document.createElement("button"); b.className = "chip"; b.dataset.id = t.id; b.textContent = t.nombre;
+      b.onclick = function () { aplicarTema(t); }; f.appendChild(b);
+    });
+  }
+  aplicarTema(elegido);
+}
+fetch("lienzo-temas.json", { cache: "no-cache" }).then(function (r) { return r.json(); })
+  .then(function (j) { if (j && j.temas && j.temas.length) temas = j.temas.map(norm); })
+  .catch(function () {}).then(iniciar);
 
 /* Herramientas */
 function setTool(t) {
   tool = t;
   Array.prototype.forEach.call(document.querySelectorAll("[data-tool]"), function (b) { b.classList.toggle("on", b.dataset.tool === t); });
-  filaSellos.hidden = t !== "sello";
+  document.getElementById("filaSellos").hidden = t !== "sello";
 }
 Array.prototype.forEach.call(document.querySelectorAll("[data-tool]"), function (b) { b.onclick = function () { setTool(b.dataset.tool); }; });
 
@@ -161,7 +213,7 @@ function tam() { return +document.getElementById("tam").value; }
 function poner(p) {
   var s = 40 + tam() * 3;
   ctx.globalCompositeOperation = "source-over";
-  if (imgs[sello]) { try { ctx.drawImage(imgs[sello], p.x - s / 2, p.y - s / 2, s, s); } catch (e) {} }
+  if (esImg(sello)) { try { ctx.drawImage(cargaImg(sello), p.x - s / 2, p.y - s / 2, s, s); } catch (e) {} }
   else { ctx.font = s + "px serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#000"; ctx.fillText(sello, p.x, p.y); }
 }
 cv.addEventListener("pointerdown", function (e) {
@@ -179,14 +231,17 @@ cv.addEventListener("pointermove", function (e) {
 });
 function fin() { dibujando = false; ctx.globalCompositeOperation = "source-over"; }
 cv.addEventListener("pointerup", fin); cv.addEventListener("pointercancel", fin);
-
 document.getElementById("deshacer").onclick = function () { var d = pila.pop(); if (d) ctx.putImageData(d, 0, 0); else dice("No hay nada que deshacer."); };
 document.getElementById("limpiar").onclick = function () { if (confirm("¿Limpiar todo el lienzo?")) { guardarPaso(); ctx.clearRect(0, 0, cv.width, cv.height); } };
 
 /* Exportar */
 function componer(w, h) {
   var c = document.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d");
-  x.fillStyle = fondo; x.fillRect(0, 0, w, h); x.drawImage(cv, 0, 0, w, h);
+  if (bgImg && bgImg.complete && bgImg.naturalWidth) {
+    var k = Math.max(w / bgImg.naturalWidth, h / bgImg.naturalHeight), iw = bgImg.naturalWidth * k, ih = bgImg.naturalHeight * k;
+    x.drawImage(bgImg, (w - iw) / 2, (h - ih) / 2, iw, ih);
+  } else { x.fillStyle = esImg(fondo) ? "#F4EFE3" : fondo; x.fillRect(0, 0, w, h); }
+  x.drawImage(cv, 0, 0, w, h);
   x.font = Math.round(h * .022) + "px sans-serif"; x.textAlign = "center"; x.textBaseline = "bottom";
   x.fillStyle = "rgba(0,0,0,.35)"; x.fillText("Hecho en Universo Ka · Yelioki", w / 2, h - h * .015);
   return c;
@@ -220,7 +275,7 @@ function pintarGaleria() {
 document.getElementById("guardar").onclick = function () {
   try {
     var data = componer(400, 500).toDataURL("image/jpeg", .75), l = leer();
-    l.unshift({ t: Date.now(), reto: RETOS[rIdx], img: data }); l = l.slice(0, 8);
+    l.unshift({ t: Date.now(), reto: tema.retos[rIdx % tema.retos.length], img: data }); l = l.slice(0, 8);
     dice(escribir(l) ? "Guardada en tu colección ✨ (solo en este dispositivo)" : "No hay espacio para guardar más. Borra alguna de tu colección.");
     pintarGaleria();
   } catch (e) { dice("No pude guardar la imagen en este navegador."); }
