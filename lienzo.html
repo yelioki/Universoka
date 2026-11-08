@@ -24,7 +24,8 @@ h1{font-size:32px;text-align:center;text-shadow:0 0 18px rgba(123,230,214,.45)}
 button{font:inherit;cursor:pointer;color:#fff;border:0}
 .chip{padding:9px 14px;border-radius:16px;background:rgba(123,230,214,.18);border:1px solid rgba(123,230,214,.4);font-size:13px;font-weight:600}
 .chip.on{background:linear-gradient(135deg,#6fe3d4,#2d8f89);border-color:transparent}
-.marco{position:relative;width:100%;aspect-ratio:4/5;border-radius:18px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);background:#F4EFE3}
+.marco{position:relative;width:100%;aspect-ratio:4/5;margin:0 auto;border-radius:18px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);background:#F4EFE3}
+.marco.alto{aspect-ratio:9/16;max-width:380px}
 canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
 .panel{margin-top:14px;padding:14px;display:grid;gap:12px}
 .fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -42,7 +43,7 @@ input[type=range]{flex:1;min-width:140px;accent-color:#7be6d6}
 h2{font-size:20px;margin:26px 0 10px;text-align:center}
 .galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
 .item{position:relative;border-radius:14px;overflow:hidden;background:#0008;border:1px solid rgba(255,255,255,.12)}
-.item img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.item img{display:block;width:100%;height:auto}
 .item button{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.65);font-size:14px}
 .vacio{opacity:.7;text-align:center;font-style:italic;grid-column:1/-1;padding:14px}
 .suave{margin-top:22px;text-align:center;font-size:13px;opacity:.85;line-height:1.7}
@@ -128,7 +129,7 @@ function enRango(t) {
   return a <= b ? (hoy >= a && hoy <= b) : (hoy >= a || hoy <= b);
 }
 function norm(t, i) {
-  return { id: t.id || ("tema" + i), nombre: t.nombre || t.id || ("Tema " + (i + 1)), desde: t.desde, hasta: t.hasta,
+  return { id: t.id || ("tema" + i), nombre: t.nombre || t.id || ("Tema " + (i + 1)), desde: t.desde, hasta: t.hasta, formato: t.formato === "9:16" ? "9:16" : "4:5",
     colores: (t.colores && t.colores.length) ? t.colores : BASE.colores,
     fondos: (t.fondos && t.fondos.length) ? t.fondos : BASE.fondos,
     sellos: (t.sellos && t.sellos.length) ? t.sellos : BASE.sellos,
@@ -172,7 +173,16 @@ function pintarSellos() {
 function mostrarReto() { document.getElementById("retoTexto").textContent = tema.retos[rIdx % tema.retos.length]; }
 document.getElementById("otroReto").onclick = function () { rIdx = (rIdx + 1) % tema.retos.length; mostrarReto(); };
 
+function ajustarFormato(f) {
+  var w = f === "9:16" ? 720 : 800, h = f === "9:16" ? 1280 : 1000;
+  if (cv.width === w && cv.height === h) return true;
+  if (pila.length && !confirm("Este tema usa otro tamaño de lienzo y tu dibujo actual se borrará. ¿Continuar?")) return false;
+  cv.width = w; cv.height = h; ctx.lineCap = "round"; ctx.lineJoin = "round"; pila = [];
+  marco.classList.toggle("alto", f === "9:16");
+  return true;
+}
 function aplicarTema(t) {
+  if (!ajustarFormato(t.formato)) return;
   tema = t; color = t.colores[0]; sello = t.sellos[0];
   rIdx = Math.floor(Math.random() * t.retos.length);
   ponerFondo(t.fondos[0]);
@@ -248,7 +258,7 @@ function componer(w, h) {
 }
 document.getElementById("descargar").onclick = function () {
   try {
-    componer(800, 1000).toBlob(function (blob) {
+    componer(cv.width, cv.height).toBlob(function (blob) {
       var archivo = new File([blob], "mi-creacion-ka.png", { type: "image/png" });
       if (navigator.canShare && navigator.canShare({ files: [archivo] })) { navigator.share({ files: [archivo], title: "Mi creación en Universo Ka" }).catch(function () {}); return; }
       var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mi-creacion-ka.png"; document.body.appendChild(a); a.click(); a.remove();
@@ -274,7 +284,7 @@ function pintarGaleria() {
 }
 document.getElementById("guardar").onclick = function () {
   try {
-    var data = componer(400, 500).toDataURL("image/jpeg", .75), l = leer();
+    var data = componer(Math.round(cv.width / 2), Math.round(cv.height / 2)).toDataURL("image/jpeg", .75), l = leer();
     l.unshift({ t: Date.now(), reto: tema.retos[rIdx % tema.retos.length], img: data }); l = l.slice(0, 8);
     dice(escribir(l) ? "Guardada en tu colección ✨ (solo en este dispositivo)" : "No hay espacio para guardar más. Borra alguna de tu colección.");
     pintarGaleria();
