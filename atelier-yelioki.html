@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier Yelioki – Universo Ka</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+html,body{height:100%}
+body{color:#fff;background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.8)),url("atelier-fondo.jpg") center/cover fixed,url("tepuy-fondo.jpg") center/cover fixed,#0b1d1f;overflow-x:hidden}
+.neblina{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.niebla{position:absolute;width:1400px;opacity:.14;filter:blur(10px)}
+.n1{top:-10%;left:-40%;animation:n1 45s linear infinite}
+.n2{bottom:-10%;right:-40%;animation:n2 60s linear infinite}
+@keyframes n1{to{transform:translateX(150vw)}}
+@keyframes n2{to{transform:translateX(-150vw)}}
+.particulas{position:fixed;inset:0;pointer-events:none}
+.particulas span{position:absolute;width:5px;height:5px;border-radius:50%;background:#7be6d6;box-shadow:0 0 10px #7be6d6,0 0 20px #7be6d6;animation:flotar 10s linear infinite}
+@keyframes flotar{0%{transform:translateY(120px);opacity:0}30%{opacity:1}100%{transform:translateY(-260px);opacity:0}}
+.volver{position:fixed;top:16px;left:16px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.88);color:#17393b;font-weight:700;cursor:pointer}
+main{position:relative;z-index:10;max-width:1150px;margin:0 auto;padding:78px 20px 60px}
+.logo{display:block;width:150px;margin:0 auto 14px;filter:drop-shadow(0 0 25px rgba(123,230,214,.4))}
+h1{font-size:40px;text-align:center;margin-bottom:12px;text-shadow:0 0 18px rgba(123,230,214,.45)}
+.sub{text-align:center;max-width:680px;margin:0 auto 14px;line-height:1.8;opacity:.92}
+.hola{text-align:center;margin-bottom:26px;color:#ffe58f;font-style:italic}
+.panel{padding:30px;border-radius:36px;background:rgba(0,0,0,.32);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);box-shadow:0 0 40px rgba(0,0,0,.35)}
+.objetos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.objeto{display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);transition:.4s}
+.objeto:hover{transform:translateY(-6px);box-shadow:0 0 35px rgba(123,230,214,.25)}
+.objeto .foto{height:170px;background:rgba(123,230,214,.12) center/cover no-repeat}
+.info{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.info h2{font-size:18px}
+.info p{font-size:13px;line-height:1.6;opacity:.88;flex:1}
+.btn{display:block;text-align:center;text-decoration:none;padding:11px 14px;border-radius:18px;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(135deg,#6fe3d4,#2d8f89)}
+.btn.wa{background:#1c8450}
+.lira{margin-top:26px;display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;justify-content:space-between;padding:20px 24px;border-radius:26px;background:rgba(123,230,214,.1);border:1px solid rgba(123,230,214,.3)}
+.lira p{max-width:34em;line-height:1.6}
+.lira .row{display:flex;flex-wrap:wrap;gap:10px}
+.lira .btn{padding:12px 20px}
+.ka{margin-top:22px;text-align:center;font-size:14px;opacity:.85}
+@media(max-width:768px){h1{font-size:28px}.panel{padding:20px 14px;border-radius:28px}.logo{width:110px}}
+</style>
+</head>
+<body>
+<button class="volver" onclick="location.href='region-creacion.html'">← Región de Creación</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<div class="particulas"></div>
+<main>
+  <img class="logo" src="https://yelioki.github.io/logo-blanco.png" alt="Yelioki">
+  <h1>Atelier Yelioki</h1>
+  <p class="sub">Aquí las ideas toman forma y cada creación nace desde la energía viva del Universo Ka ✨ Todo lo que ves se puede pedir de verdad.</p>
+  <p class="hola" id="hola"></p>
+  <div class="panel">
+    <div class="objetos">
+      <article class="objeto"><div class="foto" style="background-image:url('https://yelioki.github.io/fis-invitaciones.jpg')"></div><div class="info"><h2>Sobres e invitaciones</h2><p>Invitaciones digitales y en papel, con detalles como plaquitas 3D para tus sobres.</p><a class="btn" href="https://yelioki.github.io/#invitaciones">Ver invitaciones</a></div></article>
+      <article class="objeto"><div class="foto" style="background-image:url('https://yelioki.github.io/imprimibles.jpg')"></div><div class="info"><h2>Papeles del Universo</h2><p>Papelería e imprimibles ilustrados, listos para descargar y crear en casa.</p><a class="btn" href="https://payhip.com/Yelioki" target="_blank" rel="noopener">Explorar en Payhip</a></div></article>
+      <article class="objeto"><div class="foto" style="background-image:url('https://yelioki.github.io/modelos3d.jpg')"></div><div class="info"><h2>Llaves y Criaturas 3D</h2><p>Modelos listos para imprimir: llaves, criaturas y colecciones como El Bosque de las Almas Perdidas.</p><a class="btn" href="https://cults3d.com/@yelioki" target="_blank" rel="noopener">Ver en Cults3D</a></div></article>
+      <article class="objeto"><div class="foto" style="background-image:url('https://yelioki.github.io/stickers.jpg')"></div><div class="info"><h2>Para tu fiesta</h2><p>Stickers, toppers, poleras y tazas hechos a pedido, con tu tema y tu nombre.</p><a class="btn wa" href="https://wa.me/56932938800?text=Hola%20Yelioki%2C%20vengo%20desde%20el%20Atelier%20de%20Universo%20Ka.%20Quisiera%20hacer%20un%20pedido." target="_blank" rel="noopener">Pedir por WhatsApp</a></div></article>
+    </div>
+    <div class="lira">
+      <p><b>¿No sabes por dónde empezar?</b><br>Lira, la Guardiana del Taller de Papelería, te guía paso a paso hasta lo que necesitas.</p>
+      <div class="row"><a class="btn" href="https://yelioki.github.io/#lira">Lira te guía</a><a class="btn wa" href="https://wa.me/c/56932938800" target="_blank" rel="noopener">Ver catálogo</a></div>
+    </div>
+  </div>
+  <p class="ka">Ka susurra… cada creación contiene memoria ✨</p>
+</main>
+<audio id="sonidoAmbiente" loop preload="auto"><source src="bosque.mp3" type="audio/mpeg"></audio>
+<script>
+for (var i = 0; i < 40; i++) { var s = document.createElement("span"); s.style.left = Math.random()*100+"vw"; s.style.top = Math.random()*100+"vh"; s.style.animationDuration = (5+Math.random()*6)+"s"; document.querySelector(".particulas").appendChild(s); }
+var n = ""; try { n = localStorage.getItem("nombreAvatar") || ""; } catch (e) {}
+if (n) document.getElementById("hola").textContent = "Bienvenido, " + n + ". El Atelier es tuyo.";
+document.body.addEventListener("click", function () { var a = document.getElementById("sonidoAmbiente"); a.volume = .3; a.play().catch(function(){}); }, { once: true });
+</script>
+</body>
+</html>

@@ -1,933 +1,153 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
-
-<title>Universo Ka | Lira te guía</title>
-
+<title>El Despertar de la Presencia – Universo Ka</title>
 <style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:'Cinzel', serif;
-  min-height:100vh;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:40px 20px;
-  overflow-x:hidden;
-  color:white;
-  background:
-  linear-gradient(
-    rgba(0,0,0,0.45),
-    rgba(0,0,0,0.65)
-  ),
-  url("./fondo-ka.jpg");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
-
-/* =========================
-NIEBLA
-========================= */
-
-.neblina{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.niebla{
-  position:absolute;
-  width:1400px;
-  opacity:0.18;
-  filter:blur(10px);
-}
-
-.n1{
-  top:-10%;
-  left:-40%;
-  animation:moverNiebla1 45s linear infinite;
-}
-
-.n2{
-  bottom:-10%;
-  right:-40%;
-  animation:moverNiebla2 60s linear infinite;
-}
-
-@keyframes moverNiebla1{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(150vw);}
-}
-
-@keyframes moverNiebla2{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-150vw);}
-}
-
-/* =========================
-PARTICULAS
-========================= */
-
-.particulas{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-}
-
-.particulas span{
-  position:absolute;
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#7be6d6;
-  box-shadow:
-    0 0 10px #7be6d6,
-    0 0 20px #7be6d6;
-  animation:flotar 8s linear infinite;
-}
-
-@keyframes flotar{
-  0%{
-    transform:translateY(120px);
-    opacity:0;
-  }
-
-  30%{
-    opacity:1;
-  }
-
-  100%{
-    transform:translateY(-250px);
-    opacity:0;
-  }
-}
-
-/* =========================
-PANEL
-========================= */
-
-.avatar-panel{
-  position:relative;
-  width:100%;
-  max-width:470px;
-  padding:32px 24px;
-  text-align:center;
-  z-index:20;
-
-  backdrop-filter:blur(14px);
-
-  background:
-    linear-gradient(
-      rgba(10,20,20,0.45),
-      rgba(10,20,20,0.65)
-    ),
-    url("panel-ka.png");
-
-  border:1px solid rgba(123,230,214,0.12);
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-
-  border-radius:32px;
-
-  box-shadow:
-    0 0 50px rgba(0,0,0,0.45),
-    0 0 120px rgba(123,230,214,0.08);
-
-  animation:flotarPanel 6s ease-in-out infinite;
-}
-
-/* =========================
-TITULOS
-========================= */
-
-h1{
-  font-size:30px;
-  margin-bottom:12px;
-  text-shadow:0 0 10px rgba(123,230,214,0.35);
-}
-
-.subtitulo{
-  font-size:14px;
-  line-height:1.7;
-  opacity:0.95;
-  margin-bottom:26px;
-}
-
-/* =========================
-AVATAR
-========================= */
-
-.avatar-container{
-  position:relative;
-  width:180px;
-  height:180px;
-  margin:auto auto 20px;
-}
-
-.aura{
-  position:absolute;
-  inset:-15px;
-  width:210px;
-  height:210px;
-  object-fit:contain;
-  animation:girarAura 18s linear infinite;
-}
-
-@keyframes girarAura{
-  from{
-    transform:rotate(0deg);
-  }
-
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-@keyframes respirarAvatar{
-  0%,100%{
-    transform:translate(-50%,-50%) scale(1);
-  }
-
-  50%{
-    transform:translate(-50%,-50%) scale(1.04);
-  }
-}
-
-.marco-avatar{
-  position:absolute;
-  inset:0;
-  width:205px;
-  height:205px;
-  top:-12px;
-  left:-12px;
-  object-fit:contain;
-  z-index:1;
-}
-
-.avatar{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:155px;
-  height:155px;
-  border-radius:50%;
-  overflow:hidden;
-  z-index:2;
-
-  box-shadow:
-    0 0 25px rgba(123,230,214,0.45);
-
-  animation:respirarAvatar 4s ease-in-out infinite;
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:0.35s;
-}
-
-.avatar:hover img{
-  transform:scale(1.08);
-}
-
-/* =========================
-BOTONES
-========================= */
-
-.selector{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  margin-bottom:24px;
-}
-
-.btn-mini,
-.btn-principal,
-.btn-regalo{
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-  transition:0.3s;
-  font-family:'Cinzel',serif;
-}
-
-.btn-mini{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7be6d6,
-      #2e8f8c
-    );
-
-  color:white;
-  font-size:18px;
-}
-
-.btn-principal{
-  width:100%;
-  padding:15px;
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #6fe3d4,
-      #2d8f89
-    );
-
-  color:white;
-  font-size:16px;
-  margin-top:20px;
-}
-
-.btn-mini:hover,
-.btn-principal:hover,
-.btn-regalo:hover{
-  transform:scale(1.05);
-
-  box-shadow:
-    0 0 20px rgba(123,230,214,0.35);
-}
-
-/* =========================
-CAMPOS
-========================= */
-
-.campo{
-  margin-bottom:15px;
-  text-align:left;
-}
-
-label{
-  display:block;
-  margin-bottom:7px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  font-size:11px;
-  opacity:0.7;
-}
-
-input{
-  width:100%;
-  padding:16px 18px;
-
-  border-radius:24px;
-
-  border:1px solid rgba(123,230,214,0.35);
-
-  outline:none;
-
-  font-size:15px;
-
-  color:#dffaf6;
-
-  background:
-    rgba(30,120,125,0.65);
-
-  backdrop-filter:blur(10px);
-
-  box-shadow:
-    inset 0 0 20px rgba(123,230,214,0.04),
-    0 0 20px rgba(0,0,0,0.15);
-
-  transition:0.4s;
-
-  font-family:'Cinzel',serif;
-}
-
-input:focus{
-  border:1px solid rgba(123,230,214,0.45);
-
-  box-shadow:
-    0 0 20px rgba(123,230,214,0.18),
-    0 0 50px rgba(123,230,214,0.08);
-
-  transform:scale(1.02);
-}
-
-input::placeholder{
-  color:rgba(255,255,255,0.45);
-}
-
-/* =========================
-CAJITA DEL REGALO
-========================= */
-
-.regalo{
-  margin-top:22px;
-  margin-bottom:10px;
-
-  padding:20px 18px;
-
-  border-radius:24px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(123,230,214,0.12),
-      rgba(10,35,35,0.55)
-    );
-
-  border:1px solid rgba(123,230,214,0.25);
-
-  box-shadow:
-    inset 0 0 25px rgba(123,230,214,0.04),
-    0 0 30px rgba(0,0,0,0.18);
-
-  text-align:center;
-}
-
-.regalo-icono{
-  font-size:30px;
-  margin-bottom:8px;
-
-  animation:
-    respirarRegalo 3s ease-in-out infinite;
-}
-
-@keyframes respirarRegalo{
-
-  0%,100%{
-    transform:scale(1);
-  }
-
-  50%{
-    transform:scale(1.08);
-  }
-
-}
-
-.regalo h3{
-  font-size:16px;
-  color:#7be6d6;
-  margin-bottom:8px;
-}
-
-.regalo p{
-  font-size:12px;
-  line-height:1.6;
-  opacity:0.82;
-  margin-bottom:14px;
-}
-
-.btn-regalo{
-  width:100%;
-  padding:12px;
-
-  border-radius:18px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(123,230,214,0.85),
-      rgba(46,143,140,0.9)
-    );
-
-  color:white;
-  font-size:13px;
-}
-
-/* =========================
-MENSAJE
-========================= */
-
-#ka-mensaje{
-  margin-top:18px;
-
-  font-size:14px;
-
-  line-height:1.6;
-
-  opacity:0.95;
-
-  min-height:45px;
-
-  color:#dffaf6;
-
-  text-shadow:
-    0 0 12px rgba(123,230,214,0.18);
-
-  font-style:italic;
-}
-
-/* =========================
-VOLVER
-========================= */
-
-.volver{
-  position:fixed;
-  top:20px;
-  left:20px;
-  z-index:50;
-
-  padding:12px 18px;
-
-  border:none;
-  border-radius:20px;
-
-  background:rgba(255,255,255,0.85);
-
-  color:#17393b;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  backdrop-filter:blur(8px);
-
-  font-family:'Cinzel',serif;
-}
-
-/* =========================
-PORTAL
-========================= */
-
-.portal-transicion{
-  position:fixed;
-  inset:0;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(123,230,214,0.8),
-      rgba(0,0,0,1)
-    );
-
-  opacity:0;
-
-  pointer-events:none;
-
-  z-index:999;
-
-  transition:1.5s;
-}
-
-/* =========================
-ANIMACIONES
-========================= */
-
-@keyframes flotarPanel{
-
-  0%,100%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-6px);
-  }
-
-}
-
-/* =========================
-RESPONSIVE
-========================= */
-
-@media(max-width:768px){
-
-  h1{
-    font-size:24px;
-  }
-
-  .avatar-panel{
-    padding:28px 20px;
-  }
-
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px 60px;overflow-x:hidden;color:#fff;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.65)),url("./fondo-ka.jpg") center/cover fixed,#0b1d1f;transition:background-color 1s}
+.neblina{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.niebla{position:absolute;width:1400px;opacity:.18;filter:blur(10px)}
+.n1{top:-10%;left:-40%;animation:n1 45s linear infinite}
+.n2{bottom:-10%;right:-40%;animation:n2 60s linear infinite}
+@keyframes n1{to{transform:translateX(150vw)}}
+@keyframes n2{to{transform:translateX(-150vw)}}
+.particulas{position:fixed;inset:0;pointer-events:none}
+.particulas span{position:absolute;width:6px;height:6px;border-radius:50%;background:#7be6d6;box-shadow:0 0 10px #7be6d6,0 0 20px #7be6d6;animation:flotar 8s linear infinite}
+@keyframes flotar{0%{transform:translateY(120px);opacity:0}30%{opacity:1}100%{transform:translateY(-250px);opacity:0}}
+.avatar-panel{position:relative;width:100%;max-width:470px;padding:32px 24px;text-align:center;z-index:20;backdrop-filter:blur(14px);background:linear-gradient(rgba(10,20,20,.55),rgba(10,20,20,.72)),url("panel-ka.png") center/cover;border:1px solid rgba(123,230,214,.12);border-radius:32px;box-shadow:0 0 50px rgba(0,0,0,.45),0 0 120px rgba(123,230,214,.08);animation:flotarPanel 6s ease-in-out infinite}
+@keyframes flotarPanel{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+h1{font-size:28px;margin-bottom:12px;text-shadow:0 0 10px rgba(123,230,214,.35)}
+.subtitulo{font-size:14px;line-height:1.7;opacity:.95;margin-bottom:22px}
+.avatar-container{position:relative;width:180px;height:180px;margin:6px auto 20px}
+.aura{position:absolute;top:-15px;left:-15px;width:210px;height:210px;object-fit:contain;animation:girar 18s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.marco-avatar{position:absolute;top:-12px;left:-12px;width:205px;height:205px;object-fit:contain;z-index:1}
+.avatar{position:absolute;top:50%;left:50%;width:155px;height:155px;border-radius:50%;overflow:hidden;z-index:2;transform:translate(-50%,-50%);box-shadow:0 0 25px rgba(123,230,214,.45);animation:respirar 4s ease-in-out infinite}
+@keyframes respirar{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.04)}}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.selector{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:22px}
+.btn-mini{width:48px;height:48px;border:0;border-radius:50%;cursor:pointer;font-size:18px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7be6d6,#2e8f8c);transition:.3s}
+.puntos{display:flex;gap:8px}
+.puntos i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);transition:.3s}
+.puntos i.on{background:#7be6d6;box-shadow:0 0 10px #7be6d6}
+.campo{margin-bottom:15px;text-align:left}
+label{display:block;margin-bottom:7px;letter-spacing:1px;text-transform:uppercase;font-size:11px;opacity:.75}
+input,select{width:100%;padding:15px 18px;border-radius:24px;border:1px solid rgba(123,230,214,.35);outline:none;font-size:15px;color:#dffaf6;background:rgba(30,120,125,.65);backdrop-filter:blur(10px);transition:.3s;appearance:none;-webkit-appearance:none}
+select option{background:#102020;color:#ffe8a3}
+input:focus,select:focus{border-color:rgba(123,230,214,.8);box-shadow:0 0 20px rgba(123,230,214,.25)}
+input::placeholder{color:rgba(255,255,255,.5)}
+.btn-principal{width:100%;margin-top:18px;padding:15px;border:0;border-radius:20px;cursor:pointer;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#6fe3d4,#2d8f89);transition:.3s}
+.btn-mini:hover,.btn-principal:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(123,230,214,.4)}
+.regalo{margin-top:14px;display:inline-block;background:none;border:1px solid rgba(255,229,143,.5);color:#ffe58f;padding:9px 16px;border-radius:18px;cursor:pointer;font-size:13px}
+#ka-mensaje{margin-top:16px;font-size:14px;line-height:1.6;min-height:45px;color:#dffaf6;font-style:italic;text-shadow:0 0 12px rgba(123,230,214,.2)}
+.volver{position:fixed;top:16px;left:16px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.85);color:#17393b;font-weight:700;cursor:pointer}
+.portal-transicion{position:fixed;inset:0;background:radial-gradient(circle,rgba(123,230,214,.8),#000);opacity:0;pointer-events:none;z-index:999;transition:1.5s}
+@media(max-width:768px){h1{font-size:23px}.avatar-panel{padding:26px 18px;margin-top:34px}}
 </style>
-
 </head>
-
 <body>
-
-<div
-  class="portal-transicion"
-  id="portal">
-</div>
-
-<!-- NIEBLA -->
-
-<div class="neblina">
-
-<img
- src="niebla1.png"
- class="niebla n1">
-
-<img
- src="niebla2.png"
- class="niebla n2">
-
-</div>
-
-<!-- PARTICULAS -->
-
+<div class="portal-transicion" id="portal"></div>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
 <div class="particulas"></div>
-
-<!-- BOTON VOLVER -->
-
-<button
-class="volver"
-onclick="window.location.href='llamado.html'">
-
-← Regresar a El Llamado
-
-</button>
-
-<!-- PANEL PRINCIPAL -->
+<button class="volver" onclick="location.href='index.html'">← Volver</button>
 
 <div class="avatar-panel">
-
-  <h1>
-    Lira te guía
-  </h1>
-
-  
-
-  <!-- AVATAR -->
+  <h1>El Despertar de la Presencia</h1>
+  <p class="subtitulo">Ka ha sentido tu llegada…<br><br>Antes de cruzar los caminos del tepuy, elige la presencia que te acompañará.</p>
 
   <div class="avatar-container">
-
-
-<img
-  src="aura.png"
-  class="aura">
-
-<img
-  src="marco-avatar.png"
-  class="marco-avatar">
-
-<div class="avatar">
-
-  <img
-    id="imagenAvatar"
-    src="mawari.png">
-
-</div>
-
-
+    <img src="aura.png" class="aura" alt="">
+    <img src="marco-avatar.png" class="marco-avatar" alt="">
+    <div class="avatar"><img id="imagenAvatar" src="mawari.png" alt="Tu avatar"></div>
   </div>
 
-  
-
-  <!-- INFORMACIÓN DEL MAESTRO -->
-
-  <h2
-    id="tituloMaestro"
-    style="
-      font-size:20px;
-      color:#7be6d6;
-      margin-top:15px;
-      margin-bottom:5px;
-    ">
-
-
-Lira
-
-
-  </h2>
-
-  <p
-    id="descMaestro"
-    style="
-      font-size:13px;
-      opacity:0.85;
-      margin-bottom:20px;
-      line-height:1.5;
-    ">
-
-
-Convierte ideas en invitaciones, cajas,
-etiquetas y recuerdos inolvidables.
-
-
-  </p>
-
-  <!-- NOMBRE -->
-
-  <div class="campo">
-
-
-<label>
-  ¿Cómo te llamas en este mundo?
-</label>
-
-<input
-  type="text"
-  id="nombre"
-  placeholder="Escribe tu nombre (opcional)">
-
-
+  <div class="selector">
+    <button class="btn-mini" onclick="cambiar(-1)" aria-label="Anterior">⬅</button>
+    <div class="puntos" id="puntos"></div>
+    <button class="btn-mini" onclick="cambiar(1)" aria-label="Siguiente">➡</button>
   </div>
 
-  <!-- REGALO -->
+  <div class="campo"><label for="nombre">Tu nombre</label><input type="text" id="nombre" maxlength="30" placeholder="Escribe tu nombre..." autocomplete="given-name"></div>
+  <div class="campo"><label for="esencia">Tu esencia</label>
+    <select id="esencia"><option>Custodio de las Raíces Vivas</option><option>Portador del Cielo Luminoso</option><option>Guardián de Corrientes Antiguas</option><option>Tejedor de Energía Sagrada</option></select></div>
+  <div class="campo"><label for="auraSelect">Color de tu aura</label>
+    <select id="auraSelect"><option>Verde Musgo Ancestral</option><option>Turquesa Bioluminiscente</option><option>Niebla Azul del Tepuy</option><option>Ámbar de la Tierra Viva</option></select></div>
+  <div class="campo"><label for="simbolo">Símbolo guardián</label>
+    <select id="simbolo"><option>Llave del Umbral</option><option>Runa del Cielo Vivo</option><option>Piedra de Corriente Antigua</option><option>Sello del Portal Sagrado</option></select></div>
 
-  <div class="regalo">
-
-
-<div class="regalo-icono">
-  🎁​
+  <button class="btn-principal" onclick="guardar()">Entrar al Universo ✨</button>
+  <button class="regalo" onclick="regalo()">🎁 Una ofrenda para comenzar</button>
+  <p id="ka-mensaje">Ka escucha tu energía… el portal comenzará a reconocerte 🌿</p>
 </div>
 
-<h3>
-  Una pequeña ofrenda para comenzar
-</h3>
-
-<p>
-  Lira ha preparado un pequeño regalo
-  para quienes deciden comenzar este
-  viaje creativo.
-  <br><br>
-  Déjanos tu correo y recíbelo.
-</p>
-
-<button
-  class="btn-regalo"
-  onclick="abrirRegalo()">
-
-  😍 Quiero recibir mi regalo
-
-</button>
-
-
-  </div>
-
-  <!-- ENTRADA -->
-
-<button
- id="btnElegir"
- class="btn-principal"
- onclick="guardar()">
-
-Ir con Lira
-
-
-  </button>
-
-  <p id="ka-mensaje">
-
-Ka escucha tu energía de crear…
-el portal comenzará a reconocerte 🌿
-
-
-  </p>
-
-</div>
+<audio id="sonidoAmbiente" loop preload="auto"><source src="bosque.mp3" type="audio/mpeg"></audio>
 
 <script>
+var FORMULARIO_REGALO = "https://docs.google.com/forms/d/e/1FAIpQLScbbVA1uPu8k10kjzxFGSu54BFMLpW-mpUGIi5GJZwKfBU0Hw/viewform";
 
-/* =========================
-PARTICULAS
-========================= */
-
-const contenedor =
-  document.querySelector('.particulas');
-
-for(let i=0;i<40;i++){
-
-  let p =
-    document.createElement('span');
-
-  p.style.left =
-    Math.random()*100+'vw';
-
-  p.style.top =
-    Math.random()*100+'vh';
-
-  p.style.animationDuration =
-    (4+Math.random()*6)+'s';
-
-  contenedor.appendChild(p);
-
+for (var i = 0; i < 40; i++) {
+  var p = document.createElement("span");
+  p.style.left = Math.random() * 100 + "vw"; p.style.top = Math.random() * 100 + "vh";
+  p.style.animationDuration = (4 + Math.random() * 6) + "s";
+  document.querySelector(".particulas").appendChild(p);
 }
 
-const mensaje =
-  document.getElementById("ka-mensaje");
-
-let ocupadoHasta = 0;
-
-
-/* =========================
-REGALO
-========================= */
-
-function abrirRegalo(){
-
-  const formularioRegalo =
-    "https://docs.google.com/forms/d/e/1FAIpQLScbbVA1uPu8k10kjzxFGSu54BFMLpW-mpUGIi5GJZwKfBU0Hw/viewform?usp=preview";
-
-  window.open(
-    formularioRegalo,
-    "_blank"
-  );
-
-  mensaje.innerText =
-    "La ofrenda ha sido abierta… vuelve cuando estés lista para continuar. ✨";
-
-  ocupadoHasta = Date.now() + 6000;
-
-}
-
-
-/* =========================
-IR CON LIRA
-========================= */
-
-function guardar(){
-
-  const nombre =
-    document.getElementById(
-      "nombre"
-    ).value.trim();
-
-  try{
-
-    if(nombre){
-      localStorage.setItem(
-        "nombreAvatar",
-        nombre
-      );
-    } else {
-      localStorage.removeItem(
-        "nombreAvatar"
-      );
-    }
-
-  }catch(e){}
-
-  mensaje.innerText =
-    "Ka reconoce tu energía… abriendo el camino hacia Lira 🧚‍♀️";
-
-  ocupadoHasta = Date.now() + 6000;
-
-  document.getElementById(
-    "portal"
-  ).style.opacity = "1";
-
-  setTimeout(()=>{
-
-    window.location.href =
-      "https://yelioki.github.io/#lira";
-
-  },2000);
-
-}
-
-
-/* =========================
-FRASES DE KA
-========================= */
-
-const frasesKa = [
-
-  "Las raíces recuerdan tu energía... 🌿",
-
-  "Ka escucha el eco de tu presencia... ✨",
-
-  "Los portales observan tu llegada...",
-
-  "El tepuy despierta lentamente...",
-
-  "La Lúmina responde a tu esencia..."
-
+var personajes = [
+  { imagen: "mawari.png", esencia: "Custodio de las Raíces Vivas", aura: "Verde Musgo Ancestral", simbolo: "Llave del Umbral", fondo: "rgba(70,120,90,.25)" },
+  { imagen: "kaorai.png", esencia: "Portador del Cielo Luminoso", aura: "Turquesa Bioluminiscente", simbolo: "Runa del Cielo Vivo", fondo: "rgba(60,170,170,.25)" },
+  { imagen: "seyuma.png", esencia: "Guardián de Corrientes Antiguas", aura: "Niebla Azul del Tepuy", simbolo: "Piedra de Corriente Antigua", fondo: "rgba(80,120,190,.25)" },
+  { imagen: "orukai.png", esencia: "Tejedor de Energía Sagrada", aura: "Ámbar de la Tierra Viva", simbolo: "Sello del Portal Sagrado", fondo: "rgba(180,130,60,.25)" }
 ];
+var indice = 0;
+var mensaje = document.getElementById("ka-mensaje");
+var ocupadoHasta = 0;
+var puntos = document.getElementById("puntos");
+personajes.forEach(function () { puntos.appendChild(document.createElement("i")); });
 
+function pintar(frase) {
+  var pj = personajes[indice];
+  document.getElementById("imagenAvatar").src = pj.imagen;
+  document.getElementById("esencia").value = pj.esencia;
+  document.getElementById("auraSelect").value = pj.aura;
+  document.getElementById("simbolo").value = pj.simbolo;
+  document.body.style.backgroundColor = pj.fondo;
+  Array.prototype.forEach.call(puntos.children, function (d, k) { d.className = k === indice ? "on" : ""; });
+  if (frase) { mensaje.innerText = frase; ocupadoHasta = Date.now() + 4000; }
+}
+function cambiar(d) { indice = (indice + d + personajes.length) % personajes.length; pintar("Ka siente una nueva presencia… ✨"); }
 
-setInterval(()=>{
+function regalo() {
+  window.open(FORMULARIO_REGALO, "_blank");
+  mensaje.innerText = "La ofrenda ha sido abierta… vuelve cuando estés lista para continuar ✨";
+  ocupadoHasta = Date.now() + 6000;
+}
 
-  if(Date.now() < ocupadoHasta) return;
+function guardar() {
+  var nombre = document.getElementById("nombre").value.trim();
+  if (!nombre) { mensaje.innerText = "Ka susurra… tu nombre es parte de tu esencia 🌿"; ocupadoHasta = Date.now() + 4000; return; }
+  var pj = personajes[indice];
+  try {
+    localStorage.setItem("nombreAvatar", nombre);
+    localStorage.setItem("personajeAvatar", pj.imagen);
+    localStorage.setItem("esenciaAvatar", document.getElementById("esencia").value);
+    localStorage.setItem("auraAvatar", document.getElementById("auraSelect").value);
+    localStorage.setItem("simboloAvatar", document.getElementById("simbolo").value);
+  } catch (e) {}
+  mensaje.innerText = "Bienvenido, " + nombre + "… Ka ya reconoce tu energía ✨";
+  document.getElementById("portal").style.opacity = "1";
+  setTimeout(function () { location.href = "mapa.html"; }, 1800);
+}
 
-  const frase =
-    frasesKa[
-      Math.floor(
-        Math.random()*frasesKa.length
-      )
-    ];
+var frases = ["Las raíces recuerdan tu energía... 🌿","Ka escucha el eco de tu presencia... ✨","Los portales observan tu llegada...","El tepuy despierta lentamente..."];
+setInterval(function () { if (Date.now() < ocupadoHasta) return; mensaje.innerText = frases[Math.floor(Math.random() * frases.length)]; }, 7000);
 
-  mensaje.innerText =
-    frase;
+document.body.addEventListener("click", function () {
+  var a = document.getElementById("sonidoAmbiente"); a.volume = .35; a.play().catch(function () {});
+}, { once: true });
 
-},7000);
-
-
-/* =========================
-PARALLAX
-========================= */
-
-document.addEventListener(
-  "mousemove",
-  (e)=>{
-
-    const x =
-      (window.innerWidth/2 - e.pageX)/120;
-
-    const y =
-      (window.innerHeight/2 - e.pageY)/120;
-
-    document.body.style.backgroundPosition =
-      `${x}px ${y}px`;
-
-  }
-);
-
-
-/* =========================
-SONIDO
-========================= */
-
-document.body.addEventListener(
-  "click",
-  ()=>{
-
-    const audio =
-      document.getElementById(
-        "sonidoAmbiente"
-      );
-
-    if(audio){
-
-      audio.volume = 0.35;
-
-      audio.play().catch(()=>{});
-
-    }
-
-  },
-  {once:true}
-);
-
+pintar();
 </script>
-
-<audio
-id="sonidoAmbiente"
-loop
-preload="auto">
-
-<source
- src="bosque.mp3"
- type="audio/mpeg">
-
-</audio>
-
 </body>
 </html>
