@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lienzo de Ka – Universo Ka</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{color:#fff;min-height:100vh;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.82)),url("fondo-creacion.jpg") center/cover fixed,url("tepuy-fondo.jpg") center/cover fixed,#0b1d1f;overflow-x:hidden}
+.neblina{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.niebla{position:absolute;width:1400px;opacity:.12;filter:blur(10px)}
+.n1{top:-10%;left:-40%;animation:n1 50s linear infinite}
+.n2{bottom:-10%;right:-40%;animation:n2 65s linear infinite}
+@keyframes n1{to{transform:translateX(150vw)}}
+@keyframes n2{to{transform:translateX(-150vw)}}
+.volver{position:fixed;top:16px;left:16px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.9);color:#17393b;font-weight:700;cursor:pointer}
+main{position:relative;z-index:10;max-width:620px;margin:0 auto;padding:74px 16px 60px}
+h1{font-size:32px;text-align:center;text-shadow:0 0 18px rgba(123,230,214,.45)}
+.sub{text-align:center;opacity:.9;margin:8px 0 18px;line-height:1.6;font-size:15px}
+.glass{background:rgba(0,0,0,.36);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:24px}
+.reto{padding:16px 18px;margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.reto b{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7be6d6;margin-bottom:4px}
+.reto p{line-height:1.5;flex:1;min-width:200px}
+button{font:inherit;cursor:pointer;color:#fff;border:0}
+.chip{padding:9px 14px;border-radius:16px;background:rgba(123,230,214,.18);border:1px solid rgba(123,230,214,.4);font-size:13px;font-weight:600}
+.chip.on{background:linear-gradient(135deg,#6fe3d4,#2d8f89);border-color:transparent}
+.marco{position:relative;width:100%;aspect-ratio:4/5;border-radius:18px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);background:#F4EFE3}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.panel{margin-top:14px;padding:14px;display:grid;gap:12px}
+.fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.etq{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;opacity:.7;width:100%}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.25);padding:0}
+.sw.on{border-color:#fff;box-shadow:0 0 12px rgba(255,255,255,.7)}
+.sello{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.1);border:2px solid transparent;font-size:24px;line-height:1;padding:0;display:grid;place-items:center;overflow:hidden}
+.sello img{width:100%;height:100%;object-fit:cover}
+.sello.on{border-color:#7be6d6;background:rgba(123,230,214,.25)}
+input[type=range]{flex:1;min-width:140px;accent-color:#7be6d6}
+.acciones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:13px;border-radius:18px;font-weight:700;background:linear-gradient(135deg,#6fe3d4,#2d8f89)}
+.btn.sec{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.msg{text-align:center;min-height:22px;font-style:italic;color:#dffaf6;font-size:14px}
+h2{font-size:20px;margin:26px 0 10px;text-align:center}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.item{position:relative;border-radius:14px;overflow:hidden;background:#0008;border:1px solid rgba(255,255,255,.12)}
+.item img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.item button{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.65);font-size:14px}
+.vacio{opacity:.7;text-align:center;font-style:italic;grid-column:1/-1;padding:14px}
+.suave{margin-top:22px;text-align:center;font-size:13px;opacity:.85;line-height:1.7}
+.suave a{color:#ffe58f}
+</style>
+</head>
+<body>
+<button class="volver" onclick="location.href='region-creacion.html'">← Región de Creación</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+
+<main>
+  <h1>Lienzo de Ka</h1>
+  <p class="sub">Aquí no hay errores, solo experimentos ✨<br>Dibuja lo que quieras, o toma un reto como punto de partida.</p>
+
+  <div class="glass reto">
+    <p><b>Reto de Ka</b><span id="retoTexto"></span></p>
+    <button class="chip" id="otroReto">Otro reto 🎲</button>
+  </div>
+
+  <div class="marco" id="marco"><canvas id="lienzo" width="800" height="1000"></canvas></div>
+
+  <div class="glass panel">
+    <div class="fila"><span class="etq">Herramienta</span>
+      <button class="chip on" data-tool="pincel">✏️ Pincel</button>
+      <button class="chip" data-tool="goma">🧽 Goma</button>
+      <button class="chip" data-tool="sello">⭐ Sellos</button>
+    </div>
+    <div class="fila" id="filaColores"><span class="etq">Color</span></div>
+    <div class="fila" id="filaSellos" hidden><span class="etq">Sello (toca el lienzo para poner uno)</span></div>
+    <div class="fila"><span class="etq">Tamaño</span><input type="range" id="tam" min="2" max="60" value="10" aria-label="Tamaño"></div>
+    <div class="fila" id="filaFondo"><span class="etq">Fondo</span></div>
+    <div class="acciones">
+      <button class="btn sec" id="deshacer">↩ Deshacer</button>
+      <button class="btn sec" id="limpiar">🗑 Limpiar</button>
+      <button class="btn" id="guardar">💾 Guardar en mi colección</button>
+      <button class="btn" id="descargar">⬇ Descargar / compartir</button>
+    </div>
+    <p class="msg" id="msg"></p>
+  </div>
+
+  <h2>Mi colección</h2>
+  <div class="galeria" id="galeria"></div>
+
+  <p class="suave">¿Te gustaría llevar tu dibujo a un sticker, un topper o una polera?<br>
+  <a id="wa" href="#" target="_blank" rel="noopener">Cuéntaselo a Yelioki por WhatsApp</a></p>
+</main>
+
+<script>
+var RETOS = [
+  "Dibuja un topper con el nombre de alguien que quieres.",
+  "Crea el sticker de una criatura del bosque que nadie ha visto.",
+  "Diseña la portada de un cuaderno para tu yo del futuro.",
+  "Dibuja tu avatar en su lugar favorito del tepuy.",
+  "Inventa un sello mágico para un sobre de invitación.",
+  "Dibuja cómo se ve tu idea, aunque todavía no la entiendas.",
+  "Crea un fondo de fiesta con tus colores favoritos.",
+  "Dibuja una luciérnaga que guarde un recuerdo.",
+  "Diseña una taza para alguien que te hace sonreír.",
+  "Haz un garabato con los ojos cerrados y conviértelo en un personaje."
+];
+var COLORES = ["#2C9090","#B5A258","#AE8780","#424A22","#29281F","#FFFFFF","#E85D75","#F6C945","#6A5ACD","#7be6d6"];
+var FONDOS = ["#F4EFE3","#FFFFFF","#17393b","#0b1d1f","#F7D9D5","#DDEFF0"];
+var EMOJIS = ["✨","🌿","🦋","🌸","🍄","💛","🌙","⭐"];
+var AVATARES = ["mawari.png","kaorai.png","seyuma.png","orukai.png"];
+
+var cv = document.getElementById("lienzo"), ctx = cv.getContext("2d");
+var marco = document.getElementById("marco");
+ctx.lineCap = "round"; ctx.lineJoin = "round";
+var tool = "pincel", color = COLORES[0], fondo = FONDOS[0], sello = EMOJIS[0], pila = [], dibujando = false, ult = null;
+var msg = document.getElementById("msg");
+function dice(t) { msg.textContent = t; }
+
+/* Reto */
+var rIdx = Math.floor(Math.random() * RETOS.length);
+function mostrarReto() { document.getElementById("retoTexto").textContent = RETOS[rIdx]; }
+document.getElementById("otroReto").onclick = function () { rIdx = (rIdx + 1) % RETOS.length; mostrarReto(); };
+mostrarReto();
+
+/* Paletas */
+function hacerSwatches(id, lista, alElegir, actual) {
+  var fila = document.getElementById(id);
+  lista.forEach(function (c) {
+    var b = document.createElement("button"); b.className = "sw" + (c === actual ? " on" : ""); b.style.background = c; b.setAttribute("aria-label", "Color " + c);
+    b.onclick = function () { Array.prototype.forEach.call(fila.querySelectorAll(".sw"), function (x) { x.classList.remove("on"); }); b.classList.add("on"); alElegir(c); };
+    fila.appendChild(b);
+  });
+}
+hacerSwatches("filaColores", COLORES, function (c) { color = c; if (tool === "goma") setTool("pincel"); }, color);
+hacerSwatches("filaFondo", FONDOS, function (c) { fondo = c; marco.style.background = c; }, fondo);
+marco.style.background = fondo;
+
+/* Sellos */
+var imgs = {};
+var filaSellos = document.getElementById("filaSellos");
+function ponerSello(valor, esImg) {
+  var b = document.createElement("button"); b.className = "sello" + (valor === sello ? " on" : "");
+  if (esImg) { var im = new Image(); im.src = valor; im.alt = ""; imgs[valor] = im; b.appendChild(im); } else { b.textContent = valor; }
+  b.onclick = function () { Array.prototype.forEach.call(filaSellos.querySelectorAll(".sello"), function (x) { x.classList.remove("on"); }); b.classList.add("on"); sello = valor; };
+  filaSellos.appendChild(b);
+}
+EMOJIS.forEach(function (e) { ponerSello(e, false); });
+AVATARES.forEach(function (a) { ponerSello(a, true); });
+
+/* Herramientas */
+function setTool(t) {
+  tool = t;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-tool]"), function (b) { b.classList.toggle("on", b.dataset.tool === t); });
+  filaSellos.hidden = t !== "sello";
+}
+Array.prototype.forEach.call(document.querySelectorAll("[data-tool]"), function (b) { b.onclick = function () { setTool(b.dataset.tool); }; });
+
+/* Dibujo */
+function punto(e) { var r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) * cv.width / r.width, y: (e.clientY - r.top) * cv.height / r.height }; }
+function guardarPaso() { try { pila.push(ctx.getImageData(0, 0, cv.width, cv.height)); if (pila.length > 12) pila.shift(); } catch (e) {} }
+function tam() { return +document.getElementById("tam").value; }
+function poner(p) {
+  var s = 40 + tam() * 3;
+  ctx.globalCompositeOperation = "source-over";
+  if (imgs[sello]) { try { ctx.drawImage(imgs[sello], p.x - s / 2, p.y - s / 2, s, s); } catch (e) {} }
+  else { ctx.font = s + "px serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#000"; ctx.fillText(sello, p.x, p.y); }
+}
+cv.addEventListener("pointerdown", function (e) {
+  e.preventDefault(); cv.setPointerCapture(e.pointerId); guardarPaso();
+  var p = punto(e);
+  if (tool === "sello") { poner(p); return; }
+  dibujando = true; ult = p;
+  ctx.globalCompositeOperation = tool === "goma" ? "destination-out" : "source-over";
+  ctx.strokeStyle = color; ctx.lineWidth = tool === "goma" ? tam() * 2 : tam();
+  ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + .01, p.y + .01); ctx.stroke();
+});
+cv.addEventListener("pointermove", function (e) {
+  if (!dibujando) return; e.preventDefault();
+  var p = punto(e); ctx.beginPath(); ctx.moveTo(ult.x, ult.y); ctx.lineTo(p.x, p.y); ctx.stroke(); ult = p;
+});
+function fin() { dibujando = false; ctx.globalCompositeOperation = "source-over"; }
+cv.addEventListener("pointerup", fin); cv.addEventListener("pointercancel", fin);
+
+document.getElementById("deshacer").onclick = function () { var d = pila.pop(); if (d) ctx.putImageData(d, 0, 0); else dice("No hay nada que deshacer."); };
+document.getElementById("limpiar").onclick = function () { if (confirm("¿Limpiar todo el lienzo?")) { guardarPaso(); ctx.clearRect(0, 0, cv.width, cv.height); } };
+
+/* Exportar */
+function componer(w, h) {
+  var c = document.createElement("canvas"); c.width = w; c.height = h; var x = c.getContext("2d");
+  x.fillStyle = fondo; x.fillRect(0, 0, w, h); x.drawImage(cv, 0, 0, w, h);
+  x.font = Math.round(h * .022) + "px sans-serif"; x.textAlign = "center"; x.textBaseline = "bottom";
+  x.fillStyle = "rgba(0,0,0,.35)"; x.fillText("Hecho en Universo Ka · Yelioki", w / 2, h - h * .015);
+  return c;
+}
+document.getElementById("descargar").onclick = function () {
+  try {
+    componer(800, 1000).toBlob(function (blob) {
+      var archivo = new File([blob], "mi-creacion-ka.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [archivo] })) { navigator.share({ files: [archivo], title: "Mi creación en Universo Ka" }).catch(function () {}); return; }
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mi-creacion-ka.png"; document.body.appendChild(a); a.click(); a.remove();
+      dice("Tu creación se descargó ✨");
+    });
+  } catch (e) { dice("No pude exportar la imagen en este navegador."); }
+};
+
+/* Colección (solo en este dispositivo) */
+var LLAVE = "coleccionKa";
+function leer() { try { return JSON.parse(localStorage.getItem(LLAVE) || "[]"); } catch (e) { return []; } }
+function escribir(l) { try { localStorage.setItem(LLAVE, JSON.stringify(l)); return true; } catch (e) { return false; } }
+function pintarGaleria() {
+  var g = document.getElementById("galeria"), l = leer(); g.innerHTML = "";
+  if (!l.length) { g.innerHTML = '<p class="vacio">Tu colección está vacía. Cada cosa que guardes crecerá aquí como una chispa ✨</p>'; return; }
+  l.forEach(function (it, i) {
+    var d = document.createElement("div"); d.className = "item";
+    var im = new Image(); im.src = it.img; im.alt = "Creación " + (i + 1);
+    var b = document.createElement("button"); b.textContent = "✕"; b.setAttribute("aria-label", "Borrar");
+    b.onclick = function () { var x = leer(); x.splice(i, 1); escribir(x); pintarGaleria(); };
+    d.appendChild(im); d.appendChild(b); g.appendChild(d);
+  });
+}
+document.getElementById("guardar").onclick = function () {
+  try {
+    var data = componer(400, 500).toDataURL("image/jpeg", .75), l = leer();
+    l.unshift({ t: Date.now(), reto: RETOS[rIdx], img: data }); l = l.slice(0, 8);
+    dice(escribir(l) ? "Guardada en tu colección ✨ (solo en este dispositivo)" : "No hay espacio para guardar más. Borra alguna de tu colección.");
+    pintarGaleria();
+  } catch (e) { dice("No pude guardar la imagen en este navegador."); }
+};
+pintarGaleria();
+
+var nombre = ""; try { nombre = localStorage.getItem("nombreAvatar") || ""; } catch (e) {}
+document.getElementById("wa").href = "https://wa.me/56932938800?text=" + encodeURIComponent("Hola Yelioki, " + (nombre ? "soy " + nombre + ". " : "") + "hice un dibujo en el Lienzo de Ka y me gustaría llevarlo a un sticker, topper o polera.");
+</script>
+<script src="pwa.js"></script>
+</body>
+</html>

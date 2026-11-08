@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Universo Ka</title>
+<style>body{margin:0;background:#0b1d1f;color:#7be6d6;font-family:system-ui,sans-serif;display:grid;place-items:center;height:100vh}</style></head>
+<body>✨
+<script>
+/* Quien ya eligió avatar entra directo al Tepuy; quien llega por primera vez empieza por El Llamado */
+var destino = "index.html";
+try { if (localStorage.getItem("personajeAvatar")) destino = "mapa.html"; } catch (e) {}
+location.replace(destino);
+</script>
+<noscript><a href="index.html">Entrar a Universo Ka</a></noscript>
+</body></html>
