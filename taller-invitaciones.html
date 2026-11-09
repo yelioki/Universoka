@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitaciones mágicas – Universo Ka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="editor-ka.css">
+</head>
+<body>
+<button class="volver" onclick="location.href='talleres.html'">← Talleres</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<main>
+  <h1>Invitaciones mágicas 💌</h1>
+  <p class="sub">Cumpleaños, bautizos, matrimonios, baby showers y eventos.<br>Elige una plantilla y hazla tuya.</p>
+  <div id="app"></div>
+  <p class="nota" style="text-align:center;margin-top:22px">¿Quieres más plantillas y exportaciones sin marca? Pronto: <b>Biblioteca Ka</b> para miembros ✨<br>Tus fotos y diseños se quedan en tu dispositivo.</p>
+</main>
+<script src="editor-ka.js"></script>
+<script>
+EditorKa.montar({
+  raiz: "#app",
+  taller: "invitaciones",
+  plantillasUrl: "invitaciones-plantillas.json",
+  formatos: [
+    { id: "4:5", nombre: "Post 4:5", w: 1080, h: 1350 },
+    { id: "9:16", nombre: "WhatsApp / Historia 9:16", w: 1080, h: 1920 },
+    { id: "1:1", nombre: "Cuadrado", w: 1080, h: 1080 },
+    { id: "A5", nombre: "Tarjeta A5", w: 1080, h: 1528 }
+  ],
+  formato: "4:5",
+  waTexto: "Hola Yeli 💛 Diseñé una invitación en Universo Ka y me gustaría pedirla (digital, en video o impresa). Te la envío por aquí."
+});
+</script>
+<script src="pwa.js"></script>
+</body>
+</html>

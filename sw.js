@@ -1,5 +1,5 @@
-var V = "ka-v2";
-var CORE = ["./", "inicio.html", "mapa.html", "avatar.html", "region-creacion.html", "atelier-yelioki.html", "lienzo.html", "pwa.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "niebla1.png", "niebla2.png", "tepuy-fondo.jpg", "tepuy-ka.png", "mawari.png", "kaorai.png", "seyuma.png", "orukai.png", "aura.png", "marco-avatar.png", "panel-ka.png", "fondo-ka.jpg"];
+var V = "ka-v3";
+var CORE = ["./", "inicio.html", "mapa.html", "avatar.html", "region-creacion.html", "atelier-yelioki.html", "lienzo.html", "talleres.html", "taller-invitaciones.html", "editor-ka.js", "editor-ka.css", "pwa.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "niebla1.png", "niebla2.png", "tepuy-fondo.jpg", "tepuy-ka.png", "mawari.png", "kaorai.png", "seyuma.png", "orukai.png", "aura.png", "marco-avatar.png", "panel-ka.png", "fondo-ka.jpg"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(V).then(function (c) { return Promise.all(CORE.map(function (u) { return c.add(u).catch(function () {}); })); }).then(function () { return self.skipWaiting(); }));

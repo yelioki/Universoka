@@ -1,0 +1,1197 @@
+{
+ "_ayuda": "Cada plantilla es un bloque entre llaves. 'cat' es la categoría, 'bg' el fondo (color, grad con 'c' y 'ang', o img con 'src'), y 'objs' los elementos: 'texto' (fuente, tam, color) y 'sello' (emoji 'e' o imagen 'src'). x e y van de 0 a 1 (0.5 = centro). 'formato' puede ser 4:5, 9:16, 1:1 o A5.",
+ "plantillas": [
+  {
+   "id": "cumple-confeti",
+   "nombre": "Confeti",
+   "cat": "Cumpleaños",
+   "icono": "🎈",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#FFE3EC",
+     "#FFF4C9"
+    ],
+    "ang": 160
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "🎈",
+     "x": 0.14,
+     "y": 0.1,
+     "tam": 230,
+     "rot": -12
+    },
+    {
+     "t": "sello",
+     "e": "🎉",
+     "x": 0.86,
+     "y": 0.12,
+     "tam": 200,
+     "rot": 12
+    },
+    {
+     "t": "sello",
+     "e": "🎊",
+     "x": 0.12,
+     "y": 0.9,
+     "tam": 190,
+     "rot": -8
+    },
+    {
+     "t": "sello",
+     "e": "🎁",
+     "x": 0.88,
+     "y": 0.9,
+     "tam": 200,
+     "rot": 10
+    },
+    {
+     "t": "texto",
+     "texto": "¡Estás invitado!",
+     "x": 0.5,
+     "y": 0.2,
+     "fuente": "Pacifico",
+     "tam": 112,
+     "color": "#E0457B"
+    },
+    {
+     "t": "texto",
+     "texto": "Valentina",
+     "x": 0.5,
+     "y": 0.38,
+     "fuente": "Great Vibes",
+     "tam": 230,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "cumple 5 años",
+     "x": 0.5,
+     "y": 0.52,
+     "fuente": "Fredoka",
+     "tam": 84,
+     "color": "#E0457B",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 12 de diciembre\n16:00 hrs",
+     "x": 0.5,
+     "y": 0.68,
+     "fuente": "Montserrat",
+     "tam": 52,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Calle Los Aromos 123, Santiago",
+     "x": 0.5,
+     "y": 0.8,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "Confirmar asistencia al +56 9 1234 5678",
+     "x": 0.5,
+     "y": 0.89,
+     "fuente": "Quicksand",
+     "tam": 36,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "cumple-galactico",
+   "nombre": "Galáctico",
+   "cat": "Cumpleaños",
+   "icono": "🚀",
+   "formato": "9:16",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#1b1740",
+     "#3d2a7a",
+     "#7a4fd0"
+    ],
+    "ang": 180
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.15,
+     "y": 0.07,
+     "tam": 150
+    },
+    {
+     "t": "sello",
+     "e": "🌙",
+     "x": 0.85,
+     "y": 0.1,
+     "tam": 210,
+     "rot": 15
+    },
+    {
+     "t": "sello",
+     "e": "⭐",
+     "x": 0.1,
+     "y": 0.3,
+     "tam": 120
+    },
+    {
+     "t": "sello",
+     "e": "🪐",
+     "x": 0.86,
+     "y": 0.34,
+     "tam": 200,
+     "rot": -10
+    },
+    {
+     "t": "sello",
+     "e": "🚀",
+     "x": 0.5,
+     "y": 0.5,
+     "tam": 300,
+     "rot": 35
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.88,
+     "y": 0.62,
+     "tam": 130
+    },
+    {
+     "t": "sello",
+     "e": "⭐",
+     "x": 0.12,
+     "y": 0.7,
+     "tam": 140
+    },
+    {
+     "t": "texto",
+     "texto": "MISIÓN: CUMPLEAÑOS",
+     "x": 0.5,
+     "y": 0.16,
+     "fuente": "Bebas Neue",
+     "tam": 96,
+     "color": "#FFD86B"
+    },
+    {
+     "t": "texto",
+     "texto": "Mateo",
+     "x": 0.5,
+     "y": 0.26,
+     "fuente": "Fredoka",
+     "tam": 190,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "cumple 7 años",
+     "x": 0.5,
+     "y": 0.36,
+     "fuente": "Quicksand",
+     "tam": 72,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Domingo 20 de diciembre · 15:00 hrs",
+     "x": 0.5,
+     "y": 0.72,
+     "fuente": "Montserrat",
+     "tam": 46,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.8,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#E9DDFF"
+    },
+    {
+     "t": "texto",
+     "texto": "Confirmar al +56 9 1234 5678",
+     "x": 0.5,
+     "y": 0.88,
+     "fuente": "Quicksand",
+     "tam": 40,
+     "color": "#E9DDFF"
+    }
+   ]
+  },
+  {
+   "id": "cumple-unicornio",
+   "nombre": "Unicornio",
+   "cat": "Cumpleaños",
+   "icono": "🦄",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#EADFF7",
+     "#FFD9EC",
+     "#FFF4C9"
+    ],
+    "ang": 150
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "🌈",
+     "x": 0.5,
+     "y": 0.12,
+     "tam": 330
+    },
+    {
+     "t": "sello",
+     "e": "🦄",
+     "x": 0.84,
+     "y": 0.62,
+     "tam": 300,
+     "rot": 8
+    },
+    {
+     "t": "sello",
+     "e": "☁️",
+     "x": 0.12,
+     "y": 0.4,
+     "tam": 200
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.15,
+     "y": 0.8,
+     "tam": 150
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.86,
+     "y": 0.3,
+     "tam": 130
+    },
+    {
+     "t": "sello",
+     "e": "🎀",
+     "x": 0.14,
+     "y": 0.6,
+     "tam": 160,
+     "rot": -15
+    },
+    {
+     "t": "texto",
+     "texto": "Fiesta mágica",
+     "x": 0.5,
+     "y": 0.28,
+     "fuente": "Pacifico",
+     "tam": 110,
+     "color": "#8A4FBF"
+    },
+    {
+     "t": "texto",
+     "texto": "Antonia",
+     "x": 0.5,
+     "y": 0.42,
+     "fuente": "Great Vibes",
+     "tam": 230,
+     "color": "#E0457B"
+    },
+    {
+     "t": "texto",
+     "texto": "cumple 6 años",
+     "x": 0.5,
+     "y": 0.55,
+     "fuente": "Fredoka",
+     "tam": 76,
+     "color": "#8A4FBF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 3 de enero · 16:00 hrs",
+     "x": 0.5,
+     "y": 0.73,
+     "fuente": "Montserrat",
+     "tam": 46,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.82,
+     "fuente": "Quicksand",
+     "tam": 42,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "cumple-safari",
+   "nombre": "Safari",
+   "cat": "Cumpleaños",
+   "icono": "🦁",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#FFF1C9",
+     "#CDE8B5"
+    ],
+    "ang": 170
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "🌿",
+     "x": 0.1,
+     "y": 0.08,
+     "tam": 200,
+     "rot": -20
+    },
+    {
+     "t": "sello",
+     "e": "🌿",
+     "x": 0.9,
+     "y": 0.08,
+     "tam": 200,
+     "rot": 20
+    },
+    {
+     "t": "sello",
+     "e": "🦁",
+     "x": 0.2,
+     "y": 0.88,
+     "tam": 250
+    },
+    {
+     "t": "sello",
+     "e": "🐘",
+     "x": 0.5,
+     "y": 0.9,
+     "tam": 250
+    },
+    {
+     "t": "sello",
+     "e": "🦒",
+     "x": 0.82,
+     "y": 0.88,
+     "tam": 260
+    },
+    {
+     "t": "texto",
+     "texto": "Aventura en la selva",
+     "x": 0.5,
+     "y": 0.17,
+     "fuente": "Lobster",
+     "tam": 96,
+     "color": "#8C6A3F"
+    },
+    {
+     "t": "texto",
+     "texto": "Joaquín",
+     "x": 0.5,
+     "y": 0.33,
+     "fuente": "Fredoka",
+     "tam": 190,
+     "color": "#1E7B4A",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "cumple 3 años",
+     "x": 0.5,
+     "y": 0.47,
+     "fuente": "Quicksand",
+     "tam": 72,
+     "color": "#8C6A3F",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 5 de diciembre\n15:30 hrs",
+     "x": 0.5,
+     "y": 0.62,
+     "fuente": "Montserrat",
+     "tam": 50,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.74,
+     "fuente": "Quicksand",
+     "tam": 42,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "bautizo-celestial",
+   "nombre": "Celestial",
+   "cat": "Bautizo",
+   "icono": "🕊️",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#EAF4FB",
+     "#FFFFFF"
+    ],
+    "ang": 180
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "☁️",
+     "x": 0.15,
+     "y": 0.09,
+     "tam": 260
+    },
+    {
+     "t": "sello",
+     "e": "☁️",
+     "x": 0.86,
+     "y": 0.14,
+     "tam": 220
+    },
+    {
+     "t": "sello",
+     "e": "🕊️",
+     "x": 0.5,
+     "y": 0.22,
+     "tam": 230
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.2,
+     "y": 0.45,
+     "tam": 110
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.82,
+     "y": 0.52,
+     "tam": 110
+    },
+    {
+     "t": "sello",
+     "e": "☁️",
+     "x": 0.5,
+     "y": 0.95,
+     "tam": 320
+    },
+    {
+     "t": "texto",
+     "texto": "Mi bautizo",
+     "x": 0.5,
+     "y": 0.36,
+     "fuente": "Great Vibes",
+     "tam": 190,
+     "color": "#5B7FA6"
+    },
+    {
+     "t": "texto",
+     "texto": "Emilio José",
+     "x": 0.5,
+     "y": 0.48,
+     "fuente": "Playfair Display",
+     "tam": 84,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Te invito a celebrar este día tan especial",
+     "x": 0.5,
+     "y": 0.58,
+     "fuente": "Quicksand",
+     "tam": 46,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "Domingo 14 de diciembre · 12:00 hrs\nParroquia San José",
+     "x": 0.5,
+     "y": 0.7,
+     "fuente": "Montserrat",
+     "tam": 44,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Luego almuerzo en Dirección del evento",
+     "x": 0.5,
+     "y": 0.8,
+     "fuente": "Quicksand",
+     "tam": 40,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "bautizo-rosa",
+   "nombre": "Rosa suave",
+   "cat": "Bautizo",
+   "icono": "🌸",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#FFF0F3",
+     "#FDE2E4"
+    ],
+    "ang": 160
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "🌸",
+     "x": 0.12,
+     "y": 0.08,
+     "tam": 200,
+     "rot": -15
+    },
+    {
+     "t": "sello",
+     "e": "🌸",
+     "x": 0.88,
+     "y": 0.1,
+     "tam": 180,
+     "rot": 15
+    },
+    {
+     "t": "sello",
+     "e": "🕊️",
+     "x": 0.5,
+     "y": 0.2,
+     "tam": 210
+    },
+    {
+     "t": "sello",
+     "e": "🌿",
+     "x": 0.12,
+     "y": 0.92,
+     "tam": 200,
+     "rot": -10
+    },
+    {
+     "t": "sello",
+     "e": "🌿",
+     "x": 0.88,
+     "y": 0.92,
+     "tam": 200,
+     "rot": 10
+    },
+    {
+     "t": "texto",
+     "texto": "Bautizo",
+     "x": 0.5,
+     "y": 0.34,
+     "fuente": "Great Vibes",
+     "tam": 220,
+     "color": "#C45A7A"
+    },
+    {
+     "t": "texto",
+     "texto": "Isabella",
+     "x": 0.5,
+     "y": 0.47,
+     "fuente": "Playfair Display",
+     "tam": 96,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Con amor te esperamos",
+     "x": 0.5,
+     "y": 0.58,
+     "fuente": "Quicksand",
+     "tam": 50,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 6 de diciembre · 11:00 hrs\nIglesia Nuestra Señora",
+     "x": 0.5,
+     "y": 0.7,
+     "fuente": "Montserrat",
+     "tam": 44,
+     "color": "#2b2b2b",
+     "neg": true
+    }
+   ]
+  },
+  {
+   "id": "boda-clasica",
+   "nombre": "Clásica",
+   "cat": "Matrimonio",
+   "icono": "💍",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "color",
+    "c": "#FBF7F0"
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "🌿",
+     "x": 0.14,
+     "y": 0.08,
+     "tam": 230,
+     "rot": -20
+    },
+    {
+     "t": "sello",
+     "e": "🌿",
+     "x": 0.86,
+     "y": 0.08,
+     "tam": 230,
+     "rot": 20
+    },
+    {
+     "t": "sello",
+     "e": "🤍",
+     "x": 0.5,
+     "y": 0.91,
+     "tam": 120
+    },
+    {
+     "t": "texto",
+     "texto": "NOS CASAMOS",
+     "x": 0.5,
+     "y": 0.19,
+     "fuente": "Cinzel",
+     "tam": 70,
+     "color": "#B08D57",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Camila",
+     "x": 0.5,
+     "y": 0.31,
+     "fuente": "Great Vibes",
+     "tam": 250,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "&",
+     "x": 0.5,
+     "y": 0.41,
+     "fuente": "Playfair Display",
+     "tam": 100,
+     "color": "#B08D57"
+    },
+    {
+     "t": "texto",
+     "texto": "Diego",
+     "x": 0.5,
+     "y": 0.51,
+     "fuente": "Great Vibes",
+     "tam": 250,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 16 de enero de 2027 · 17:00 hrs",
+     "x": 0.5,
+     "y": 0.67,
+     "fuente": "Playfair Display",
+     "tam": 46,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Lugar de la ceremonia\nSantiago, Chile",
+     "x": 0.5,
+     "y": 0.77,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "Confirmar asistencia antes del 1 de enero",
+     "x": 0.5,
+     "y": 0.86,
+     "fuente": "Quicksand",
+     "tam": 36,
+     "color": "#8C6A3F"
+    }
+   ]
+  },
+  {
+   "id": "boda-floral",
+   "nombre": "Floral",
+   "cat": "Matrimonio",
+   "icono": "💐",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#FFF0F3",
+     "#FDE2E4"
+    ],
+    "ang": 170
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "💐",
+     "x": 0.14,
+     "y": 0.1,
+     "tam": 300,
+     "rot": -10
+    },
+    {
+     "t": "sello",
+     "e": "💐",
+     "x": 0.86,
+     "y": 0.9,
+     "tam": 300,
+     "rot": 170
+    },
+    {
+     "t": "sello",
+     "e": "🌸",
+     "x": 0.88,
+     "y": 0.12,
+     "tam": 170,
+     "rot": 15
+    },
+    {
+     "t": "sello",
+     "e": "🌸",
+     "x": 0.12,
+     "y": 0.9,
+     "tam": 170,
+     "rot": -15
+    },
+    {
+     "t": "texto",
+     "texto": "Con la bendición de nuestras familias",
+     "x": 0.5,
+     "y": 0.24,
+     "fuente": "Quicksand",
+     "tam": 40,
+     "color": "#8C6A3F",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Valentina & Tomás",
+     "x": 0.5,
+     "y": 0.37,
+     "fuente": "Great Vibes",
+     "tam": 190,
+     "color": "#C45A7A"
+    },
+    {
+     "t": "texto",
+     "texto": "te invitan a celebrar su boda",
+     "x": 0.5,
+     "y": 0.5,
+     "fuente": "Playfair Display",
+     "tam": 54,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 23 de enero de 2027\n18:00 hrs",
+     "x": 0.5,
+     "y": 0.63,
+     "fuente": "Montserrat",
+     "tam": 50,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Lugar de la celebración",
+     "x": 0.5,
+     "y": 0.75,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "babyshower-osito",
+   "nombre": "Osito en la luna",
+   "cat": "Baby shower",
+   "icono": "🧸",
+   "formato": "9:16",
+   "bg": {
+    "tipo": "img",
+    "src": "fondo-osito.jpg"
+   },
+   "objs": [
+    {
+     "t": "texto",
+     "texto": "Baby Shower",
+     "x": 0.5,
+     "y": 0.2,
+     "fuente": "Great Vibes",
+     "tam": 200,
+     "color": "#8C6A3F"
+    },
+    {
+     "t": "texto",
+     "texto": "de Sofía",
+     "x": 0.5,
+     "y": 0.3,
+     "fuente": "Playfair Display",
+     "tam": 86,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Acompáñanos a celebrar\nla llegada de nuestra bebé",
+     "x": 0.5,
+     "y": 0.4,
+     "fuente": "Quicksand",
+     "tam": 46,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 28 de noviembre\n16:00 hrs",
+     "x": 0.5,
+     "y": 0.51,
+     "fuente": "Montserrat",
+     "tam": 46,
+     "color": "#8C6A3F",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.59,
+     "fuente": "Quicksand",
+     "tam": 40,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "babyshower-nubes",
+   "nombre": "Nubes celestes",
+   "cat": "Baby shower",
+   "icono": "☁️",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#DDEFF0",
+     "#FFFFFF"
+    ],
+    "ang": 180
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "☁️",
+     "x": 0.15,
+     "y": 0.08,
+     "tam": 260
+    },
+    {
+     "t": "sello",
+     "e": "☁️",
+     "x": 0.86,
+     "y": 0.15,
+     "tam": 220
+    },
+    {
+     "t": "sello",
+     "e": "🌙",
+     "x": 0.84,
+     "y": 0.46,
+     "tam": 180,
+     "rot": 15
+    },
+    {
+     "t": "sello",
+     "e": "⭐",
+     "x": 0.14,
+     "y": 0.42,
+     "tam": 120
+    },
+    {
+     "t": "sello",
+     "e": "🧸",
+     "x": 0.5,
+     "y": 0.9,
+     "tam": 320
+    },
+    {
+     "t": "texto",
+     "texto": "Baby Shower",
+     "x": 0.5,
+     "y": 0.22,
+     "fuente": "Pacifico",
+     "tam": 120,
+     "color": "#5B7FA6"
+    },
+    {
+     "t": "texto",
+     "texto": "de Matías",
+     "x": 0.5,
+     "y": 0.33,
+     "fuente": "Great Vibes",
+     "tam": 190,
+     "color": "#2b2b2b"
+    },
+    {
+     "t": "texto",
+     "texto": "Ven a celebrar con nosotros",
+     "x": 0.5,
+     "y": 0.46,
+     "fuente": "Quicksand",
+     "tam": 52,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Sábado 5 de diciembre · 16:00 hrs",
+     "x": 0.5,
+     "y": 0.6,
+     "fuente": "Montserrat",
+     "tam": 46,
+     "color": "#2b2b2b",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.69,
+     "fuente": "Quicksand",
+     "tam": 42,
+     "color": "#2b2b2b"
+    }
+   ]
+  },
+  {
+   "id": "evento-elegante",
+   "nombre": "Elegante",
+   "cat": "Evento",
+   "icono": "🥂",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#14213D",
+     "#1F2F55"
+    ],
+    "ang": 170
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.14,
+     "y": 0.09,
+     "tam": 150
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.86,
+     "y": 0.12,
+     "tam": 130
+    },
+    {
+     "t": "sello",
+     "e": "✨",
+     "x": 0.15,
+     "y": 0.9,
+     "tam": 130
+    },
+    {
+     "t": "sello",
+     "e": "🥂",
+     "x": 0.5,
+     "y": 0.88,
+     "tam": 200
+    },
+    {
+     "t": "texto",
+     "texto": "TE INVITAMOS",
+     "x": 0.5,
+     "y": 0.21,
+     "fuente": "Cinzel",
+     "tam": 64,
+     "color": "#E8C872",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Nombre del evento",
+     "x": 0.5,
+     "y": 0.35,
+     "fuente": "Playfair Display",
+     "tam": 112,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Una noche para recordar",
+     "x": 0.5,
+     "y": 0.47,
+     "fuente": "Great Vibes",
+     "tam": 96,
+     "color": "#E8C872"
+    },
+    {
+     "t": "texto",
+     "texto": "Viernes 18 de diciembre · 20:00 hrs",
+     "x": 0.5,
+     "y": 0.62,
+     "fuente": "Montserrat",
+     "tam": 46,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Lugar del evento\nSantiago, Chile",
+     "x": 0.5,
+     "y": 0.72,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#E9E5D6"
+    }
+   ]
+  },
+  {
+   "id": "evento-navidad",
+   "nombre": "Cena de Navidad",
+   "cat": "Evento",
+   "icono": "🎄",
+   "formato": "4:5",
+   "bg": {
+    "tipo": "grad",
+    "c": [
+     "#0b1d1f",
+     "#1E7B4A"
+    ],
+    "ang": 170
+   },
+   "objs": [
+    {
+     "t": "sello",
+     "e": "🎄",
+     "x": 0.14,
+     "y": 0.1,
+     "tam": 250
+    },
+    {
+     "t": "sello",
+     "e": "🎄",
+     "x": 0.86,
+     "y": 0.1,
+     "tam": 250
+    },
+    {
+     "t": "sello",
+     "e": "❄️",
+     "x": 0.5,
+     "y": 0.07,
+     "tam": 120
+    },
+    {
+     "t": "sello",
+     "e": "🎁",
+     "x": 0.5,
+     "y": 0.9,
+     "tam": 230
+    },
+    {
+     "t": "sello",
+     "e": "⭐",
+     "x": 0.2,
+     "y": 0.45,
+     "tam": 100
+    },
+    {
+     "t": "sello",
+     "e": "⭐",
+     "x": 0.82,
+     "y": 0.4,
+     "tam": 110
+    },
+    {
+     "t": "texto",
+     "texto": "Cena de Navidad",
+     "x": 0.5,
+     "y": 0.27,
+     "fuente": "Lobster",
+     "tam": 120,
+     "color": "#F6C945"
+    },
+    {
+     "t": "texto",
+     "texto": "Te esperamos para brindar juntos",
+     "x": 0.5,
+     "y": 0.4,
+     "fuente": "Quicksand",
+     "tam": 54,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Jueves 24 de diciembre\n21:00 hrs",
+     "x": 0.5,
+     "y": 0.55,
+     "fuente": "Montserrat",
+     "tam": 54,
+     "color": "#FFFFFF",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.68,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#FFE9B0"
+    }
+   ]
+  }
+ ]
+}
