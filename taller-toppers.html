@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller de Toppers – Universo Ka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Great+Vibes&family=Lobster&family=Fredoka:wght@400;700&family=Baloo+2:wght@400;700&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700&family=Quicksand:wght@400;700&family=Amatic+SC:wght@400;700&display=swap">
+<link rel="stylesheet" href="editor-ka.css">
+<style>
+.torta{margin:0 auto;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);touch-action:none;background:#eee}
+.torta canvas{display:block;width:100%;height:100%;touch-action:none}
+.hojas{display:grid;gap:14px;justify-items:center}
+.hoja{width:min(100%,420px);height:auto;background:#fff;border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+#tpPrintArea{display:none}
+@media print{
+  body>*:not(#tpPrintArea){display:none!important}
+  #tpPrintArea{display:block}
+  #tpPrintArea img{display:block;width:210mm;height:297mm;page-break-after:always}
+  @page{size:A4;margin:0}
+}
+</style>
+</head>
+<body>
+<button class="volver" onclick="location.href='talleres.html'">← Talleres</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<main>
+  <h1>Taller de Toppers 🎂</h1>
+  <p class="sub">Arma tu topper sobre la torta, con medidas reales.<br>Al final te damos la hoja A4 lista para imprimir.</p>
+
+  <div class="glass ek-barra">
+    <div class="fila" id="tpTorta"><span class="etq">Tamaño de tu torta (ancho × alto)</span></div>
+    <div class="fila" id="tpCrema" style="margin-top:10px"><span class="etq">Color de la torta</span></div>
+  </div>
+
+  <div class="torta"><canvas id="tpCv" width="1000" height="900"></canvas></div>
+  <p class="ek-ayuda" id="tpAyuda">Toca una pieza para editarla · arrastra la esquina ⤡ para cambiar su tamaño · la cuadrícula marca cada 5 cm</p>
+  <div class="glass panel" id="tpSel" hidden></div>
+
+  <div class="glass ek-tabs" id="tpTabs" style="grid-template-columns:repeat(4,1fr)"></div>
+  <div class="glass panel" id="tpPanel"></div>
+
+  <div class="acciones"><button class="btn sec" id="tpUndo" type="button">↩ Deshacer</button><button class="btn sec" id="tpRedo" type="button">↪ Rehacer</button></div>
+  <button class="btn" id="tpCrear" type="button" style="width:100%;margin-top:12px;font-size:17px">📄 Crear mi hoja A4 para imprimir</button>
+  <p class="msg" id="tpMsg"></p>
+
+  <section id="tpResultado" hidden>
+    <h2 style="font-size:20px;margin:22px 0 10px;text-align:center">Tu hoja de impresión</h2>
+    <p class="nota" style="text-align:center;margin-bottom:12px">Cada pieza está a su <b>tamaño real</b>. Al imprimir elige <b>"Tamaño real / 100%"</b> (no "ajustar a la página").</p>
+    <div class="hojas" id="tpHojas"></div>
+    <p class="msg" id="tpAviso"></p>
+    <div class="acciones">
+      <button class="btn" id="tpPdf" type="button">⬇ PDF A4</button>
+      <button class="btn" id="tpPng" type="button">🖼 Imagen PNG</button>
+    </div>
+    <button class="btn sec" id="tpPrint" type="button" style="width:100%;margin-top:10px">🖨 Imprimir ahora</button>
+    <a class="btn wa" id="tpWa" style="margin-top:12px" target="_blank" rel="noopener">💬 Pedirle a Yelioki que lo imprima y corte</a>
+  </section>
+
+  <p class="nota" style="text-align:center;margin-top:22px">¿Más cliparts y hojas en alta calidad? Pronto: <b>Biblioteca Ka</b> para miembros ✨<br>Tus imágenes y diseños se quedan en tu dispositivo.</p>
+</main>
+<div id="tpPrintArea"></div>
+<script src="toppers.js"></script>
+<script>Toppers.iniciar({ clipartsUrl: "toppers-cliparts.json" });</script>
+<script src="pwa.js"></script>
+</body>
+</html>
