@@ -4,6 +4,8 @@
   {
    "id": "hadas",
    "nombre": "Hadas y bosque 🧚",
+   "comprar": "https://payhip.com/Yelioki",
+   "comprarTexto": "🛒 Pack completo en Payhip",
    "items": [
     { "id": "hada-verde", "nombre": "Hada verde", "src": "tp-hadas-hada-verde.webp", "alto": 9 },
     { "id": "hada-lila", "nombre": "Hada lila", "src": "tp-hadas-hada-lila.webp", "alto": 9 },

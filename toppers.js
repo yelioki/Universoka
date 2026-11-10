@@ -28,13 +28,13 @@
 
     /* ---------- imágenes y fuentes ---------- */
     function cargarImg(src) {
-      var u = fotos[src] || src, e = imgs[u];
+      var u = fotos[src] || (window.PacksKa && PacksKa.url(src)) || src, e = imgs[u];
       if (e) return e.p;
       e = imgs[u] = { ok: false, img: new Image() };
       e.p = new Promise(function (res) { e.img.onload = function () { e.ok = true; res(e.img); dibujar(); }; e.img.onerror = function () { res(null); }; });
       e.img.src = u; return e.p;
     }
-    function getImg(src) { var u = fotos[src] || src, e = imgs[u]; if (!e) { cargarImg(src); return null; } return e.ok ? e.img : null; }
+    function getImg(src) { var u = fotos[src] || (window.PacksKa && PacksKa.url(src)) || src, e = imgs[u]; if (!e) { cargarImg(src); return null; } return e.ok ? e.img : null; }
     function cargarFuente(f) { return (document.fonts && document.fonts.load) ? document.fonts.load('60px "' + f + '"').catch(function () { }) : Promise.resolve(); }
 
     /* ---------- fuentes visuales de cada pieza ---------- */
@@ -224,7 +224,7 @@
     }
     function renderTabs() {
       var t = $("tpTabs"); t.innerHTML = "";
-      [["clip", "🧚", "Cliparts"], ["forma", "🔷", "Formas"], ["texto", "Aa", "Texto"], ["foto", "📷", "Mi imagen"]].forEach(function (x) { var b = el("button", tab === x[0] ? "on" : ""); b.type = "button"; b.innerHTML = "<span>" + x[1] + "</span>" + x[2]; b.onclick = function () { tab = x[0]; renderTabs(); renderPanel(); }; t.appendChild(b); });
+      [["clip", "🧚", "Cliparts"], ["pack", "🎁", "Mis packs"], ["forma", "🔷", "Formas"], ["texto", "Aa", "Texto"], ["foto", "📷", "Mi imagen"]].forEach(function (x) { var b = el("button", tab === x[0] ? "on" : ""); b.type = "button"; b.innerHTML = "<span>" + x[1] + "</span>" + x[2]; b.onclick = function () { tab = x[0]; renderTabs(); renderPanel(); }; t.appendChild(b); });
     }
     function renderPanel() {
       var p = $("tpPanel"); p.innerHTML = "";
@@ -238,6 +238,24 @@
           var b = el("button", "tpl"); b.type = "button"; b.style.padding = "6px"; var im = el("img"); im.src = it.src; im.alt = it.nombre; im.style.cssText = "width:100%;height:96px;object-fit:contain;display:block"; b.appendChild(im); b.appendChild(el("small", null, it.nombre));
           b.onclick = function () { cargarImg(it.src).then(function () { nuevaPieza({ tipo: "clip", src: it.src, hcm: it.alto || 8 }); }); }; rej.appendChild(b);
         }); p.appendChild(rej);
+        var colAct = cat.filter(function (cc) { return cc.id === catId; })[0];
+        if (colAct.comprar) { var ab = el("a", "btn sec", colAct.comprarTexto || "🛒 Ver el pack completo"); ab.href = colAct.comprar; ab.target = "_blank"; ab.rel = "noopener"; ab.style.marginTop = "4px"; p.appendChild(ab); }
+      } else if (tab === "pack") {
+        p.appendChild(chip("📦 Subir mi pack (ZIP o imágenes)", true, subirPack));
+        var packs = window.PacksKa ? PacksKa.packs() : [];
+        if (!packs.length) p.appendChild(el("p", "vacio", "Todavía no tienes packs. Compra uno, sube aquí su ZIP y aparecerá como una colección."));
+        packs.forEach(function (pk) {
+          var h = el("div", "fila"); h.appendChild(el("span", "etq", pk.nombre + " · " + pk.items.length + " imágenes"));
+          h.appendChild(chip("🗑 Quitar", false, function () { if (confirm("¿Quitar el pack «" + pk.nombre + "» de este dispositivo?")) PacksKa.borrar(pk.id).then(renderPanel); }, "peli")); p.appendChild(h);
+          var rj = el("div", "rej");
+          pk.items.forEach(function (it) {
+            var src = "pack:" + pk.id + "/" + it.id, b = el("button", "tpl"); b.type = "button"; b.style.padding = "6px";
+            var im = el("img"); im.src = PacksKa.url(src); im.alt = it.nombre; im.style.cssText = "width:100%;height:96px;object-fit:contain;display:block"; b.appendChild(im); b.appendChild(el("small", null, it.nombre));
+            b.onclick = function () { cargarImg(src).then(function () { nuevaPieza({ tipo: "clip", src: src, hcm: 8 }); }); }; rj.appendChild(b);
+          }); p.appendChild(rj);
+        });
+        if (cfg.payhipUrl) { var ap = el("a", "btn sec", "🛒 Ver packs en Payhip"); ap.href = cfg.payhipUrl; ap.target = "_blank"; ap.rel = "noopener"; p.appendChild(ap); }
+        p.appendChild(el("p", "nota", "Tus packs se guardan solo en este dispositivo y se usan sin internet. Si cambias de teléfono o computador, vuelve a subir tu ZIP."));
       } else if (tab === "forma") {
         p.appendChild(el("span", "etq", "Formas para fondos, arcos y capas"));
         var ff = el("div", "fila"); FORMAS.forEach(function (f) { ff.appendChild(chip(f[1], false, function () { nuevaPieza({ tipo: "forma", forma: f[0], color: "#2C9090", hcm: f[0] === "cinta" ? 3 : 8, borde: "ninguno" }); })); }); p.appendChild(ff);
@@ -251,6 +269,14 @@
         var bt = chip("📷 Subir una imagen", true, function () { subir(); }); p.appendChild(bt);
         p.appendChild(el("p", "nota", "Mejor un PNG con fondo transparente. Si subes un JPG saldrá un rectángulo. Tu imagen se queda en tu dispositivo."));
       }
+    }
+    function subirPack() {
+      var inp = document.createElement("input"); inp.type = "file"; inp.multiple = true; inp.accept = ".zip,application/zip,image/png,image/webp,image/jpeg";
+      inp.onchange = function () {
+        if (!inp.files || !inp.files.length || !window.PacksKa) return; msg("Guardando tu pack…");
+        PacksKa.importar(inp.files).then(function (pk) { msg("¡Listo! Pack «" + pk.nombre + "» guardado (" + pk.items.length + " imágenes) 🎁"); renderPanel(); })
+          .catch(function (e) { msg(e && e.message === "sin-imagenes" ? "No encontré imágenes en ese archivo (deben ser PNG, WEBP o JPG)." : "No pude guardar el pack en este navegador (¿modo privado?)."); });
+      }; inp.click();
     }
     function subir() {
       var inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/png,image/webp,image/jpeg";
@@ -270,7 +296,7 @@
     /* ---------- hoja A4 ---------- */
     function armarPaginas() {
       var W = A4.w - 2 * A4.m, H = A4.h - 2 * A4.m - A4.pie, avisos = 0;
-      var items = S.piezas.map(function (p) {
+      var items = S.piezas.filter(function (p) { return !!fuenteDe(p).src; }).map(function (p) {
         var m = medidas(p), b = bordeCm(p), w = m.w + 2 * b, h = m.h + 2 * b, esc = Math.min(1, W / w, H / h);
         if (esc < 1) { avisos++; return { p: p, esc: esc, w: w * esc, h: h * esc }; } return { p: p, esc: 1, w: w, h: h };
       }).sort(function (a, b) { return b.h - a.h; });
@@ -349,7 +375,8 @@
     /* ---------- arranque ---------- */
     var tiene = cargarGuardado(); ajustarInicio();
     function ajustarInicio() { renderTabs(); renderTorta(); renderPanel(); renderSel(); dibujar(); }
-    fetch(cfg.clipartsUrl, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) { cat = j.colecciones || []; }).catch(function () { cat = []; }).then(function () {
+    var pPacks = window.PacksKa ? PacksKa.listar() : Promise.resolve([]);
+    fetch(cfg.clipartsUrl, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) { cat = j.colecciones || []; }).catch(function () { cat = []; }).then(function () { return pPacks; }).then(function () {
       renderPanel();
       if (tiene) { msg("Recuperé tu último diseño 💛"); precargarTodo().then(function () { dibujar(); }); }
       hist = []; hpos = -1; commit(); dibujar();

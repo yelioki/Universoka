@@ -51,7 +51,7 @@
     var d = new Date(), hoy = (d.getMonth() + 1) * 100 + d.getDate(), a = mdNum(t.desde), b = mdNum(t.hasta);
     return a <= b ? (hoy >= a && hoy <= b) : (hoy >= a || hoy <= b);
   }
-  function esRuta(s) { return /\.(png|jpe?g|webp|gif|svg)$/i.test(s || ""); }
+  function esRuta(s) { return /\.(png|jpe?g|webp|gif|svg)$/i.test(s || "") || /^pack:/.test(s || ""); }
   function inyectarFuentes() {
     if (document.getElementById("ekFuentes")) return;
     var fam = FUENTES.map(function (f) { return "family=" + f.n.replace(/ /g, "+") + (f.w ? ":wght@" + f.w : ""); }).join("&");
@@ -89,7 +89,7 @@
 
     /* ---------- imágenes ---------- */
     function cargar(src) {
-      var u = fotos[src] || src, c = cache[u];
+      var u = fotos[src] || (window.PacksKa && PacksKa.url(src)) || src, c = cache[u];
       if (c) return c.p;
       c = cache[u] = { ok: false, img: new Image() };
       c.p = new Promise(function (res) {
@@ -99,7 +99,7 @@
       c.img.src = u;
       return c.p;
     }
-    function getImg(src) { var u = fotos[src] || src, c = cache[u]; if (!c) { cargar(src); return null; } return c.ok ? c.img : null; }
+    function getImg(src) { var u = fotos[src] || (window.PacksKa && PacksKa.url(src)) || src, c = cache[u]; if (!c) { cargar(src); return null; } return c.ok ? c.img : null; }
     function fuentesUsadas(st) {
       var u = {}; st.objs.forEach(function (o) { if (o.t === "texto") u[o.fuente] = 1; }); return Object.keys(u);
     }
@@ -492,11 +492,12 @@
       } else if (tabAct === "sellos") {
         var grupos = clon(SELLOS);
         temasVisibles().forEach(function (t) { if (t.sellos && t.sellos.length) grupos[t.nombre] = t.sellos; });
+        if (window.PacksKa) PacksKa.packs().forEach(function (pk) { grupos["🎁 " + pk.nombre] = pk.items.map(function (it) { return "pack:" + pk.id + "/" + it.id; }); });
         Object.keys(grupos).forEach(function (g) {
           var f = el("div", "fila"); f.appendChild(el("span", "etq", g));
           grupos[g].forEach(function (s) {
             var b = el("button", "sello"); b.type = "button"; b.setAttribute("aria-label", "Sello");
-            if (esRuta(s)) { var im = el("img"); im.src = s; im.alt = ""; b.appendChild(im); } else b.textContent = s;
+            if (esRuta(s)) { var im = el("img"); im.src = (window.PacksKa && PacksKa.url(s)) || s; im.alt = ""; b.appendChild(im); } else b.textContent = s;
             b.onclick = function () { añadirSello(s); }; f.appendChild(b);
           }); p.appendChild(f);
         });
@@ -563,6 +564,7 @@
     /* ---------- arranque ---------- */
     renderFormatos(); renderTabs(); renderPanel(); ajustarMarco();
     var tieneAuto = cargarAuto(); if (tieneAuto) { ajustarMarco(); renderFormatos(); }
+    if (window.PacksKa) PacksKa.listar().then(function () { renderPanel(); });
     var p1 = fetch(cfg.plantillasUrl, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) { plantillas = j.plantillas || []; }).catch(function () { plantillas = []; });
     var p2 = fetch("lienzo-temas.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) { temas = j.temas || []; }).catch(function () { temas = []; });
     Promise.all([p1, p2]).then(function () {

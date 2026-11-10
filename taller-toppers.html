@@ -38,7 +38,7 @@
   <p class="ek-ayuda" id="tpAyuda">Toca una pieza para editarla · arrastra la esquina ⤡ para cambiar su tamaño · la cuadrícula marca cada 5 cm</p>
   <div class="glass panel" id="tpSel" hidden></div>
 
-  <div class="glass ek-tabs" id="tpTabs" style="grid-template-columns:repeat(4,1fr)"></div>
+  <div class="glass ek-tabs" id="tpTabs"></div>
   <div class="glass panel" id="tpPanel"></div>
 
   <div class="acciones"><button class="btn sec" id="tpUndo" type="button">↩ Deshacer</button><button class="btn sec" id="tpRedo" type="button">↪ Rehacer</button></div>
@@ -61,8 +61,9 @@
   <p class="nota" style="text-align:center;margin-top:22px">¿Más cliparts y hojas en alta calidad? Pronto: <b>Biblioteca Ka</b> para miembros ✨<br>Tus imágenes y diseños se quedan en tu dispositivo.</p>
 </main>
 <div id="tpPrintArea"></div>
+<script src="packs-ka.js"></script>
 <script src="toppers.js"></script>
-<script>Toppers.iniciar({ clipartsUrl: "toppers-cliparts.json" });</script>
+<script>Toppers.iniciar({ clipartsUrl: "toppers-cliparts.json", payhipUrl: "https://payhip.com/Yelioki" });</script>
 <script src="pwa.js"></script>
 </body>
 </html>
