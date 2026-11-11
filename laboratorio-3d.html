@@ -4,22 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Laboratorio 3D – Universo Ka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Lobster&family=Fredoka:wght@700&family=Baloo+2:wght@700&family=Dancing+Script:wght@700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Quicksand:wght@700&family=Amatic+SC:wght@700&display=swap">
 <link rel="stylesheet" href="editor-ka.css">
 <style>
+[hidden]{display:none!important}
 .visor{position:relative;margin:0 auto;width:100%;aspect-ratio:4/3;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);background:#0f1f21;touch-action:none}
-.visor.arr{box-shadow:0 0 0 3px #ffe58f}
 .visor canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
-#lbVacio[hidden]{display:none}
-#lbVacio{position:absolute;inset:0;display:grid;place-content:center;gap:12px;text-align:center;padding:20px;pointer-events:none}
-#lbVacio b{font-size:44px}
-#lbVacio p{font-size:14px;opacity:.85;line-height:1.5}
-#lbSinGL{padding:20px;text-align:center}
+#lbVacioP{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:20px;pointer-events:none;font-size:14px;opacity:.85}
+#lbVacioP[hidden]{display:none}
+#lbSinGL{padding:20px;text-align:center;margin-top:10px}
+.ek-tabs.cuatro{grid-template-columns:repeat(4,1fr)}
 .lbfila{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-.lbfila span{opacity:.75}.lbfila b{text-align:right}
-.medidas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.medidas label{display:grid;gap:3px;font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.9}
-.medidas input{width:100%;padding:9px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:16px;text-align:center}
-.aviso{padding:10px 12px;border-radius:14px;background:rgba(255,200,80,.18);border:1px solid rgba(255,200,80,.5);font-size:13px}
+.lbfila span{opacity:.75}.lbfila b{text-align:right;font-weight:600}
+.sl{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:13px}
+.sl label{opacity:.85}.sl b{min-width:58px;text-align:right}
+.panel input[type=text],.panel textarea{font-family:inherit}
+.colfila{display:flex;align-items:center;gap:10px;font-size:14px}
+.colfila input[type=color]{width:42px;height:42px;border:2px solid rgba(255,255,255,.4)}
+.fila.rej2{display:flex;flex-wrap:wrap;gap:8px}
+.sello.on{border-color:#7be6d6;background:rgba(123,230,214,.22)}
 </style>
 </head>
 <body>
@@ -27,58 +32,66 @@
 <div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
 <main>
   <h1>Laboratorio 3D 🧊</h1>
-  <p class="sub">Abre tu modelo, ponlo a tu medida y revisa cómo se imprimiría.<br>Tu archivo se queda en tu dispositivo 🔒</p>
+  <p class="sub">Escribe un nombre, elige un dibujo y mira cómo quedaría tu pieza impresa en 2 a 4 colores.</p>
 
-  <div class="glass ek-barra"><div class="fila">
-    <button class="chip on" id="lbAbrir" type="button">📂 Abrir STL / OBJ / 3MF</button>
-    <button class="chip" id="lbEjemplo" type="button">🍄 Probar con un ejemplo</button>
-  </div></div>
-
-  <div class="visor" id="lbVisor">
-    <canvas id="cv3"></canvas>
-    <div id="lbVacio"><b>🧊</b><p>Arrastra aquí tu archivo<br>o toca «Abrir».</p></div>
-  </div>
+  <div class="visor"><canvas id="cv3p"></canvas><div id="lbVacioP" hidden>Escribe un texto o elige un dibujo ✨</div></div>
   <div class="glass" id="lbSinGL" hidden>Tu navegador no puede mostrar 3D (WebGL). Prueba con Chrome, Safari o Edge actualizados.</div>
-  <p class="ek-ayuda">Un dedo: girar · dos dedos: acercar y mover · rueda del mouse: zoom</p>
-  <div class="fila scroll" id="lbVistas" style="margin-top:8px;justify-content:center"></div>
+  <p class="ek-ayuda">Un dedo: girar · dos dedos o rueda: acercar</p>
+  <div class="fila scroll" id="lbVistas" style="margin-top:6px;justify-content:center"></div>
   <div class="msg" id="lbMsg"></div>
 
-  <div id="lbPanel" hidden>
-    <div class="glass panel">
-      <div class="etq">Tamaño final (mm)</div>
-      <div class="medidas">
-        <label>Ancho<input id="lbX" inputmode="decimal"></label>
-        <label>Fondo<input id="lbY" inputmode="decimal"></label>
-        <label>Alto<input id="lbZ" inputmode="decimal"></label>
-        <label>Escala %<input id="lbPct" inputmode="decimal"></label>
-      </div>
-      <div class="aviso" id="lbUni" hidden>🤔 Medidas muy raras. Si el modelo venía en cm o pulgadas, elige la unidad:</div>
-      <div class="fila scroll" id="lbUnidades"><span class="etq">Unidad original</span></div>
-      <div class="fila"><button class="chip" id="lbAjustar" type="button">📐 Ajustar a la cama</button><button class="chip" id="lbEncuadrar" type="button">🎯 Centrar vista</button></div>
-      <div class="aviso" id="lbAviso" hidden></div>
-    </div>
+  <nav class="glass ek-tabs cuatro">
+    <button class="on" data-t="lbT1"><span>✏️</span>Texto</button>
+    <button data-t="lbT2"><span>🎨</span>Dibujo</button>
+    <button data-t="lbT3"><span>📐</span>Forma</button>
+    <button data-t="lbT4"><span>🌈</span>Colores</button>
+  </nav>
 
-    <div class="glass panel">
-      <div class="etq">Orientación</div>
-      <div class="fila scroll" id="lbGiro"></div>
-      <div class="fila" id="lbAuto"></div>
-      <p class="nota">Lo <b style="color:#ff7b7b">rojo</b> son zonas que quedarían en el aire y necesitan soporte. Menos rojo = menos material y mejor acabado.</p>
-    </div>
-
-    <div class="glass panel">
-      <div class="etq">Tu impresora</div>
-      <div class="fila scroll" id="lbCama"></div>
-      <div id="lbInfo"></div>
-    </div>
-
-    <div class="acciones">
-      <button class="btn" id="lbDescargar" type="button">💾 Descargar STL ajustado</button>
-      <a class="btn wa" id="lbWa" href="#" target="_blank" rel="noopener">💬 Pedir impresión</a>
-    </div>
-    <p class="nota" style="text-align:center;margin-top:10px">Aquí no se “rebana” (slicing): eso lo hace el programa de tu impresora. Este taller te deja el modelo listo: medida, posición y soportes.</p>
+  <div class="glass panel" id="lbT1">
+    <textarea id="lbTexto" rows="2" maxlength="60" placeholder="Escribe un nombre o frase"></textarea>
+    <div class="etq">Letra</div>
+    <div class="fila scroll" id="lbFuentes"></div>
+    <div class="sl" id="lbSzTxt"></div>
+    <div class="sl" id="lbGroTxt"></div>
   </div>
+  <div class="glass panel" id="lbT2" hidden>
+    <div class="etq">Dibujo</div>
+    <div class="fila rej2" id="lbDibujos"></div>
+    <div class="fila"><button class="chip" id="lbSubir" type="button">📤 Subir mi dibujo</button></div>
+    <div class="etq">Dónde va</div>
+    <div class="fila scroll" id="lbDisp"></div>
+    <div class="sl" id="lbSzDib"></div>
+    <p class="nota">El dibujo se imprime de un solo color con su silueta. Funciona mejor con formas simples.</p>
+  </div>
+  <div class="glass panel" id="lbT3" hidden>
+    <div class="etq">Forma de la base</div>
+    <div class="fila scroll" id="lbForma"></div>
+    <div class="sl" id="lbMargen"></div>
+    <div class="sl" id="lbGrBase"></div>
+    <div class="sl" id="lbRel"></div>
+    <div class="fila scroll" id="lbArg"></div>
+    <div class="fila scroll" id="lbBorde"></div>
+  </div>
+  <div class="glass panel" id="lbT4" hidden>
+    <div class="etq">¿Cuántos colores puede imprimir tu impresora?</div>
+    <div class="fila scroll" id="lbNCol"></div>
+    <div class="etq">Paletas</div>
+    <div class="fila scroll" id="lbPal"></div>
+    <div id="lbColores" style="display:grid;gap:10px"></div>
+  </div>
+
+  <div class="glass panel"><div id="lbInfoP"></div></div>
+
+  <div class="acciones">
+    <button class="btn" id="lb3mf" type="button">💾 Descargar 3MF a color</button>
+    <button class="btn sec" id="lbZipStl" type="button">📦 STL por color (ZIP)</button>
+  </div>
+  <div class="acciones" style="grid-template-columns:1fr"><a class="btn wa" id="lbWaP" href="#" target="_blank" rel="noopener">💬 Pedirle a Yeli que la imprima</a></div>
+  <p class="nota" style="text-align:center;margin-top:12px">El 3MF trae un objeto por color (base, texto, dibujo, borde). En tu programa de impresión asigna a cada uno su filamento. Todo se calcula en tu dispositivo 🔒</p>
+  <p class="nota" style="text-align:center"><a href="visor-3d.html">🧊 ¿Tienes un STL / OBJ / 3MF? Ábrelo en el visor →</a></p>
 </main>
-<script src="lab3d.js"></script>
-<script>Lab3DIniciar({whatsapp:"56932938800"});</script>
+<script src="corte3d.js"></script>
+<script src="personal3d.js"></script>
+<script>Lab3DPIniciar({whatsapp:"56932938800",clipartsUrl:"toppers-cliparts.json"});</script>
 </body>
 </html>

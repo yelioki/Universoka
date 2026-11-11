@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visor 3D – Universo Ka</title>
+<link rel="stylesheet" href="editor-ka.css">
+<style>
+.visor{position:relative;margin:0 auto;width:100%;aspect-ratio:4/3;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);background:#0f1f21;touch-action:none}
+.visor.arr{box-shadow:0 0 0 3px #ffe58f}
+.visor canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#lbVacio[hidden]{display:none}
+#lbVacio{position:absolute;inset:0;display:grid;place-content:center;gap:12px;text-align:center;padding:20px;pointer-events:none}
+#lbVacio b{font-size:44px}
+#lbVacio p{font-size:14px;opacity:.85;line-height:1.5}
+#lbSinGL{padding:20px;text-align:center}
+.lbfila{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.lbfila span{opacity:.75}.lbfila b{text-align:right}
+.medidas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.medidas label{display:grid;gap:3px;font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.9}
+.medidas input{width:100%;padding:9px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:16px;text-align:center}
+.aviso{padding:10px 12px;border-radius:14px;background:rgba(255,200,80,.18);border:1px solid rgba(255,200,80,.5);font-size:13px}
+</style>
+</head>
+<body>
+<button class="volver" onclick="location.href='laboratorio-3d.html'">← Laboratorio</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<main>
+  <h1>Visor 3D 🧊</h1>
+  <p class="sub">Abre tu modelo, ponlo a tu medida y revisa cómo se imprimiría.<br>Tu archivo se queda en tu dispositivo 🔒</p>
+
+  <div class="glass ek-barra"><div class="fila">
+    <button class="chip on" id="lbAbrir" type="button">📂 Abrir STL / OBJ / 3MF</button>
+    <button class="chip" id="lbEjemplo" type="button">🍄 Probar con un ejemplo</button>
+  </div></div>
+
+  <div class="visor" id="lbVisor">
+    <canvas id="cv3"></canvas>
+    <div id="lbVacio"><b>🧊</b><p>Arrastra aquí tu archivo<br>o toca «Abrir».</p></div>
+  </div>
+  <div class="glass" id="lbSinGL" hidden>Tu navegador no puede mostrar 3D (WebGL). Prueba con Chrome, Safari o Edge actualizados.</div>
+  <p class="ek-ayuda">Un dedo: girar · dos dedos: acercar y mover · rueda del mouse: zoom</p>
+  <div class="fila scroll" id="lbVistas" style="margin-top:8px;justify-content:center"></div>
+  <div class="msg" id="lbMsg"></div>
+
+  <div id="lbPanel" hidden>
+    <div class="glass panel">
+      <div class="etq">Tamaño final (mm)</div>
+      <div class="medidas">
+        <label>Ancho<input id="lbX" inputmode="decimal"></label>
+        <label>Fondo<input id="lbY" inputmode="decimal"></label>
+        <label>Alto<input id="lbZ" inputmode="decimal"></label>
+        <label>Escala %<input id="lbPct" inputmode="decimal"></label>
+      </div>
+      <div class="aviso" id="lbUni" hidden>🤔 Medidas muy raras. Si el modelo venía en cm o pulgadas, elige la unidad:</div>
+      <div class="fila scroll" id="lbUnidades"><span class="etq">Unidad original</span></div>
+      <div class="fila"><button class="chip" id="lbAjustar" type="button">📐 Ajustar a la cama</button><button class="chip" id="lbEncuadrar" type="button">🎯 Centrar vista</button></div>
+      <div class="aviso" id="lbAviso" hidden></div>
+    </div>
+
+    <div class="glass panel">
+      <div class="etq">Orientación</div>
+      <div class="fila scroll" id="lbGiro"></div>
+      <div class="fila" id="lbAuto"></div>
+      <p class="nota">Lo <b style="color:#ff7b7b">rojo</b> son zonas que quedarían en el aire y necesitan soporte. Menos rojo = menos material y mejor acabado.</p>
+    </div>
+
+    <div class="glass panel">
+      <div class="etq">Tu impresora</div>
+      <div class="fila scroll" id="lbCama"></div>
+      <div id="lbInfo"></div>
+    </div>
+
+    <div class="acciones">
+      <button class="btn" id="lbDescargar" type="button">💾 Descargar STL ajustado</button>
+      <a class="btn wa" id="lbWa" href="#" target="_blank" rel="noopener">💬 Pedir impresión</a>
+    </div>
+    <p class="nota" style="text-align:center;margin-top:10px">Aquí no se “rebana” (slicing): eso lo hace el programa de tu impresora. Este taller te deja el modelo listo: medida, posición y soportes.</p>
+  </div>
+</main>
+<script src="lab3d.js"></script>
+<script>Lab3DIniciar({whatsapp:"56932938800"});</script>
+</body>
+</html>
