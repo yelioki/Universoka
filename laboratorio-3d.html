@@ -33,6 +33,7 @@
 <main>
   <h1>Laboratorio 3D 🧊</h1>
   <p class="sub">Escribe un nombre, elige un dibujo y mira cómo quedaría tu pieza impresa en 2 a 4 colores.</p>
+  <div class="fila" style="justify-content:center;margin-bottom:12px"><a class="chip on" href="laboratorio-3d.html">✨ Personalizar nombre</a><a class="chip" href="visor-3d.html">🧊 Visor y orientar</a><a class="chip" href="visor-3d.html#cortar">✂️ Cortar y encajes</a></div>
 
   <div class="visor"><canvas id="cv3p"></canvas><div id="lbVacioP" hidden>Escribe un texto o elige un dibujo ✨</div></div>
   <div class="glass" id="lbSinGL" hidden>Tu navegador no puede mostrar 3D (WebGL). Prueba con Chrome, Safari o Edge actualizados.</div>
@@ -88,7 +89,7 @@
   </div>
   <div class="acciones" style="grid-template-columns:1fr"><a class="btn wa" id="lbWaP" href="#" target="_blank" rel="noopener">💬 Pedirle a Yeli que la imprima</a></div>
   <p class="nota" style="text-align:center;margin-top:12px">El 3MF trae un objeto por color (base, texto, dibujo, borde). En tu programa de impresión asigna a cada uno su filamento. Todo se calcula en tu dispositivo 🔒</p>
-  <p class="nota" style="text-align:center"><a href="visor-3d.html">🧊 ¿Tienes un STL / OBJ / 3MF? Ábrelo en el visor →</a></p>
+  <p class="nota" style="text-align:center"><a href="visor-3d.html">🧊 ¿Tienes un STL / OBJ / 3MF? Ábrelo en el visor →</a> · <a href="visor-3d.html#cortar">✂️ Cortar con encajes →</a></p>
 </main>
 <script src="corte3d.js"></script>
 <script src="personal3d.js"></script>

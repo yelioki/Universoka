@@ -161,6 +161,7 @@
         if (im) { var s = Math.max(w / im.naturalWidth, h / im.naturalHeight), iw = im.naturalWidth * s, ih = im.naturalHeight * s; c.drawImage(im, (w - iw) / 2, (h - ih) / 2, iw, ih); }
       } else { c.fillStyle = bg.c || "#fff"; c.fillRect(0, 0, w, h); }
     }
+    var sinGuias = false;
     function dibujarObj(c, o) {
       var d = tamObj(o);
       c.save(); c.translate(o.x, o.y); c.rotate(o.rot || 0); c.scale(o.esc || 1, o.esc || 1);
@@ -186,8 +187,21 @@
           if (im) { var s = Math.min(o.tam / im.naturalWidth, o.tam / im.naturalHeight); c.drawImage(im, -im.naturalWidth * s / 2, -im.naturalHeight * s / 2, im.naturalWidth * s, im.naturalHeight * s); }
         }
       } else {
-        var im2 = getImg(o.src);
-        if (im2) {
+        var im2 = o.src ? getImg(o.src) : null;
+        if (!o.src) {
+          if (!sinGuias) {
+            c.save();
+            if (o.forma === "circ") { c.beginPath(); c.arc(0, 0, d.w / 2, 0, 6.2832); }
+            else if (o.forma === "cora") corazon(c, d.w);
+            else if (o.forma === "redond") rectRedondo(c, -d.w / 2, -d.h / 2, d.w, d.h, d.w * 0.06);
+            else { c.beginPath(); c.rect(-d.w / 2, -d.h / 2, d.w, d.h); }
+            c.fillStyle = "rgba(255,255,255,.62)"; c.fill(); c.lineWidth = Math.max(3, d.w * 0.008); c.setLineDash([d.w * 0.04, d.w * 0.03]); c.strokeStyle = "rgba(60,60,60,.45)"; c.stroke(); c.setLineDash([]);
+            c.fillStyle = "rgba(60,60,60,.7)"; c.textAlign = "center"; c.textBaseline = "middle";
+            c.font = Math.round(d.w * 0.16) + 'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; c.fillText("📷", 0, -d.w * 0.06);
+            c.font = "700 " + Math.round(d.w * 0.06) + "px 'Quicksand','Segoe UI',sans-serif"; c.fillText("Tu foto aquí", 0, d.w * 0.1);
+            c.restore();
+          }
+        } else if (im2) {
           c.save();
           if (o.forma === "circ") { c.beginPath(); c.arc(0, 0, d.w / 2, 0, 6.2832); c.clip(); }
           else if (o.forma === "cora") { corazon(c, d.w); c.clip(); }
@@ -199,8 +213,10 @@
       c.restore();
     }
     function pintar(c, st, opt) {
+      var guiaAnt = sinGuias; sinGuias = !!(opt && opt.marca);
       fondo(c, st.w, st.h, st.bg);
       st.objs.forEach(function (o) { dibujarObj(c, o); });
+      sinGuias = guiaAnt;
       if (opt && opt.marca) {
         var t = "Hecho en Universo Ka · Yelioki", fs = Math.round(st.w * 0.024);
         c.save(); c.font = "600 " + fs + "px 'Segoe UI',system-ui,sans-serif"; c.textAlign = "center"; c.textBaseline = "alphabetic";
@@ -332,6 +348,14 @@
       };
       inp.click();
     }
+    function cambiarFoto(o) {
+      var inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/*";
+      inp.onchange = function () {
+        var f = inp.files && inp.files[0]; if (!f) return;
+        reducirFoto(f, 1600).then(function (url) { var k = "f" + (nfoto++); fotos[k] = url; return cargar(k).then(function () { o.src = k; delete o.r; dibujar(); commit(); renderSel(); msg("¡Foto lista! 📷"); }); }).catch(function () { msg("No pude abrir esa imagen, prueba con otra."); });
+      };
+      inp.click();
+    }
     function borrar() { var i = S.objs.indexOf(obj(sel)); if (i >= 0) S.objs.splice(i, 1); sel = null; renderSel(); dibujar(); commit(); }
     function duplicar() { var o = obj(sel); if (!o) return; var n = clon(o); n.id = nid(); n.x += 40; n.y += 40; S.objs.push(n); sel = n.id; renderSel(); dibujar(); commit(); }
     function orden(d) {
@@ -376,6 +400,7 @@
         [["▭ Recta", "rect"], ["▢ Redondeada", "redond"], ["● Círculo", "circ"], ["♥ Corazón", "cora"]].forEach(function (a) {
           fo.appendChild(chip(a[0], (o.forma || "rect") === a[1], function () { o.forma = a[1]; dibujar(); commit(); renderSel(); }));
         }); box.appendChild(fo);
+        var fc = el("div", "fila"); fc.appendChild(chip(o.src ? "📷 Cambiar foto" : "📷 Poner mi foto", true, function () { cambiarFoto(o); })); box.appendChild(fc);
       }
       function rango(et, min, max, step, val, fn, fin) {
         var r = el("div", "rg"), l = el("label", null, et), i = el("input"); i.type = "range"; i.min = min; i.max = max; i.step = step; i.value = val; i.setAttribute("aria-label", et);
@@ -556,7 +581,7 @@
       }).catch(function () { msg("Algo falló al exportar, intenta de nuevo."); }).then(function () { ocupado = false; });
     };
     var fq = $("ekCalidad"); fq.appendChild(el("span", "etq", "Tamaño de la imagen")); fq.style.textAlign = "center";
-    [["Normal", 1], ["Alta (imprimir)", 2]].forEach(function (q) {
+    (cfg.calidades || [["Normal", 1], ["Alta (imprimir)", 2]]).forEach(function (q) {
       var b = chip(q[0], q[1] === 1, function () { calidad = q[1]; Array.prototype.forEach.call(fq.querySelectorAll(".chip"), function (x) { x.classList.remove("on"); }); b.classList.add("on"); }); fq.appendChild(b);
     });
     $("ekWa").href = "https://wa.me/" + (cfg.whatsapp || "56932938800") + "?text=" + encodeURIComponent(cfg.waTexto || "Hola Yeli 💛 Hice un diseño en Universo Ka y me gustaría pedirlo. Te lo envío por aquí.");

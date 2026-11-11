@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afiches de recuerdo – Universo Ka</title>
+<link rel="stylesheet" href="editor-ka.css">
+</head>
+<body>
+<button class="volver" onclick="location.href='talleres.html'">← Talleres</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<main>
+  <h1>Afiches de recuerdo 🖼️</h1>
+  <p class="sub">Nacimiento, cumpleaños, bienvenida, láminas para el cuarto del bebé…<br>Pon tus fotos y tus datos, y descárgalo listo para imprimir.</p>
+  <div id="app"></div>
+  <p class="nota" style="text-align:center;margin-top:22px">¿Lo quieres impreso y enmarcado? Escríbeme por WhatsApp desde el botón del taller 💛<br>Tus fotos y diseños se quedan en tu dispositivo.</p>
+</main>
+<script src="packs-ka.js"></script>
+<script src="editor-ka.js"></script>
+<script>
+EditorKa.montar({
+  raiz: "#app",
+  taller: "afiches",
+  plantillasUrl: "afiches-plantillas.json",
+  formatos: [
+    { id: "A4", nombre: "A4 / A3 (vertical)", w: 1080, h: 1528 },
+    { id: "3:4", nombre: "30 × 40 cm", w: 1080, h: 1440 },
+    { id: "4:5", nombre: "40 × 50 cm", w: 1080, h: 1350 },
+    { id: "9:16", nombre: "Pantalla / fondo 9:16", w: 1080, h: 1920 }
+  ],
+  formato: "A4",
+  calidades: [["Pantalla", 1], ["Imprimir A4", 2], ["Imprimir A3", 3]],
+  waTexto: "Hola Yeli 💛 Diseñé un afiche en Universo Ka y me gustaría que me lo imprimas (A4, A3 o enmarcado). Te lo envío por aquí."
+});
+</script>
+<script src="pwa.js"></script>
+</body>
+</html>

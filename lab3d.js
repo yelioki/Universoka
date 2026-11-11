@@ -225,6 +225,7 @@
 
     /* ---------- cargar un modelo ---------- */
     function ponerModelo(p, nom, tp) {
+      if (!ponerModelo.interno) { guardadas = []; corteRes = null; enRes = false; setRes(false); }
       var n = Math.floor(p.length / 9); if (n < 1) throw new Error("vacio");
       if (n > 1500000) throw new Error("pesado");
       pos = p.length === n * 9 ? p : p.slice(0, n * 9); tris = n; nombre = nom; tipo = tp;
@@ -271,6 +272,11 @@
         gl.bindBuffer(gl.ARRAY_BUFFER, bufs.nor); gl.enableVertexAttribArray(L.pm.aNor); gl.vertexAttribPointer(L.pm.aNor, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, colBuf); gl.enableVertexAttribArray(L.pm.aCol); gl.vertexAttribPointer(L.pm.aCol, 3, gl.UNSIGNED_BYTE, true, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, nVert);
+      }
+      if (corteOn && pos && !enRes) {
+        armarPlano(); gl.useProgram(pl); gl.uniformMatrix4fv(L.pl.vp, false, VP); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+        gl.bindBuffer(gl.ARRAY_BUFFER, planoBuf); gl.enableVertexAttribArray(L.pl.aPos); gl.vertexAttribPointer(L.pl.aPos, 3, gl.FLOAT, false, 0, 0); gl.uniform4f(L.pl.col, 1, 0.45, 0.55, 0.38); gl.drawArrays(gl.TRIANGLES, 0, 6);
+        gl.depthMask(true); gl.disable(gl.BLEND);
       }
     }
     var raf = 0; function pedir() { if (!raf) raf = requestAnimationFrame(function () { raf = 0; dibujar(); }); }
@@ -338,7 +344,7 @@
       fila("Triángulos", fmt(tris, 0) + " · " + tipo);
       var cabe = d[0] <= cama.w + 0.01 && d[1] <= cama.d + 0.01, av = $("lbAviso");
       if (!cabe) { av.hidden = false; av.textContent = "⚠️ No cabe en la cama de " + cama.n + " mm. Toca «Ajustar a la cama»."; } else if (d[2] > 400) { av.hidden = false; av.textContent = "⚠️ Es muy alto (" + fmt(d[2], 0) + " mm). Revisa las unidades."; } else av.hidden = true;
-      if (primera) { encuadrar(); } pedir();
+      if (primera) { encuadrar(); } if (corteOn && !enRes) slPos(); pedir();
     }
     function numero(inp, k) { inp.onchange = function () { var v = parseFloat(String(inp.value).replace(",", ".")); var d = dims(); if (v > 0 && d[k] > 0) ponerEsc(esc * v / d[k]); else refrescar(false); }; }
     numero(inX, 0); numero(inY, 1); numero(inZ, 2);
@@ -357,6 +363,7 @@
     $("lbEncuadrar").onclick = function () { if (pos) { encuadrar(); pedir(); } };
 
     function exportarSTL() {
+      if (guardadas.length || enRes) { exportarZip(); return; }
       var d = dims(), cx = -(mn[0] + mx[0]) / 2, cy = -(mn[1] + mx[1]) / 2, cz = -mn[2], buf = new ArrayBuffer(84 + tris * 50), dv = new DataView(buf), o = 84, i, j;
       dv.setUint32(80, tris, true); new Uint8Array(buf, 0, 80).set(new TextEncoder().encode("Yelioki Universo Ka - Laboratorio 3D"));
       for (i = 0; i < tris; i++) {
@@ -384,8 +391,71 @@
     var zona = cv.parentNode; ["dragover", "dragenter"].forEach(function (n) { zona.addEventListener(n, function (e) { e.preventDefault(); zona.classList.add("arr"); }); });
     ["dragleave", "drop"].forEach(function (n) { zona.addEventListener(n, function (e) { e.preventDefault(); zona.classList.remove("arr"); if (n === "drop" && e.dataTransfer.files[0]) abrir(e.dataTransfer.files[0]); }); });
 
+
+    /* ---------- cortar y encajes ---------- */
+    var corteOn = false, eje = "z", pctCorte = 50, nEnc = 2, enRes = false, guardadas = [], corteRes = null, antes = null, nombreOrig = "", planoBuf = gl.createBuffer();
+    function mundo() {
+      var o = new Float32Array(pos.length), cx = (mn[0] + mx[0]) / 2, cy = (mn[1] + mx[1]) / 2, cz = mn[2];
+      for (var i = 0; i < pos.length; i += 3) { var x = pos[i], y = pos[i + 1], z = pos[i + 2]; o[i] = (R[0] * x + R[1] * y + R[2] * z) * esc - cx; o[i + 1] = (R[3] * x + R[4] * y + R[5] * z) * esc - cy; o[i + 2] = (R[6] * x + R[7] * y + R[8] * z) * esc - cz; }
+      return o;
+    }
+    function rangoEje() { var d = dims(); return eje === "z" ? [0, d[2]] : eje === "x" ? [-d[0] / 2, d[0] / 2] : [-d[1] / 2, d[1] / 2]; }
+    function tCorte() { var r = rangoEje(); return r[0] + (r[1] - r[0]) * pctCorte / 100; }
+    function armarPlano() {
+      var d = dims(), t = tCorte(), m = 6, x0 = -d[0] / 2 - m, x1 = d[0] / 2 + m, y0 = -d[1] / 2 - m, y1 = d[1] / 2 + m, z1 = d[2] + m, q;
+      if (eje === "z") q = [x0, y0, t, x1, y0, t, x1, y1, t, x0, y0, t, x1, y1, t, x0, y1, t];
+      else if (eje === "x") q = [t, y0, -m, t, y1, -m, t, y1, z1, t, y0, -m, t, y1, z1, t, y0, z1];
+      else q = [x0, t, -m, x1, t, -m, x1, t, z1, x0, t, -m, x1, t, z1, x0, t, z1];
+      gl.bindBuffer(gl.ARRAY_BUFFER, planoBuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(q), gl.DYNAMIC_DRAW);
+    }
+    function slPos() {
+      var c = $("lbPos"); c.innerHTML = ""; var r = document.createElement("input"); r.type = "range"; r.min = 3; r.max = 97; r.value = pctCorte; var b = el("b", null, "");
+      function p() { b.textContent = fmt(tCorte(), 1) + " mm"; } r.oninput = function () { pctCorte = +r.value; p(); pedir(); };
+      c.appendChild(el("label", null, "Posición")); c.appendChild(r); c.appendChild(b); p();
+    }
+    function menuCorte() {
+      chips("lbEje", [["↕ Alto", function () { eje = "z"; menuCorte(); slPos(); pedir(); }, eje === "z"], ["↔ Ancho", function () { eje = "x"; menuCorte(); slPos(); pedir(); }, eje === "x"], ["⤢ Fondo", function () { eje = "y"; menuCorte(); slPos(); pedir(); }, eje === "y"]]);
+      chips("lbNEnc", [0, 1, 2, 3, 4].map(function (n) { return [n === 0 ? "Sin encajes" : n + (n === 1 ? " clavija" : " clavijas"), function () { nEnc = n; menuCorte(); }, nEnc === n]; }));
+    }
+    function setRes(v) {
+      ["lbP1", "lbP2", "lbCorte"].forEach(function (id) { var e = $(id); if (e) e.hidden = v; }); var r = $("lbRes"); if (r) r.hidden = !v;
+      var b = $("lbDescargar"); if (b) b.textContent = (v || guardadas.length) ? "📦 Descargar piezas (ZIP)" : "💾 Descargar STL ajustado";
+    }
+    function medidaTxt(m) { return fmt(m.w, 1) + " × " + fmt(m.d, 1) + " × " + fmt(m.h, 1) + " mm"; }
+    function mostrarRes() {
+      var c = $("lbResInfo"); c.innerHTML = ""; function fila(a, b) { var f = el("div", "lbfila"); f.appendChild(el("span", null, a)); f.appendChild(el("b", null, b)); c.appendChild(f); }
+      corteRes.piezas.forEach(function (p) { fila(p.nombre, medidaTxt(p.med)); });
+      if (corteRes.encajes) fila("Encajes", corteRes.encajes + " clavija(s) de Ø " + fmt($("lbEncD") && parseFloat($("lbEncD").value.replace(",", ".")) || 5, 1) + " mm · profundidad " + fmt(corteRes.prof, 1) + " mm");
+      if (guardadas.length) fila("Piezas guardadas de cortes anteriores", String(guardadas.length));
+      if (corteRes.aviso) { var a = el("div", "aviso", "⚠️ " + corteRes.aviso); a.style.marginTop = "8px"; c.appendChild(a); }
+      var ac = $("lbResAcc"); ac.innerHTML = "";
+      ac.appendChild(chip("↩️ Volver al modelo", false, function () { interno(antes.slice(), nombreOrig, "STL"); enRes = false; corteRes = null; setRes(false); msg("Modelo restaurado."); }));
+      corteRes.piezas.forEach(function (p, i) { if (p.nombre === "clavijas") return; ac.appendChild(chip("✂️ Seguir cortando " + p.nombre, false, function () { seguir(i); })); });
+    }
+    function interno(p, nom, tp) { ponerModelo.interno = true; try { ponerModelo(p, nom, tp); } finally { ponerModelo.interno = false; } }
+    function seguir(i) {
+      var otras = corteRes.piezas.filter(function (_, k) { return k !== i; }), p = corteRes.piezas[i]; guardadas = guardadas.concat(otras); var tri = p.tri.slice();
+      enRes = false; corteRes = null; interno(tri, p.nombre, "STL"); setRes(false); corteOn = true; $("lbCorteBody").hidden = false; slPos(); pedir(); msg("Ahora cortas la " + p.nombre + ". Las otras piezas quedan guardadas para la descarga.");
+    }
+    function cortarAhora() {
+      if (!pos) return; var W = mundo(), num = function (id, d) { var v = parseFloat(String($(id).value).replace(",", ".")); return v > 0 ? v : d; }, hv = parseFloat(String($("lbEncH").value).replace(",", ".")), r;
+      try { r = Corte3D.cortar(W, { eje: eje, t: tCorte(), n: nEnc, d: num("lbEncD", 5), holgura: hv >= 0 ? hv : 0.15, prof: num("lbEncP", 6) }); }
+      catch (e) { msg(e && e.message === "fuera" ? "El plano no toca el modelo: muévelo hacia dentro." : e && e.message === "abierto" ? "Este modelo tiene la malla abierta (no es sólido) y no pude cerrar el corte." : "No pude cortar este modelo."); return; }
+      antes = W; nombreOrig = nombre; corteRes = r; enRes = true; interno(Corte3D.disponer(r.piezas, 10), "piezas", "PIEZAS"); setRes(true); mostrarRes(); msg("¡Cortado! Cada pieza queda con la cara del corte hacia abajo 🧩");
+    }
+    function exportarZip() {
+      var todas = guardadas.slice(); if (enRes && corteRes) todas = todas.concat(corteRes.piezas); else todas.push({ nombre: "pieza", tri: mundo() });
+      var k = 0, c = 0, files = todas.map(function (p) { var n = p.nombre === "clavijas" ? "clavijas" + (++c > 1 ? "-" + c : "") : "pieza-" + (++k); return { name: n + ".stl", data: Corte3D.stlBytes(p.tri) }; });
+      var a = document.createElement("a"); a.href = URL.createObjectURL(Corte3D.zip(files)); a.download = (nombreOrig || nombre).replace(/\.[^.]+$/, "") + "-piezas.zip"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
+      msg("¡Listo! " + files.length + " archivo(s) STL en un ZIP 📦");
+    }
+    $("lbCorteBtn").onclick = function () { corteOn = !corteOn; $("lbCorteBody").hidden = !corteOn; if (corteOn) { menuCorte(); slPos(); } pedir(); };
+    $("lbCortar").onclick = cortarAhora; menuCorte();
+    window.addEventListener("hashchange", function () { if (location.hash === "#cortar") { corteOn = true; $("lbCorteBody").hidden = false; if (pos) slPos(); pedir(); } });
+    if (location.hash === "#cortar") { corteOn = true; $("lbCorteBody").hidden = false; slPos(); }
+
     armarCama(); menuCama(); menuOri(); menuUnidades(); pedir();
-    window.Lab3D = { abrirArchivo: abrir, estado: function () { return { dims: pos ? dims() : null, vol: vol * esc * esc * esc / 1000, sup: supPct, tris: tris, esc: esc }; }, girar: girar, mejor: mejorOrientacion };
+    window.Lab3D = { abrirArchivo: abrir, corte: function () { return { enRes: enRes, guardadas: guardadas.length, piezas: corteRes ? corteRes.piezas.map(function (p) { return [p.nombre, p.tri.length / 9]; }) : null }; }, estado: function () { return { dims: pos ? dims() : null, vol: vol * esc * esc * esc / 1000, sup: supPct, tris: tris, esc: esc }; }, girar: girar, mejor: mejorOrientacion };
   }
   window.Lab3DIniciar = iniciar;
 })();

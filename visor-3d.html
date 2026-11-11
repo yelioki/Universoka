@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visor 3D – Universo Ka</title>
+<title>Visor y corte 3D – Universo Ka</title>
 <link rel="stylesheet" href="editor-ka.css">
 <style>
 .visor{position:relative;margin:0 auto;width:100%;aspect-ratio:4/3;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.5),0 0 0 3px rgba(123,230,214,.35);background:#0f1f21;touch-action:none}
@@ -19,6 +19,8 @@
 .medidas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .medidas label{display:grid;gap:3px;font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.9}
 .medidas input{width:100%;padding:9px 6px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:16px;text-align:center}
+.sl{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:13px}.sl b{min-width:70px;text-align:right}
+#lbCorteBody[hidden],#lbRes[hidden],#lbP1[hidden],#lbP2[hidden],#lbCorte[hidden]{display:none!important}
 .aviso{padding:10px 12px;border-radius:14px;background:rgba(255,200,80,.18);border:1px solid rgba(255,200,80,.5);font-size:13px}
 </style>
 </head>
@@ -26,8 +28,9 @@
 <button class="volver" onclick="location.href='laboratorio-3d.html'">← Laboratorio</button>
 <div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
 <main>
-  <h1>Visor 3D 🧊</h1>
-  <p class="sub">Abre tu modelo, ponlo a tu medida y revisa cómo se imprimiría.<br>Tu archivo se queda en tu dispositivo 🔒</p>
+  <h1>Visor y corte 3D 🧊</h1>
+  <p class="sub">Abre tu modelo, ponlo a tu medida, revisa los soportes o pártelo con encajes.<br>Tu archivo se queda en tu dispositivo 🔒</p>
+  <div class="fila" style="justify-content:center;margin-bottom:12px"><a class="chip" href="laboratorio-3d.html">✨ Personalizar nombre</a><a class="chip on" href="visor-3d.html">🧊 Visor y orientar</a><a class="chip" href="visor-3d.html#cortar">✂️ Cortar y encajes</a></div>
 
   <div class="glass ek-barra"><div class="fila">
     <button class="chip on" id="lbAbrir" type="button">📂 Abrir STL / OBJ / 3MF</button>
@@ -44,7 +47,7 @@
   <div class="msg" id="lbMsg"></div>
 
   <div id="lbPanel" hidden>
-    <div class="glass panel">
+    <div class="glass panel" id="lbP1">
       <div class="etq">Tamaño final (mm)</div>
       <div class="medidas">
         <label>Ancho<input id="lbX" inputmode="decimal"></label>
@@ -58,12 +61,25 @@
       <div class="aviso" id="lbAviso" hidden></div>
     </div>
 
-    <div class="glass panel">
+    <div class="glass panel" id="lbP2">
       <div class="etq">Orientación</div>
       <div class="fila scroll" id="lbGiro"></div>
       <div class="fila" id="lbAuto"></div>
       <p class="nota">Lo <b style="color:#ff7b7b">rojo</b> son zonas que quedarían en el aire y necesitan soporte. Menos rojo = menos material y mejor acabado.</p>
     </div>
+
+    <div class="glass panel" id="lbCorte">
+      <button class="chip" id="lbCorteBtn" type="button">✂️ Cortar y poner encajes</button>
+      <div id="lbCorteBody" hidden style="display:grid;gap:12px">
+        <p class="nota">Parte tu modelo con un plano y agrega clavijas para volver a pegarlo. Cada pieza queda con la cara del corte hacia abajo, lista para imprimir. Funciona mejor con modelos sólidos.</p>
+        <div class="etq">Dónde cortar</div><div class="fila" id="lbEje"></div>
+        <div class="sl" id="lbPos"></div>
+        <div class="etq">Encajes</div><div class="fila scroll" id="lbNEnc"></div>
+        <div class="medidas" style="grid-template-columns:repeat(3,1fr)"><label>Diámetro mm<input id="lbEncD" value="5" inputmode="decimal"></label><label>Holgura mm<input id="lbEncH" value="0.15" inputmode="decimal"></label><label>Profundidad mm<input id="lbEncP" value="6" inputmode="decimal"></label></div>
+        <button class="btn" id="lbCortar" type="button">✂️ Cortar</button>
+      </div>
+    </div>
+    <div class="glass panel" id="lbRes" hidden><div class="etq">Piezas</div><div id="lbResInfo"></div><div class="fila" id="lbResAcc"></div><p class="nota">Las clavijas se imprimen aparte y unen las dos piezas. El hueco lleva la holgura que elegiste.</p></div>
 
     <div class="glass panel">
       <div class="etq">Tu impresora</div>
@@ -78,6 +94,7 @@
     <p class="nota" style="text-align:center;margin-top:10px">Aquí no se “rebana” (slicing): eso lo hace el programa de tu impresora. Este taller te deja el modelo listo: medida, posición y soportes.</p>
   </div>
 </main>
+<script src="corte3d.js"></script>
 <script src="lab3d.js"></script>
 <script>Lab3DIniciar({whatsapp:"56932938800"});</script>
 </body>
