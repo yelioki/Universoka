@@ -1,0 +1,93 @@
+{
+ "_ayuda": "Cada coleccion es un bloque entre llaves. 'src' es el nombre del archivo (PNG o WEBP con fondo transparente, sin espacios ni tildes). 'alto' es el alto sugerido en centimetros cuando se pone sobre la torta.",
+ "colecciones": [
+  {
+   "id": "navidad",
+   "nombre": "Navidad 🎄 (muestra gratis)",
+   "comprar": "https://payhip.com/Yelioki",
+   "comprarTexto": "🛒 Pack Navidad completo (35 piezas) en Payhip",
+   "items": [
+    {
+     "id": "reno",
+     "nombre": "Reno con bufanda",
+     "src": "tp-navidad-reno-con-bufanda.webp",
+     "alto": 9
+    },
+    {
+     "id": "muneco",
+     "nombre": "Muñeco de nieve",
+     "src": "tp-navidad-muneco-de-nieve-rojo.webp",
+     "alto": 9
+    },
+    {
+     "id": "esfera",
+     "nombre": "Esfera",
+     "src": "tp-navidad-esfera.webp",
+     "alto": 6
+    },
+    {
+     "id": "baston",
+     "nombre": "Bastón de caramelo",
+     "src": "tp-navidad-baston-de-caramelo.webp",
+     "alto": 8
+    },
+    {
+     "id": "estrella",
+     "nombre": "Estrella dorada",
+     "src": "tp-navidad-estrella-dorada.webp",
+     "alto": 6
+    }
+   ]
+  },
+  {
+   "id": "hadas",
+   "nombre": "Hadas y bosque 🧚",
+   "comprar": "https://payhip.com/Yelioki",
+   "comprarTexto": "🛒 Pack completo en Payhip",
+   "items": [
+    {
+     "id": "hada-verde",
+     "nombre": "Hada verde",
+     "src": "tp-hadas-hada-verde.webp",
+     "alto": 9
+    },
+    {
+     "id": "hada-lila",
+     "nombre": "Hada lila",
+     "src": "tp-hadas-hada-lila.webp",
+     "alto": 9
+    },
+    {
+     "id": "hada-rosa",
+     "nombre": "Hada rosa",
+     "src": "tp-hadas-hada-rosa.webp",
+     "alto": 9
+    },
+    {
+     "id": "numero-5",
+     "nombre": "Número 5",
+     "src": "tp-hadas-numero-5.webp",
+     "alto": 10
+    },
+    {
+     "id": "casita-arbol",
+     "nombre": "Casita del árbol",
+     "src": "tp-hadas-casita-arbol.webp",
+     "alto": 10
+    },
+    {
+     "id": "hongos",
+     "nombre": "Hongos",
+     "src": "tp-hadas-hongos.webp",
+     "alto": 7
+    },
+    {
+     "id": "cinta-flores",
+     "nombre": "Cinta con flores",
+     "src": "tp-hadas-cinta-flores.webp",
+     "alto": 6
+    }
+   ]
+  }
+ ]
+}

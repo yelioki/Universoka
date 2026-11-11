@@ -462,7 +462,7 @@
       else if (f.tipo === "img") b.style.backgroundImage = 'url("' + f.src + '")'; else b.style.background = f.c;
       b.setAttribute("aria-label", "Fondo"); b.onclick = function () { S.bg = clon(f); dibujar(); commit(); }; return b;
     }
-    function temasVisibles() { return temas.filter(function (t) { return t.id !== "siempre" && enRango(t); }); }
+    function temasVisibles() { var f = ""; try { f = new URLSearchParams(location.search).get("tema") || ""; } catch (x) { } return temas.filter(function (t) { return t.id !== "siempre" && (enRango(t) || t.id === f); }); }
     function renderPanel() {
       var p = $("ekPanel"); p.innerHTML = "";
       if (tabAct === "plantillas") {

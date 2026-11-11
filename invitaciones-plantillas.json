@@ -2,6 +2,64 @@
  "_ayuda": "Cada plantilla es un bloque entre llaves. 'cat' es la categoría, 'bg' el fondo (color, grad con 'c' y 'ang', o img con 'src'), y 'objs' los elementos: 'texto' (fuente, tam, color) y 'sello' (emoji 'e' o imagen 'src'). x e y van de 0 a 1 (0.5 = centro). 'formato' puede ser 4:5, 9:16, 1:1 o A5.",
  "plantillas": [
   {
+   "id": "navidad-bosque",
+   "nombre": "Bosque nevado",
+   "cat": "Navidad",
+   "icono": "🎄",
+   "formato": "9:16",
+   "bg": {
+    "tipo": "img",
+    "src": "fondo-navidad-1.jpg"
+   },
+   "objs": [
+    {
+     "t": "texto",
+     "texto": "Feliz Navidad",
+     "x": 0.5,
+     "y": 0.2,
+     "fuente": "Great Vibes",
+     "tam": 170,
+     "color": "#3E5C4A"
+    },
+    {
+     "t": "texto",
+     "texto": "Te invitamos a celebrar juntos",
+     "x": 0.5,
+     "y": 0.29,
+     "fuente": "Quicksand",
+     "tam": 54,
+     "color": "#3E5C4A",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Jueves 24 de diciembre\n21:00 hrs",
+     "x": 0.5,
+     "y": 0.39,
+     "fuente": "Montserrat",
+     "tam": 52,
+     "color": "#8C6A3F",
+     "neg": true
+    },
+    {
+     "t": "texto",
+     "texto": "Dirección del evento",
+     "x": 0.5,
+     "y": 0.47,
+     "fuente": "Quicksand",
+     "tam": 44,
+     "color": "#3E5C4A"
+    },
+    {
+     "t": "sello",
+     "src": "tp-navidad-reno-con-bufanda.webp",
+     "x": 0.5,
+     "y": 0.6,
+     "tam": 420
+    }
+   ]
+  },
+  {
    "id": "cumple-confeti",
    "nombre": "Confeti",
    "cat": "Cumpleaños",
