@@ -29,7 +29,7 @@ body{overflow:hidden;height:100vh;height:100dvh;color:#fff;background:linear-gra
 .region.dormida::before{filter:grayscale(.7) brightness(.7) drop-shadow(0 0 14px rgba(123,230,214,.25))}
 .region.dormida{animation:none}
 .region.viva-abierta .nombre-region{border-color:rgba(255,229,143,.6);box-shadow:0 0 22px rgba(255,229,143,.35)}
-.r1{top:8%;left:6%}.r2{top:12%;right:6%}.r3{bottom:13%;left:50%;transform:translateX(-50%)}
+.r1{top:8%;left:6%}.r2{top:12%;right:6%}.r3{bottom:calc(13% + 60px);left:50%;transform:translateX(-50%)}
 .r3:hover{transform:translateX(-50%) scale(1.06)}
 .r1::before{background-image:url("region-viva.png"),radial-gradient(circle,rgba(0,255,200,.55),transparent 68%)}
 .r2::before{background-image:url("region-espiritual.png"),radial-gradient(circle,rgba(130,170,255,.55),transparent 68%)}
@@ -38,15 +38,15 @@ body{overflow:hidden;height:100vh;height:100dvh;color:#fff;background:linear-gra
 #ka-luz{width:80px;height:80px;margin:auto;border-radius:50%;background:radial-gradient(circle,#7be6d6,transparent);box-shadow:0 0 40px #7be6d6;animation:pulsar 3s infinite}
 @keyframes pulsar{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 #ka-cuadro{margin-top:12px;width:290px;padding:14px;border-radius:26px;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);line-height:1.6;font-size:14px}
-.avatar-usuario{position:absolute;bottom:3%;left:50%;transform:translateX(-50%);width:82px;height:82px;border-radius:50%;overflow:hidden;z-index:25;border:2px solid rgba(255,255,255,.4);box-shadow:0 0 25px rgba(123,230,214,.6);transition:1s ease;background:rgba(0,0,0,.3)}
+.avatar-usuario{position:absolute;bottom:112px;left:50%;transform:translateX(-50%);width:82px;height:82px;border-radius:50%;overflow:hidden;z-index:25;border:2px solid rgba(255,255,255,.4);box-shadow:0 0 25px rgba(123,230,214,.6);transition:1s ease;background:rgba(0,0,0,.3)}
 .avatar-usuario img{width:100%;height:100%;object-fit:cover}
-.nombre-usuario{position:absolute;bottom:.8%;left:50%;transform:translateX(-50%);font-size:14px;font-weight:600;z-index:25;text-shadow:0 0 10px rgba(123,230,214,.5)}
+.nombre-usuario{position:absolute;bottom:86px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:600;z-index:25;text-shadow:0 0 10px rgba(123,230,214,.5)}
 .volver{position:fixed;top:16px;left:16px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.85);color:#17393b;font-weight:700;cursor:pointer}
 @media(max-width:768px){
 .portal-central{width:250px;height:250px}
 .region{width:150px;height:150px}
 .nombre-region{font-size:11px;padding:6px 10px}
-.r1{top:20%;left:-1%}.r2{top:20%;right:-1%}.r3{bottom:15%}
+.r1{top:20%;left:-1%}.r2{top:20%;right:-1%}.r3{bottom:calc(15% + 70px)}
 #ka-ui{top:9%;transform:translateX(-50%) scale(.82)}
 .avatar-usuario{width:62px;height:62px}
 }
@@ -64,7 +64,7 @@ body{overflow:hidden;height:100vh;height:100dvh;color:#fff;background:linear-gra
   <div class="region r2 dormida" data-destino="" data-aviso="La Región Espiritual guarda sus memorias… todavía no se abre ✨">
     <div class="nombre-region">Región Espiritual<small>pronto</small></div></div>
   <div class="region r3 viva-abierta" data-destino="region-creacion.html">
-    <div class="nombre-region">Región de Creación<small>abierta</small></div></div>
+    <div class="nombre-region">Región de Creación<small>islas para crear</small></div></div>
 
   <div class="avatar-usuario" id="avatarUsuario"></div>
   <div class="nombre-usuario" id="nombreUsuario"></div>
@@ -99,6 +99,7 @@ document.body.addEventListener("click", function () {
   var a = document.getElementById("sonidoAmbiente"); a.volume = .35; a.play().catch(function () {});
 }, { once: true });
 </script>
+<script src="ka-nav.js" data-aqui="tepuy" data-sin-presencia></script>
 <script src="pwa.js"></script>
 </body>
 </html>

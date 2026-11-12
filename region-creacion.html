@@ -6,63 +6,85 @@
 <title>Región de Creación – Universo Ka</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-body{overflow:hidden;height:100vh;height:100dvh;color:#fff;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.78)),url("fondo-creacion.jpg") center/cover,url("tepuy-fondo.jpg") center/cover,#0b1d1f}
-.region-creacion{position:relative;width:100vw;height:100vh;height:100dvh;overflow:hidden}
-.neblina{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+html,body{min-height:100%}
+body{color:#fff;overflow-x:hidden;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.78)) fixed,url("fondo-creacion.jpg") center/cover fixed,url("tepuy-fondo.jpg") center/cover fixed,#0b1d1f}
+.neblina{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 .niebla{position:absolute;width:1400px;opacity:.12;filter:blur(10px)}
 .n1{top:-10%;left:-40%;animation:n1 50s linear infinite}
 .n2{bottom:-10%;right:-40%;animation:n2 65s linear infinite}
 @keyframes n1{to{transform:translateX(150vw)}}
 @keyframes n2{to{transform:translateX(-150vw)}}
-.particulas{position:absolute;inset:0;pointer-events:none;z-index:2}
+.particulas{position:fixed;inset:0;pointer-events:none;z-index:2}
 .particulas span{position:absolute;width:4px;height:4px;border-radius:50%;background:#66fff2;box-shadow:0 0 10px #66fff2,0 0 20px #66fff2;animation:flotar 10s linear infinite}
 @keyframes flotar{0%{transform:translateY(120px);opacity:0}30%{opacity:1}100%{transform:translateY(-260px);opacity:0}}
-.energia{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(102,255,242,.35),transparent 70%);filter:blur(10px);animation:pulsarE 5s ease-in-out infinite}
-@keyframes pulsarE{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}
-.lugar{position:absolute;width:300px;height:300px;cursor:pointer;z-index:5;transition:.4s;animation:resp 6s ease-in-out infinite}
-.lugar::before{content:"";position:absolute;inset:0;background-size:contain,70% 70%;background-repeat:no-repeat;background-position:center;filter:drop-shadow(0 0 25px rgba(102,255,242,.4));transition:.4s}
-.lugar:hover{transform:scale(1.06)}
-.lugar:hover::before{filter:drop-shadow(0 0 50px rgba(102,255,242,.9))}
-@keyframes resp{0%,100%{translate:0 0}50%{translate:0 -8px}}
-.atelier{top:14%;left:7%}.lienzo{top:14%;right:7%}.forja{bottom:11%;left:50%;transform:translateX(-50%)}.forja:hover{transform:translateX(-50%) scale(1.06)}
-.atelier::before{background-image:url("atelier-yelioki.png"),radial-gradient(circle,rgba(255,229,143,.6),transparent 68%)}
-.forja::before{background-image:url("forja-astral.png"),radial-gradient(circle,rgba(102,255,242,.5),transparent 68%)}
-.lienzo::before{background-image:url("lienzo-ka.png"),radial-gradient(circle,rgba(232,140,160,.6),transparent 68%)}
-.lienzo .nombre{border-color:rgba(255,160,180,.6);box-shadow:0 0 22px rgba(255,160,180,.3)}
-.forja{opacity:.7}.forja::before{filter:grayscale(.6) brightness(.8)}
-.nombre{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:22px;background:rgba(0,0,0,.4);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);font-size:14px;font-weight:600;white-space:nowrap;text-align:center;text-shadow:0 0 12px rgba(102,255,242,.5)}
-.nombre small{display:block;font-weight:400;font-size:11px;opacity:.75}
-.atelier .nombre{border-color:rgba(255,229,143,.6);box-shadow:0 0 22px rgba(255,229,143,.3)}
-.ka-ui{position:absolute;bottom:6%;left:50%;transform:translateX(-50%);z-index:20;text-align:center;width:min(92vw,330px)}
-.ka-luz{width:60px;height:60px;margin:auto;border-radius:50%;background:radial-gradient(circle,#66fff2,transparent);box-shadow:0 0 40px #66fff2;animation:pulsarK 3s infinite}
-@keyframes pulsarK{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.ka-cuadro{margin-top:10px;padding:14px;border-radius:24px;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);line-height:1.6;font-size:14px}
-.volver{position:fixed;top:16px;left:16px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.9);color:#17393b;font-weight:700;cursor:pointer}
-@media(max-width:768px){.lugar{width:210px;height:210px}.atelier{top:13%;left:-3%}.lienzo{top:13%;right:-3%}.forja{bottom:25%}.nombre{font-size:12px;padding:8px 12px}}
+.volver{position:fixed;top:14px;left:14px;z-index:70;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.9);color:#17393b;font-weight:700;cursor:pointer;font-size:14px}
+main{position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:74px 16px 30px}
+h1{font-size:32px;text-align:center;text-shadow:0 0 18px rgba(255,229,143,.5)}
+.sub{text-align:center;max-width:520px;margin:8px auto 4px;line-height:1.6;opacity:.92;font-size:15px}
+.lista-link{display:block;text-align:center;color:#7be6d6;font-size:13px;margin-bottom:6px;padding:8px}
+.archi{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 10px;margin-top:10px}
+.lugar{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 4px 12px;border-radius:26px;color:#fff;-webkit-tap-highlight-color:transparent;transition:transform .3s}
+.lugar:nth-child(even){margin-top:34px}
+.lugar:focus-visible{outline:2px solid #7be6d6}
+.lugar:hover .isla,.lugar:focus-visible .isla{transform:translateY(-6px) scale(1.04)}
+.isla{position:relative;width:170px;height:150px;transition:transform .4s;animation:flota 6s ease-in-out infinite}
+.lugar:nth-child(2n) .isla{animation-delay:-2s}.lugar:nth-child(3n) .isla{animation-delay:-4s}
+@keyframes flota{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.isla .roca{position:absolute;left:50%;bottom:0;width:126px;height:74px;transform:translateX(-50%);background:linear-gradient(#6a7a74,#25302e);clip-path:polygon(0 0,100% 0,84% 50%,62% 100%,42% 66%,20% 50%)}
+.isla .tope{position:absolute;left:50%;bottom:50px;width:150px;height:44px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at 50% 28%,color-mix(in srgb,var(--ac) 55%,#7be6a0),#2b7a5c 70%);box-shadow:0 0 34px color-mix(in srgb,var(--ac) 55%,transparent)}
+.isla .casc{position:absolute;left:58%;bottom:6px;width:5px;height:60px;border-radius:3px;background:linear-gradient(#bffcf5,rgba(102,255,242,0));opacity:.8;animation:casc 2.4s ease-in-out infinite}
+@keyframes casc{50%{opacity:.35}}
+.isla .emb{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);font-size:62px;line-height:1;filter:drop-shadow(0 8px 8px rgba(0,0,0,.5))}
+.isla .halo{position:absolute;left:50%;bottom:48px;width:140px;height:90px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--ac) 45%,transparent),transparent 70%);filter:blur(8px)}
+.nom{font-size:16px;font-weight:700;margin-top:4px;text-shadow:0 0 12px color-mix(in srgb,var(--ac) 60%,transparent)}
+.tipo{display:inline-block;margin-top:5px;padding:3px 11px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--ac);border:1px solid color-mix(in srgb,var(--ac) 60%,transparent);background:rgba(0,0,0,.35)}
+.lema{font-size:12.5px;line-height:1.4;opacity:.85;margin-top:6px;max-width:190px}
+.lugar.pronto .isla,.lugar.dormido .isla{filter:saturate(.45) brightness(.8)}
+.lugar.dormido{opacity:.7}
+.lugar.dormido .isla{animation:none}
+.aparte{margin:26px auto 0;max-width:420px;display:flex;gap:12px;align-items:center;padding:14px 18px;border-radius:22px;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none}
+.aparte .e{font-size:28px}.aparte b{display:block}.aparte small{opacity:.8;font-size:13px}
+.err{text-align:center;margin:30px 0;line-height:1.7}.err a{color:#7be6d6}
+@media(min-width:700px){.archi{grid-template-columns:repeat(4,1fr);gap:12px 18px;margin-top:22px}.lugar:nth-child(even){margin-top:0}.lugar:nth-child(2n+1){margin-top:0}.lugar:nth-child(4n+2),.lugar:nth-child(4n+4){margin-top:34px}h1{font-size:40px}}
+@media(prefers-reduced-motion:reduce){.isla,.casc,.niebla,.particulas span{animation:none}}
 </style>
 </head>
 <body>
-<button class="volver" onclick="location.href='mapa.html'">← Volver al Tepuy</button>
-<div class="region-creacion">
-  <div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
-  <div class="particulas"></div>
-  <div class="energia"></div>
-  <div class="lugar atelier" data-destino="atelier-yelioki.html"><div class="nombre">Atelier Yelioki<small>abierto</small></div></div>
-  <div class="lugar lienzo" data-destino="talleres.html"><div class="nombre">Lienzo de Ka<small>talleres para crear</small></div></div>
-  <div class="lugar forja" data-aviso="La Forja Astral aún está encendiéndose… pronto abrirá sus puertas 🔥"><div class="nombre">Forja Astral<small>pronto</small></div></div>
-  <div class="ka-ui"><div class="ka-luz"></div><div class="ka-cuadro"><p id="ka-texto">Aquí nacen las creaciones vivas del Universo Ka. Entra al Atelier, o toma el Lienzo y crea lo tuyo ✨</p></div></div>
-</div>
+<button class="volver" onclick="location.href='mapa.html'">← Tepuy Ka</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<div class="particulas"></div>
+<main>
+  <h1>Región de Creación</h1>
+  <p class="sub">Aquí las ideas se vuelven objetos reales. Cada isla es un lugar distinto: toca la que necesitas ✨</p>
+  <a class="lista-link" href="talleres.html">Ver todo en lista</a>
+  <div class="archi" id="archi" role="list"></div>
+  <div id="aparte"></div>
+</main>
 <audio id="sonidoAmbiente" loop preload="auto"><source src="bosque.mp3" type="audio/mpeg"></audio>
 <script>
-for (var i = 0; i < 40; i++) { var s = document.createElement("span"); s.style.left = Math.random()*100+"vw"; s.style.top = Math.random()*100+"vh"; s.style.animationDuration = (5+Math.random()*5)+"s"; document.querySelector(".particulas").appendChild(s); }
-Array.prototype.forEach.call(document.querySelectorAll(".lugar"), function (l) {
-  l.addEventListener("click", function () {
-    if (l.dataset.destino) location.href = l.dataset.destino;
-    else document.getElementById("ka-texto").textContent = l.dataset.aviso;
+for (var i = 0; i < 30; i++) { var s = document.createElement("span"); s.style.left = Math.random()*100+"vw"; s.style.top = Math.random()*100+"vh"; s.style.animationDuration = (5+Math.random()*5)+"s"; document.querySelector(".particulas").appendChild(s); }
+function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+fetch("ka-mundo.json").then(function (r) { return r.json(); }).then(function (m) {
+  var cont = document.getElementById("archi");
+  m.lugares.forEach(function (l) {
+    var activo = l.estado === "activo";
+    var e = document.createElement(activo ? "a" : "button");
+    e.className = "lugar " + l.estado; e.setAttribute("role", "listitem");
+    e.style.setProperty("--ac", l.acento);
+    if (activo) e.href = l.destino; else { e.type = "button"; e.onclick = function () { window.KaNav && KaNav.avisar(l.aviso); }; }
+    e.innerHTML = '<div class="isla"><i class="halo"></i><i class="roca"></i><i class="casc"></i><i class="tope"></i><span class="emb" aria-hidden="true">' + l.emblema + '</span></div>' +
+      '<span class="nom">' + esc(l.nombre) + '</span><span class="tipo">' + esc(l.tipo) + '</span><span class="lema">' + esc(l.lema) + '</span>';
+    cont.appendChild(e);
   });
+  (m.aparte || []).forEach(function (a) {
+    document.getElementById("aparte").innerHTML += '<a class="aparte" href="' + a.destino + '"><span class="e">' + a.emblema + '</span><span><b>' + esc(a.nombre) + '</b><small>' + esc(a.lema) + '</small></span></a>';
+  });
+}).catch(function () {
+  document.getElementById("archi").outerHTML = '<p class="err">No pude abrir el mapa de islas. <a href="talleres.html">Ver la lista</a></p>';
 });
-document.body.addEventListener("click", function () { var a = document.getElementById("sonidoAmbiente"); a.volume = .35; a.play().catch(function(){}); }, { once: true });
 </script>
+<script>document.body.addEventListener("click",function(){var a=document.getElementById("sonidoAmbiente");a.volume=.35;a.play().catch(function(){})},{once:true});</script>
+<script src="ka-nav.js" data-aqui="creacion"></script>
 <script src="pwa.js"></script>
 </body>
 </html>

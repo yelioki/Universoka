@@ -48,7 +48,8 @@ h1{font-size:40px;text-align:center;margin-bottom:12px;text-shadow:0 0 18px rgba
 <main>
   <img class="logo" src="https://yelioki.github.io/logo-blanco.png" alt="Yelioki">
   <h1>Atelier Yelioki</h1>
-  <p class="sub">Aquí las ideas toman forma y cada creación nace desde la energía viva del Universo Ka ✨ Todo lo que ves se puede pedir de verdad.</p>
+  <p class="sub">El catálogo de diseños Yelioki: aquí descubres y compras. Todo lo que ves se puede pedir de verdad ✨</p>
+  <p class="sub" style="font-size:14px">¿Quieres crear tú misma? Pasa por las islas de <a href="region-creacion.html" style="color:#7be6d6">Invitaciones, Toppers, Afiches o el Laboratorio 3D</a>.</p>
   <p class="hola" id="hola"></p>
   <div class="panel">
     <div class="objetos">
@@ -71,5 +72,6 @@ var n = ""; try { n = localStorage.getItem("nombreAvatar") || ""; } catch (e) {}
 if (n) document.getElementById("hola").textContent = "Bienvenido, " + n + ". El Atelier es tuyo.";
 document.body.addEventListener("click", function () { var a = document.getElementById("sonidoAmbiente"); a.volume = .3; a.play().catch(function(){}); }, { once: true });
 </script>
+<script src="ka-nav.js" data-aqui="creacion"></script>
 </body>
 </html>

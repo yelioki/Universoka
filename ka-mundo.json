@@ -1,0 +1,15 @@
+{
+  "region": "creacion",
+  "lugares": [
+    {"id":"atelier","nombre":"Atelier Yelioki","tipo":"Catálogo","lema":"Descubre y compra los diseños de Yelioki","detalle":"Diseños, productos, archivos STL, colecciones y recursos. Aquí se elige y se compra.","emblema":"🛍️","acento":"#ffe58f","estado":"activo","destino":"atelier-yelioki.html"},
+    {"id":"invitaciones","nombre":"Invitaciones Mágicas","tipo":"Crear y comprar","lema":"Crea tu invitación o elige una ya hecha","detalle":"Cumpleaños, bautizos, matrimonios, baby showers y eventos. Plantillas, letras, fotos y sellos.","emblema":"💌","acento":"#c9a6ff","estado":"activo","destino":"taller-invitaciones.html"},
+    {"id":"toppers","nombre":"Toppers","tipo":"Crear","lema":"Arma tu topper con medidas reales","detalle":"Elige el diseño sobre una torta y recibe la hoja A4 lista para imprimir.","emblema":"🎂","acento":"#f2a0a8","estado":"activo","destino":"taller-toppers.html"},
+    {"id":"afiches","nombre":"Afiches del Recuerdo","tipo":"Crear","lema":"Láminas con tus fotos para guardar","detalle":"Nacimiento, cumpleaños, bienvenida y láminas para el cuarto del bebé.","emblema":"🖼️","acento":"#8fc4ff","estado":"activo","destino":"taller-afiches.html"},
+    {"id":"stickers","nombre":"Stickers","tipo":"Pronto","lema":"Stickers, etiquetas y hojas","detalle":"Hojas de stickers con tu nombre y tus dibujos. Aún se está construyendo.","emblema":"🏷️","acento":"#6fe3b0","estado":"pronto","aviso":"El Tepuy de Stickers aún se está construyendo… pronto abrirá sus puertas ✨"},
+    {"id":"laboratorio","nombre":"Laboratorio 3D","tipo":"Crear","lema":"Mira tu pieza en 3D antes de imprimirla","detalle":"Escribe un nombre, elige un dibujo y descarga el 3MF a 2-4 colores. También: visor y corte de piezas.","emblema":"🧊","acento":"#66fff2","estado":"activo","destino":"laboratorio-3d.html"},
+    {"id":"forja","nombre":"Forja Astral","tipo":"Futuro","lema":"Proyectos especiales","detalle":"Espacio reservado para proyectos que unan varias técnicas.","emblema":"🔥","acento":"#a58cff","estado":"dormido","aviso":"La Forja Astral aún está encendiéndose… pronto abrirá sus puertas 🔥"}
+  ],
+  "aparte": [
+    {"nombre":"Lienzo Libre","lema":"Dibuja sin reglas, con retos y temas de temporada","emblema":"🎨","destino":"lienzo.html"}
+  ]
+}
