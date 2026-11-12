@@ -2,7 +2,9 @@
    Busca un <audio> con id="sonidoAmbiente" o id="ambiente" y mantiene
    la posición de reproducción en sessionStorage, de modo que la música
    no se reinicie al cambiar de página. No añade UI, no modifica el
-   comportamiento del click. Solo continúa donde se quedó.
+   comportamiento del click de cada página. Solo continúa donde se quedó
+   e intenta arrancar sola al cargar (los navegadores modernos lo
+   permiten una vez que la persona ya interactuó con el dominio).
 
    Compatible con las páginas de la cinemática (index, transicion,
    travesia, llamado, avatar) y con cualquier página que tenga un
@@ -36,6 +38,23 @@
       else amb.volume = v;
     }, 50);
   });
+
+  /* Intentar arrancar la música al cargar la página.
+     Los navegadores permiten autoplay después de que la persona
+     ya interactuó con el dominio (Chrome, Edge, Firefox).
+     Si es la primera visita o el navegador es más estricto
+     (Safari/iOS), play() falla silenciosamente y espera el click
+     que cada página ya gestiona con su propio listener. */
+  function intentarPlay() {
+    try {
+      var p = amb.play();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+  intentarPlay();
+  /* Reintentar cuando termine de cargar metadata, por si el primer
+     intento fue antes de que el audio estuviera listo */
+  amb.addEventListener("loadedmetadata", intentarPlay);
 
   /* Guardar la posición cada 3 s y al salir de la página */
   function guardarT() {
