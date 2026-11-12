@@ -59,6 +59,7 @@
     sb.setAttribute("aria-pressed", mudo ? "true" : "false");
     function aplicar() {
       Array.prototype.forEach.call(document.querySelectorAll("audio"), function (a) { a.muted = mudo; });
+      if (window.KaAmbiente) KaAmbiente.mudo(mudo);
       sb.firstChild.textContent = mudo ? "🔇" : "🔊"; sb.lastChild.textContent = mudo ? "Sin sonido" : "Sonido";
       sb.setAttribute("aria-pressed", mudo ? "true" : "false");
     }
@@ -80,6 +81,13 @@
     window.addEventListener("pagehide", guardarT); setInterval(guardarT, 3000);
   }
   document.body.appendChild(barra);
+  /* ambiente de selva (agua, aire, aves) sobre la melodía */
+  if (audios.length) {
+    var sa = document.createElement("script"); sa.src = "ka-ambiente.js";
+    sa.onload = function () { if (window.KaAmbiente && leer("ka_mudo") === "1") KaAmbiente.mudo(true); };
+    document.head.appendChild(sa);
+    document.addEventListener("pointerdown", function () { if (window.KaAmbiente) KaAmbiente.iniciar(); }, { once: true });
+  }
 
   if (!sinPres) {
     var ch = document.createElement("a"); ch.className = "ka-chip"; ch.href = "avatar.html"; ch.title = "Mi presencia";
