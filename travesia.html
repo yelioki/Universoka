@@ -773,10 +773,10 @@ SONIDO (intenta sonar solo; si el navegador no deja, suena al primer toque)
 
 const sonido = document.getElementById("sonidoAmbiente");
 sonido.volume = 0.45;
-sonido.play().catch(() => {});
+if(window.parent&&window.parent!==window){window.parent.postMessage({tipo:"ka-play"},"*")}else{sonido.play().catch(()=>{})}
 
 document.body.addEventListener("pointerdown", () => {
-  sonido.play().catch(() => {});
+  if(window.parent&&window.parent!==window){window.parent.postMessage({tipo:"ka-play"},"*")}else{sonido.play().catch(()=>{})}
 }, { once:true });
 
 </script>

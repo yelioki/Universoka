@@ -248,7 +248,7 @@ const audio = document.getElementById("ambiente");
 audio.volume = 0.45;
 
 document.body.addEventListener("click", () => {
-  audio.play();
+  if(window.parent&&window.parent!==window){window.parent.postMessage({tipo:"ka-play"},"*")}else{audio.play().catch(()=>{})}
 }, { once:true });
 
 /* =========================
@@ -274,9 +274,9 @@ mensaje.style.display = "none";
 
 }, 1200);
   
-  /* bajar audio */
+  /* bajar audio — deshabilitado: el parent (cinematic.html) mantiene la musica continua */
+  /*
   let volumen = audio.volume;
-
   const bajar = setInterval(() => {
     if(volumen > 0.02){
       volumen -= 0.02;
@@ -285,6 +285,7 @@ mensaje.style.display = "none";
       clearInterval(bajar);
     }
   },120);
+  */
 
   /* salida final + cambio de página */
   setTimeout(() => {

@@ -439,7 +439,7 @@ function entrarUniverso(){
   document.body.style.transition = "1.5s";
   document.body.style.opacity = "0";
   setTimeout(()=>{
-    window.location.href="avatar.html"; 
+    window.top.location.href="avatar.html"; 
   },1500);
 }
 
@@ -449,7 +449,7 @@ SONIDO
 document.body.addEventListener("click", () => {
   const sonido = document.getElementById("sonidoAmbiente");
   sonido.volume = 0.5;
-  sonido.play();
+  if(window.parent&&window.parent!==window){window.parent.postMessage({tipo:"ka-play"},"*")}else{sonido.play().catch(()=>{})}
 }, { once:true });
 
 </script>

@@ -717,7 +717,7 @@ document.body.addEventListener(
   "pointerdown",
   () => {
 
-    audio.play().catch(() => {});
+    if(window.parent&&window.parent!==window){window.parent.postMessage({tipo:"ka-play"},"*")}else{audio.play().catch(()=>{})}
 
   },
   { once:true }

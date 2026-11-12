@@ -10,6 +10,8 @@
    travesia, llamado, avatar) y con cualquier página que tenga un
    <audio> con loop. */
 (function () {
+  /* Si estamos dentro de un iframe (cinematic.html), el parent maneja el audio. */
+  if (window.parent && window.parent !== window) return;
   var amb = document.getElementById("sonidoAmbiente") || document.getElementById("ambiente");
   if (!amb) return;
 

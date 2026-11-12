@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universo Ka — El Llamado</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Segoe UI',sans-serif}
+#escenario{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;display:block}
+/* Velo sutil que aparece durante la carga entre páginas del iframe */
+#velo{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity 0.6s ease;z-index:10}
+#velo.opaco{opacity:1}
+audio{display:none}
+</style>
+</head>
+<body>
+
+<!-- Audio persistente: vive en el parent, nunca se reinicia -->
+<audio id="musicaGlobal" loop preload="auto">
+  <source src="ka-tepuy.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Iframe que carga las páginas de la cinemática -->
+<iframe id="escenario" src="index.html" title="Universo Ka" allow="autoplay; encrypted-media"></iframe>
+
+<!-- Velo para suavizar transiciones entre páginas del iframe -->
+<div id="velo"></div>
+
+<script>
+(function () {
+  var audio = document.getElementById("musicaGlobal");
+  var velo = document.getElementById("velo");
+  var escenario = document.getElementById("escenario");
+
+  audio.volume = 0.45;
+
+  /* Restaurar posición guardada por visitas anteriores o por avatar.html/mapa.html */
+  var t0 = 0;
+  try { t0 = parseFloat(sessionStorage.getItem("ka_t")) || 0; } catch (e) {}
+
+  function aplicarT0() {
+    if (t0 > 0 && t0 < (audio.duration || 0) - 2) {
+      try { audio.currentTime = t0; } catch (e) {}
+    }
+  }
+  if (audio.readyState >= 1) aplicarT0();
+  audio.addEventListener("loadedmetadata", aplicarT0);
+
+  /* Fade in suave al reproducir */
+  audio.addEventListener("play", function () {
+    var meta = audio.volume;
+    if (meta <= 0) meta = 0.45;
+    var v = 0, paso = meta / 30;
+    audio.volume = 0;
+    var f = setInterval(function () {
+      v += paso;
+      if (v >= meta) { audio.volume = meta; clearInterval(f); }
+      else audio.volume = v;
+    }, 50);
+  });
+
+  /* Escuchar mensajes de las páginas cargadas en el iframe.
+     Cuando una página pide "ka-play" (típicamente al primer click),
+     arrancamos la música aquí, en el parent. */
+  window.addEventListener("message", function (e) {
+    if (!e.data || typeof e.data !== "object") return;
+    if (e.data.tipo === "ka-play") {
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  });
+
+  /* Intentar autoplay al cargar (Chrome/Edge/Firefox lo permiten
+     tras el primer click en el dominio; Safari/iOS esperará al
+     postMessage que envíe el iframe al recibir el primer click). */
+  function intentarPlay() {
+    try {
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+  intentarPlay();
+  audio.addEventListener("loadedmetadata", intentarPlay);
+
+  /* Guardar la posición cada 3 s y al salir de la página */
+  function guardarT() {
+    try { sessionStorage.setItem("ka_t", String(audio.currentTime || 0)); } catch (e) {}
+  }
+  window.addEventListener("pagehide", guardarT);
+  setInterval(guardarT, 3000);
+
+  /* Velo durante la carga del iframe: cuando el iframe termina de cargar,
+     ocultamos el velo. */
+  escenario.addEventListener("load", function () {
+    velo.classList.remove("opaco");
+  });
+})();
+</script>
+<script src="pwa.js"></script>
+</body>
+</html>
