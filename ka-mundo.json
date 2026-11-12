@@ -89,16 +89,16 @@
  ],
  "tepuy": {
   "imagen": [
-   1699,
-   926
+   1672,
+   941
   ],
   "puntos": [
    {
     "id": "creacion",
     "nombre": "Región de Creación",
     "tipo": "islas para crear",
-    "x": 62.4,
-    "y": 47,
+    "x": 67.6,
+    "y": 45,
     "acento": "#ffe58f",
     "estado": "activo",
     "destino": "region-creacion.html"
@@ -107,8 +107,8 @@
     "id": "viva",
     "nombre": "Región Viva",
     "tipo": "pronto",
-    "x": 27.5,
-    "y": 55,
+    "x": 30,
+    "y": 53,
     "acento": "#6fe3b0",
     "estado": "dormido",
     "aviso": "La Región Viva aún duerme… pronto despertará con sus guardianes y su bosque ✨"
@@ -118,7 +118,7 @@
     "nombre": "Región Espiritual",
     "tipo": "pronto",
     "x": 78,
-    "y": 10,
+    "y": 11,
     "acento": "#b9a6ff",
     "estado": "dormido",
     "aviso": "La Región Espiritual guarda sus memorias… todavía no se abre ✨"
@@ -127,8 +127,8 @@
     "id": "circulo",
     "nombre": "Círculo Ka",
     "tipo": "pronto",
-    "x": 41,
-    "y": 83,
+    "x": 50,
+    "y": 84,
     "acento": "#ffe58f",
     "estado": "dormido",
     "aviso": "El Círculo Ka, el refugio de los creadores, aún se está preparando 🌿"
