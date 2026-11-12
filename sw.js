@@ -1,4 +1,4 @@
-var V = "ka-v7";
+var V = "ka-v8";
 var CORE = ["./", "inicio.html", "mapa.html", "avatar.html", "region-creacion.html", "atelier-yelioki.html", "lienzo.html", "talleres.html", "taller-invitaciones.html", "taller-toppers.html", "toppers.js", "laboratorio-3d.html", "visor-3d.html", "taller-afiches.html", "lab3d.js", "personal3d.js", "corte3d.js", "packs-ka.js", "editor-ka.js", "editor-ka.css", "pwa.js", "ka-nav.js", "ka-mundo.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "niebla1.png", "niebla2.png", "tepuy-fondo.jpg", "tepuy-ka.png", "mawari.png", "kaorai.png", "seyuma.png", "orukai.png", "aura.png", "marco-avatar.png", "panel-ka.png", "fondo-ka.jpg"];
 
 self.addEventListener("install", function (e) {

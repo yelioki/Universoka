@@ -65,6 +65,20 @@
     sb.onclick = function () { mudo = !mudo; guardar("ka_mudo", mudo ? "1" : "0"); aplicar(); };
     barra.appendChild(sb); aplicar();
   }
+
+  /* la música sigue donde se quedó al cambiar de página, y entra con un fundido */
+  var amb = document.getElementById("sonidoAmbiente");
+  if (amb) {
+    var t0 = 0; try { t0 = parseFloat(sessionStorage.getItem("ka_t")) || 0; } catch (e) {}
+    amb.addEventListener("loadedmetadata", function () { if (t0 > 0 && t0 < amb.duration - 2) { try { amb.currentTime = t0; } catch (e) {} } });
+    if (amb.readyState >= 1 && t0 > 0 && t0 < amb.duration - 2) amb.currentTime = t0;
+    amb.addEventListener("play", function () {
+      var meta = amb.volume, v = 0, paso = meta / 30; amb.volume = 0;
+      var f = setInterval(function () { v += paso; if (v >= meta) { amb.volume = meta; clearInterval(f); } else amb.volume = v; }, 50);
+    });
+    function guardarT() { try { sessionStorage.setItem("ka_t", String(amb.currentTime || 0)); } catch (e) {} }
+    window.addEventListener("pagehide", guardarT); setInterval(guardarT, 3000);
+  }
   document.body.appendChild(barra);
 
   if (!sinPres) {
