@@ -91,7 +91,7 @@ fetch("ka-mundo.json").then(function (r) { return r.json(); }).then(function (m)
     }
   });
   setTimeout(function () { pista.style.opacity = 0; }, 7000);
-}).catch(function () { location.replace("region-creacion.html"); });
+}).catch(function (e) { console.error("No se pudo cargar ka-mundo.json:", e); location.replace("region-creacion.html"); });
 document.body.addEventListener("click", function () {
   var a = document.getElementById("sonidoAmbiente"); a.volume = .35; a.play().catch(function () {});
 }, { once: true });
