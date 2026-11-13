@@ -43,10 +43,7 @@
 
   var barra = document.createElement("nav"); barra.className = "ka-barra"; barra.setAttribute("aria-label", "Universo Ka");
   barra.appendChild(item("a", "tepuy", "🏔️", "Tepuy", "mapa.html"));
-  var circ = item("button", "circulo", "🌿", "Círculo");
-  circ.className += " dorm"; circ.type = "button";
-  circ.onclick = function () { avisar("El Círculo Ka, el refugio de los creadores, aún se está preparando 🌿"); };
-  barra.appendChild(circ);
+  barra.appendChild(item("a", "circulo", "🌿", "Círculo", "circulo-ka.html"));
   barra.appendChild(item("a", "creacion", "✨", "Creación", "region-creacion.html"));
   var yo = foto ? (function () { var im = document.createElement("img"); im.src = foto; im.alt = ""; return im; })() : "🙂";
   barra.appendChild(item("a", "yo", yo, "Mi presencia", "avatar.html"));

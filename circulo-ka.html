@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Círculo Ka – Universo Ka</title>
+<link rel="stylesheet" href="editor-ka.css">
+<style>
+#escena{position:fixed;inset:0;overflow:hidden;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+#escena:active{cursor:grabbing}
+.ke-cielo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.1) brightness(.7);pointer-events:none}
+.ke-mundo{position:absolute;left:0;top:0;will-change:transform}
+.ke-capa{position:absolute;left:0;top:0;will-change:transform;pointer-events:none}
+.ke-capa img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.ke-puntos{pointer-events:none}
+.ke-punto{all:unset;box-sizing:border-box;position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent;padding:6px}
+.ke-luz{position:absolute;left:50%;top:50%;width:120px;height:120px;transform:translate(-50%,-62%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--ac) 55%,transparent),transparent 68%);filter:blur(4px);pointer-events:none;animation:latido 4s ease-in-out infinite}
+.ke-punto.activo .ke-luz{width:170px;height:170px;animation-duration:3s}
+.ke-punto.dormido .ke-luz{opacity:.55;width:90px;height:90px}
+@keyframes latido{0%,100%{opacity:.75;scale:1}50%{opacity:1;scale:1.12}}
+.ke-nom{position:relative;display:block;min-height:44px;padding:8px 16px;border-radius:24px;background:rgba(5,22,24,.62);backdrop-filter:blur(10px);border:1px solid color-mix(in srgb,var(--ac) 70%,transparent);box-shadow:0 0 22px color-mix(in srgb,var(--ac) 35%,transparent);font-size:14px;font-weight:700;text-align:center;white-space:nowrap;text-shadow:0 0 10px rgba(0,0,0,.6);line-height:1.2}
+.ke-nom small{display:block;font-weight:400;font-size:11px;opacity:.8;margin-top:2px}
+.ke-punto.dormido .ke-nom{opacity:.88;font-weight:600}
+.ke-punto:hover .ke-nom{box-shadow:0 0 32px color-mix(in srgb,var(--ac) 75%,transparent)}
+.neblina{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}
+.niebla{position:absolute;width:1500px;opacity:.16;filter:blur(10px)}
+.n1{top:-5%;left:-40%;animation:n1 60s linear infinite}
+.n2{bottom:12%;right:-40%;animation:n2 80s linear infinite}
+@keyframes n1{to{transform:translateX(150vw)}}
+@keyframes n2{to{transform:translateX(-150vw)}}
+.particulas{position:fixed;inset:0;pointer-events:none;z-index:22}
+.particulas span{position:absolute;width:4px;height:4px;border-radius:50%;background:#ffe58f;box-shadow:0 0 10px #ffe58f,0 0 18px rgba(255,229,143,.5);animation:flotar 10s linear infinite}
+@keyframes flotar{0%{transform:translateY(120px);opacity:0}30%{opacity:1}100%{transform:translateY(-250px);opacity:0}}
+#ka-ui{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:30;width:min(88vw,380px);pointer-events:none;text-align:center}
+#ka-cuadro{padding:12px 16px;border-radius:22px;background:rgba(0,0,0,.5);backdrop-filter:blur(12px);border:1px solid rgba(255,229,143,.2);line-height:1.5;font-size:14px;transition:opacity .6s}
+#pista{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:30;padding:7px 14px;border-radius:18px;background:rgba(0,0,0,.45);font-size:12.5px;pointer-events:none;transition:opacity .8s;white-space:nowrap}
+.avatar-usuario{position:fixed;bottom:118px;left:16px;width:56px;height:56px;border-radius:50%;overflow:hidden;z-index:31;border:2px solid rgba(255,229,143,.45);box-shadow:0 0 22px rgba(255,229,143,.4);transition:1s ease;background:rgba(0,0,0,.3);pointer-events:none}
+.avatar-usuario img{width:100%;height:100%;object-fit:cover}
+.volver{position:fixed;top:14px;left:14px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.88);color:#17393b;font-weight:700;cursor:pointer;font-size:14px;font-family:inherit}
+#circulo-descansando{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,22,24,.92);text-align:center;padding:40px 20px}
+#circulo-descansando h2{font-size:24px;color:#7be6d6;margin-bottom:12px}
+#circulo-descansando p{font-size:15px;line-height:1.6;opacity:.9;margin-bottom:24px;max-width:400px}
+#circulo-descansando button{padding:13px 24px;border:0;border-radius:20px;background:linear-gradient(135deg,#6fe3d4,#2d8f89);color:#fff;font-weight:700;cursor:pointer;font-size:15px;font-family:inherit}
+@media(prefers-reduced-motion:reduce){.niebla,.particulas span,.ke-luz{animation:none}}
+</style>
+</head>
+<body>
+<button class="volver" onclick="location.href='mapa.html'">← Tepuy Ka</button>
+
+<div id="escena"></div>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<div class="particulas"></div>
+<div class="avatar-usuario" id="avatarUsuario"></div>
+
+<div id="ka-ui"><div id="ka-cuadro"><p id="ka-texto">El Círculo Ka es el santuario donde los mundos se encuentran. Arrastra para mirar alrededor ✨</p></div></div>
+<div id="pista">↔ Arrastra para explorar</div>
+
+<!-- Pantalla de degradación elegante si Supabase no responde -->
+<div id="circulo-descansando">
+  <h2>El Círculo está descansando</h2>
+  <p>La conexión con el santuario comunitario tarda en responder. Puedes seguir explorando el Universo Ka sin interrupción.</p>
+  <button onclick="location.href='mapa.html'">Volver al Tepuy</button>
+</div>
+
+<script src="supabase-client.js"></script>
+<script src="circulo-auth.js"></script>
+<script src="escena-ka.js"></script>
+<script>
+// Partículas
+for (var i = 0; i < 40; i++) {
+  var p = document.createElement("span");
+  p.style.left = Math.random()*100+"vw"; p.style.top = Math.random()*100+"vh";
+  p.style.animationDuration = (5+Math.random()*6)+"s";
+  document.querySelector(".particulas").appendChild(p);
+}
+
+var ka = document.getElementById("ka-texto"), kaUi = document.getElementById("ka-ui");
+var pista = document.getElementById("pista"), avatar = document.getElementById("avatarUsuario");
+var descansando = document.getElementById("circulo-descansando");
+
+// Avatar del usuario desde localStorage
+var nombre = "", personaje = "";
+try { nombre = localStorage.getItem("nombreAvatar") || ""; personaje = localStorage.getItem("personajeAvatar") || ""; } catch (e) {}
+if (personaje) {
+  var img = document.createElement("img"); img.src = personaje; img.alt = "";
+  avatar.appendChild(img);
+} else { avatar.style.display = "none"; }
+
+if (nombre) ka.textContent = "Bienvenido al Círculo, " + nombre + ". Arrastra para explorar el santuario ✨";
+setTimeout(function () { kaUi.classList.add("baja"); pista.style.opacity = 0; }, 9000);
+
+// Verificar autenticación y Supabase
+async function inicializar() {
+  // Esperar a que supabase-client.js termine
+  if (window.supabaseConfigurado === undefined) {
+    await new Promise(function (r) { window.addEventListener("supabase-listo", r); });
+  }
+
+  // Si Supabase no está configurado, mostrar pantalla de descanso
+  if (!CirculoAuth.configurado()) {
+    descansando.style.display = "flex";
+    return;
+  }
+
+  // Verificar sesión
+  var sesion = await CirculoAuth.sesionActual();
+  if (!sesion) {
+    location.href = "circulo-auth.html";
+    return;
+  }
+
+  // Intentar conectar a la base de datos (con timeout de 5s)
+  try {
+    var timeout = new Promise(function (_, reject) {
+      setTimeout(function () { reject(new Error("timeout")); }, 5000);
+    });
+    var query = supabaseClient.from("perfiles").select("id").limit(1);
+    var resultado = await Promise.race([query, timeout]);
+    if (resultado.error) throw resultado.error;
+  } catch (e) {
+    // Supabase no responde: degradar elegantemente
+    descansando.style.display = "flex";
+    return;
+  }
+
+  // Supabase responde: cargar el panorama del Círculo
+  cargarCirculo();
+}
+
+function cargarCirculo() {
+  fetch("circulo-mundo.json").then(function (r) { return r.json(); }).then(function (m) {
+    var mundo = KaEscena.montar({
+      raiz: document.getElementById("escena"),
+      ratio: m.circulo.imagen,
+      ancho: 1.7,
+      cielo: "tepuy-cielo.jpg",
+      capas: [
+        { src: "capa-fondo.webp", k: -.07, z: 1 },
+        { src: "capa-medio.webp", k: 0, z: 2 },
+        { src: "capa-frente.webp", k: .09, z: 9 }
+      ],
+      puntos: m.circulo.puntos,
+      inicio: { x: 50, y: 50 },
+      alMover: function () { pista.style.opacity = 0; },
+      alPunto: function (p, el) {
+        kaUi.classList.remove("baja");
+        clearTimeout(window._t);
+        window._t = setTimeout(function () { kaUi.classList.add("baja"); }, 6000);
+        if (p.estado !== "activo") {
+          ka.textContent = p.aviso;
+          return;
+        }
+        var b = el.getBoundingClientRect();
+        avatar.style.left = (b.left + b.width / 2) + "px";
+        avatar.style.top = (b.top + b.height / 2) + "px";
+        avatar.style.bottom = "auto";
+        avatar.style.transform = "translate(-50%,-50%) scale(.8)";
+        setTimeout(function () { location.href = p.destino; }, 1100);
+      }
+    });
+    setTimeout(function () { pista.style.opacity = 0; }, 7000);
+  }).catch(function (e) {
+    console.error("No se pudo cargar circulo-mundo.json:", e);
+    descansando.style.display = "flex";
+  });
+}
+
+inicializar();
+</script>
+<script src="ka-nav.js" data-aqui="circulo" data-sin-presencia></script>
+<script src="pwa.js"></script>
+</body>
+</html>

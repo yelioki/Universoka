@@ -1,0 +1,61 @@
+{
+  "circulo": {
+    "imagen": [1672, 941],
+    "puntos": [
+      {
+        "id": "arbol",
+        "nombre": "Árbol de los Sueños",
+        "tipo": "compartir sueños",
+        "x": 50, "y": 35,
+        "acento": "#f2a0a8",
+        "estado": "activo",
+        "destino": "arbol-suenos.html"
+      },
+      {
+        "id": "libro",
+        "nombre": "Libro de los Habitantes",
+        "tipo": "tu identidad",
+        "x": 20, "y": 60,
+        "acento": "#8fc4ff",
+        "estado": "activo",
+        "destino": "libro-habitantes.html"
+      },
+      {
+        "id": "encuentros",
+        "nombre": "Encuentros",
+        "tipo": "pronto",
+        "x": 80, "y": 55,
+        "acento": "#6fe3b0",
+        "estado": "dormido",
+        "aviso": "Los Encuentros entre Habitantes aún se están preparando… pronto abrirá 🌿"
+      },
+      {
+        "id": "mural",
+        "nombre": "Mural de los Descubrimientos",
+        "tipo": "pronto",
+        "x": 35, "y": 80,
+        "acento": "#7be6d6",
+        "estado": "dormido",
+        "aviso": "El Mural de los Descubrimientos aún duerme… pronto despertará ✨"
+      },
+      {
+        "id": "casa",
+        "nombre": "Casa de los Creadores",
+        "tipo": "pronto",
+        "x": 70, "y": 18,
+        "acento": "#ffe58f",
+        "estado": "dormido",
+        "aviso": "La Casa de los Creadores aún se está construyendo… pronto abrirá 🎨"
+      },
+      {
+        "id": "calendario",
+        "nombre": "Calendario de Encuentros",
+        "tipo": "pronto",
+        "x": 50, "y": 90,
+        "acento": "#b9a6ff",
+        "estado": "dormido",
+        "aviso": "El Calendario de Encuentros aún no tiene fechas… vuelve pronto 📅"
+      }
+    ]
+  }
+}

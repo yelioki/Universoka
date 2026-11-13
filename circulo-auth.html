@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar al Círculo Ka — Universo Ka</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+html,body{height:100%;overflow:hidden}
+body{color:#fff;background:radial-gradient(circle at center,#2f6f73 0%,#17393b 40%,#0b1d1f 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+.neblina{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.niebla{position:absolute;width:1400px;opacity:.18;filter:blur(10px)}
+.n1{top:-10%;left:-40%;animation:n1 45s linear infinite}
+.n2{bottom:-10%;right:-40%;animation:n2 60s linear infinite}
+@keyframes n1{to{transform:translateX(150vw)}}
+@keyframes n2{to{transform:translateX(-150vw)}}
+.particulas{position:fixed;inset:0;pointer-events:none;z-index:2}
+.particulas span{position:absolute;width:5px;height:5px;border-radius:50%;background:#ffe58f;box-shadow:0 0 10px #ffe58f,0 0 20px rgba(255,215,0,.5);animation:flotar 8s linear infinite}
+@keyframes flotar{0%{transform:translateY(120px);opacity:0}30%{opacity:1}100%{transform:translateY(-250px);opacity:0}}
+.panel{position:relative;z-index:10;max-width:440px;width:100%;padding:36px 32px;text-align:center;background:rgba(5,22,24,.62);backdrop-filter:blur(14px);border:1px solid rgba(123,230,214,.25);border-radius:28px;box-shadow:0 0 50px rgba(0,0,0,.5),0 0 100px rgba(123,230,214,.1)}
+.panel h1{font-size:26px;margin-bottom:10px;color:#7be6d6;text-shadow:0 0 18px rgba(123,230,214,.4)}
+.panel .sub{font-size:14px;line-height:1.6;opacity:.9;margin-bottom:24px}
+.campo{margin-bottom:16px;text-align:left}
+.campo label{display:block;margin-bottom:6px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;opacity:.7}
+.campo input{width:100%;padding:14px 16px;border-radius:20px;border:1px solid rgba(123,230,214,.3);outline:none;font-size:15px;color:#dffaf6;background:rgba(30,120,125,.5);font-family:inherit}
+.campo input:focus{border-color:rgba(123,230,214,.8);box-shadow:0 0 18px rgba(123,230,214,.25)}
+.btn{width:100%;margin-top:8px;padding:14px;border:0;border-radius:20px;cursor:pointer;font-size:15px;font-weight:700;color:#fff;background:linear-gradient(135deg,#6fe3d4,#2d8f89);transition:.3s;font-family:inherit}
+.btn:hover{transform:scale(1.02);box-shadow:0 0 22px rgba(123,230,214,.45)}
+.btn.sec{background:transparent;border:1px solid rgba(255,255,255,.2);margin-top:10px}
+.btn.sec:hover{background:rgba(255,255,255,.08)}
+#msg{margin-top:14px;font-size:13px;line-height:1.5;min-height:40px;color:#dffaf6;font-style:italic}
+#msg.ok{color:#6fe3b0}
+#msg.err{color:#f2a0a8}
+.volver{position:fixed;top:16px;left:16px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.85);color:#17393b;font-weight:700;cursor:pointer;font-size:14px;font-family:inherit;text-decoration:none}
+@media(max-width:400px){.panel{padding:28px 20px}.panel h1{font-size:22px}}
+</style>
+</head>
+<body>
+<a class="volver" href="mapa.html">← Volver al Tepuy</a>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<div class="particulas" id="particulas"></div>
+
+<div class="panel">
+  <h1>El Círculo Ka</h1>
+  <p class="sub">El santuario donde los mundos se encuentran.<br>Para participar, ingresa tu correo y te enviaremos un enlace mágico.</p>
+
+  <div class="campo">
+    <label for="email">Tu correo</label>
+    <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email">
+  </div>
+
+  <button class="btn" id="btnEnviar">Recibir enlace mágico ✨</button>
+  <button class="btn sec" id="btnExplorar">Solo quiero explorar el Universo</button>
+
+  <p id="msg">Ka escucha tu energía… 🌿</p>
+</div>
+
+<script src="supabase-client.js"></script>
+<script src="circulo-auth.js"></script>
+<script>
+// Partículas
+for (var i = 0; i < 30; i++) {
+  var p = document.createElement("span");
+  p.style.left = Math.random()*100+"vw";
+  p.style.top = Math.random()*100+"vh";
+  p.style.animationDuration = (4+Math.random()*6)+"s";
+  document.getElementById("particulas").appendChild(p);
+}
+
+var msg = document.getElementById("msg");
+var btnEnviar = document.getElementById("btnEnviar");
+var btnExplorar = document.getElementById("btnExplorar");
+var emailInput = document.getElementById("email");
+
+function mostrar(texto, tipo) {
+  msg.textContent = texto;
+  msg.className = tipo || "";
+}
+
+// Si ya hay sesión, ir directo al Círculo
+window.addEventListener("supabase-listo", function () {
+  if (CirculoAuth.configurado()) {
+    CirculoAuth.requiereAuth(function () {
+      location.href = "circulo-ka.html";
+    });
+  } else {
+    mostrar("La conexión con el Círculo aún no está configurada. Vuelve pronto.", "err");
+    btnEnviar.disabled = true;
+  }
+});
+
+// Si supabase-listo ya disparó antes
+if (window.supabaseConfigurado !== undefined) {
+  window.dispatchEvent(new Event("supabase-listo"));
+}
+
+btnEnviar.addEventListener("click", async function () {
+  var email = emailInput.value.trim();
+  if (!email || email.indexOf("@") < 0) {
+    mostrar("Ka susurra… ingresa un correo válido.", "err");
+    return;
+  }
+  if (!CirculoAuth.configurado()) {
+    mostrar("El Círculo aún no está configurado. Vuelve pronto.", "err");
+    return;
+  }
+  btnEnviar.disabled = true;
+  mostrar("Ka envía el enlace a tu correo… ✨");
+  var r = await CirculoAuth.enviarMagicLink(email);
+  btnEnviar.disabled = false;
+  if (r.error) {
+    mostrar("No se pudo enviar el enlace: " + r.error, "err");
+  } else {
+    mostrar("Revisa tu correo. Haz clic en el enlace mágico para entrar al Círculo.", "ok");
+    btnEnviar.style.display = "none";
+  }
+});
+
+btnExplorar.addEventListener("click", function () {
+  location.href = "mapa.html";
+});
+
+emailInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") btnEnviar.click();
+});
+</script>
+<script src="pwa.js"></script>
+</body>
+</html>

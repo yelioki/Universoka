@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Árbol de los Sueños – Círculo Ka</title>
+<link rel="stylesheet" href="editor-ka.css">
+<style>
+main{max-width:720px}
+.arbol-vacio{position:relative;min-height:300px;margin:20px 0;border-radius:24px;background:rgba(0,0,0,.3);border:1px solid rgba(242,160,168,.2);overflow:hidden}
+.arbol-vacio .arbol-fondo{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(242,160,168,.15),transparent 70%);opacity:.6}
+.arbol-vacio .arbol-mensaje{position:relative;z-index:2;text-align:center;padding:60px 20px;font-style:italic;opacity:.7;line-height:1.6}
+.sueno{position:relative;padding:16px 18px;margin-bottom:12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid color-mix(in srgb,var(--ac) 40%,transparent);backdrop-filter:blur(8px);animation:aparecer .6s ease forwards}
+@keyframes aparecer{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.sueno .luz-simbolo{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,var(--ac),transparent 70%);box-shadow:0 0 16px var(--ac);animation:latir 3s ease-in-out infinite}
+@keyframes latir{0%,100%{opacity:.6;scale:1}50%{opacity:1;scale:1.15}}
+.sueno .texto{font-size:15px;line-height:1.6;color:#fff;padding-right:36px}
+.sueno .meta{margin-top:8px;font-size:12px;opacity:.6;display:flex;gap:12px;align-items:center}
+.sueno .meta img{width:22px;height:22px;border-radius:50%;border:1px solid var(--ac)}
+.sueno-propio{border-color:var(--ac)}
+.sueno-propio .estado-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:10px;font-weight:700;margin-top:6px}
+.estado-tag.pendiente{background:rgba(255,229,143,.2);color:#ffe58f;border:1px solid rgba(255,229,143,.4)}
+.estado-tag.aprobado{background:rgba(111,227,176,.2);color:#6fe3b0;border:1px solid rgba(111,227,176,.4)}
+.estado-tag.rechazado{background:rgba(242,160,168,.2);color:#f2a0a8;border:1px solid rgba(242,160,168,.4)}
+.formulario-sueno{padding:18px;border-radius:24px}
+.formulario-sueno textarea{width:100%;min-height:100px;padding:14px;border-radius:18px;border:1px solid rgba(123,230,214,.3);background:rgba(30,120,125,.4);color:#fff;font-family:inherit;font-size:15px;resize:vertical;outline:none}
+.formulario-sueno textarea:focus{border-color:rgba(123,230,214,.8)}
+.simbolos{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.sim{padding:8px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);cursor:pointer;font-size:13px;color:#fff;font-family:inherit}
+.sim.on{border-color:#f2a0a8;background:rgba(242,160,168,.2);box-shadow:0 0 12px rgba(242,160,168,.3)}
+</style>
+</head>
+<body>
+<button class="volver" onclick="location.href='circulo-ka.html'">← Círculo Ka</button>
+<div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
+<div class="particulas"></div>
+
+<main>
+  <h1>Árbol de los Sueños</h1>
+  <p class="sub">Cada luz en el árbol es un sueño, un deseo, un pensamiento compartido por una habitante del Universo Ka.</p>
+
+  <!-- Formulario para publicar -->
+  <div class="glass panel formulario-sueno">
+    <div class="etq">Comparte tu sueño</div>
+    <textarea id="textoSueno" maxlength="1000" placeholder="Escribe tu sueño aquí… (máximo 1000 caracteres)"></textarea>
+    <div class="etq" style="margin-top:12px">Símbolo</div>
+    <div class="simbolos" id="simbolos">
+      <button class="sim on" data-simbolo="luz" data-color="#ffe58f">✨ Luz</button>
+      <button class="sim" data-simbolo="hoja" data-color="#6fe3b0">🌿 Hoja</button>
+      <button class="sim" data-simbolo="agua" data-color="#7be6d6">💧 Agua</button>
+      <button class="sim" data-simbolo="estrella" data-color="#b9a6ff">⭐ Estrella</button>
+      <button class="sim" data-simbolo="fuego" data-color="#f2a0a8">🔥 Fuego</button>
+    </div>
+    <div class="acciones">
+      <button class="btn" id="btnPublicar">Colgar en el árbol ✨</button>
+    </div>
+    <p class="msg" id="msgForm">Tu sueño pasará por moderación antes de brillar en el árbol.</p>
+  </div>
+
+  <!-- Lista de sueños -->
+  <h2>Los sueños del árbol</h2>
+  <div id="arbol">
+    <div class="arbol-vacio">
+      <div class="arbol-fondo"></div>
+      <div class="arbol-mensaje">Cargando los sueños del árbol…</div>
+    </div>
+  </div>
+</main>
+
+<script src="supabase-client.js"></script>
+<script src="circulo-auth.js"></script>
+<script>
+var SIMBOLO = "luz", COLOR = "#ffe58f";
+var msgForm = document.getElementById("msgForm");
+var arbol = document.getElementById("arbol");
+var textoArea = document.getElementById("textoSueno");
+var btnPublicar = document.getElementById("btnPublicar");
+
+// Símbolos
+document.querySelectorAll(".sim").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll(".sim").forEach(function (x) { x.classList.remove("on"); });
+    b.classList.add("on");
+    SIMBOLO = b.dataset.simbolo;
+    COLOR = b.dataset.color;
+  });
+});
+
+async function inicializar() {
+  if (window.supabaseConfigurado === undefined) {
+    await new Promise(function (r) { window.addEventListener("supabase-listo", r); });
+  }
+  if (!CirculoAuth.configurado()) {
+    arbol.innerHTML = '<div class="arbol-vacio"><div class="arbol-mensaje">El Árbol está descansando. Vuelve pronto.</div></div>';
+    btnPublicar.disabled = true;
+    return;
+  }
+  var sesion = await CirculoAuth.sesionActual();
+  if (!sesion) { location.href = "circulo-auth.html"; return; }
+  await cargarSuenos();
+}
+
+async function cargarSuenos() {
+  try {
+    // Sueños aprobados (públicos) + propios (cualquier estado)
+    var r = await supabaseClient
+      .from("suenos")
+      .select("id,habitante_id,texto,simbolo,color,estado,creado_en,perfiles!inner(nombre_universo,avatar)")
+      .or("estado.eq.aprobado,habitante_id.eq." + (await CirculoAuth.sesionActual()).user.id)
+      .order("creado_en", { ascending: false })
+      .limit(50);
+    if (r.error) throw r.error;
+    renderSuenos(r.data || []);
+  } catch (e) {
+    arbol.innerHTML = '<div class="arbol-vacio"><div class="arbol-mensaje">No se pudieron cargar los sueños. Vuelve a intentarlo.</div></div>';
+  }
+}
+
+function renderSuenos(suenos) {
+  if (!suenos.length) {
+    arbol.innerHTML = '<div class="arbol-vacio"><div class="arbol-fondo"></div><div class="arbol-mensaje">El árbol aún no tiene sueños.<br>Sé la primera en colgar una luz ✨</div></div>';
+    return;
+  }
+  arbol.innerHTML = suenos.map(function (s) {
+    var propio = s.habitante_id === (window._miId || "");
+    var perfil = s.perfiles || {};
+    var fecha = new Date(s.creado_en).toLocaleDateString("es", { day: "numeric", month: "long" });
+    var estadoTag = propio ? '<span class="estado-tag ' + s.estado + '">' + s.estado + '</span>' : "";
+    return '<div class="sueno' + (propio ? " sueno-propio" : "") + '" style="--ac:' + s.color + '">' +
+      '<div class="luz-simbolo"></div>' +
+      '<div class="texto">' + esc(s.texto) + '</div>' +
+      '<div class="meta">' +
+        '<img src="' + esc(perfil.avatar || "mawari.png") + '" alt="">' +
+        '<span>' + esc(perfil.nombre_universo || "Viajera") + '</span>' +
+        '<span>· ' + fecha + '</span>' +
+      '</div>' +
+      estadoTag +
+    '</div>';
+  }).join("");
+}
+
+function esc(t) {
+  return String(t).replace(/[&<>"]/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+  });
+}
+
+btnPublicar.addEventListener("click", async function () {
+  var texto = textoArea.value.trim();
+  if (!texto) { msgForm.textContent = "Ka susurra… escribe tu sueño primero."; msgForm.className = "msg"; return; }
+  if (texto.length > 1000) { msgForm.textContent = "Tu sueño es demasiado largo (máximo 1000 caracteres)."; return; }
+  btnPublicar.disabled = true;
+  msgForm.textContent = "Ka está colgando tu sueño en el árbol…";
+  try {
+    var sesion = await CirculoAuth.sesionActual();
+    window._miId = sesion.user.id;
+    var r = await supabaseClient
+      .from("suenos")
+      .insert({ habitante_id: sesion.user.id, texto: texto, simbolo: SIMBOLO, color: COLOR })
+      .select().single();
+    if (r.error) throw r.error;
+    textoArea.value = "";
+    msgForm.textContent = "Tu sueño está en el árbol, pendiente de moderación. Aparecerá cuando un Guardián lo apruebe.";
+    msgForm.className = "msg";
+    msgForm.style.color = "#6fe3b0";
+    await cargarSuenos();
+  } catch (e) {
+    msgForm.textContent = "No se pudo publicar: " + (e.message || "error desconocido");
+    msgForm.style.color = "#f2a0a8";
+  }
+  btnPublicar.disabled = false;
+});
+
+inicializar();
+</script>
+<script src="ka-nav.js" data-aqui="circulo" data-sin-presencia></script>
+<script src="pwa.js"></script>
+</body>
+</html>
