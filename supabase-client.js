@@ -6,8 +6,8 @@
    con los valores reales de tu proyecto Supabase (ver README). */
 (function () {
   // === CONFIGURACIÓN: reemplazar con los valores de tu proyecto ===
-  var SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
-  var SUPABASE_ANON_KEY = "TU-ANON-KEY-AQUI";
+  var SUPABASE_URL = "https://yxyjlryxtcwdgqodlskg.supabase.co";
+  var SUPABASE_ANON_KEY = "sb_publishable_QTmXpTHEoVFqBpvH4PUyDg_NQveWImR";
   // === FIN CONFIGURACIÓN ===
 
   // Detectar si las claves siguen siendo placeholder
