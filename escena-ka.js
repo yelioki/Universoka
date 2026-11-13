@@ -15,11 +15,21 @@
         capas.push({ el: d, k: c.k || 0, h: c.h || 1 });
       });
       var puntos = crear("div", "ke-capa ke-puntos", mundo); puntos.style.zIndex = 20; capas.push({ el: puntos, k: 0, h: 1 });
-      var botones = [];
+      var botones = [], imgs = [];
       (o.puntos || []).forEach(function (p) {
         var b = crear(p.estado === "activo" ? "button" : "button", "ke-punto " + p.estado, puntos); b.type = "button";
         b.style.left = p.x + "%"; b.style.top = p.y + "%"; b.style.setProperty("--ac", p.acento || "#7be6d6");
         b.innerHTML = '<i class="ke-luz"></i><span class="ke-nom">' + p.nombre + '<small>' + (p.tipo || "") + '</small></span>';
+        /* imagen opcional (PNG con fondo transparente): brilla con el acento del punto.
+           Si el archivo no existe, el punto queda como antes (solo luz y nombre). */
+        if (p.imagen) {
+          var im = document.createElement("img"); im.className = "ke-img"; im.alt = ""; im.draggable = false; im.decoding = "async";
+          var reg = { el: im, tam: p.tam || 14 };
+          im.onerror = function () { im.remove(); b.classList.remove("con-img"); imgs.splice(imgs.indexOf(reg), 1); };
+          im.onload = function () { b.classList.add("con-img"); };
+          im.src = p.imagen; b.insertBefore(im, b.querySelector(".ke-nom")); imgs.push(reg);
+          if (im.complete && im.naturalWidth) b.classList.add("con-img");
+        }
         b.setAttribute("aria-label", p.nombre + (p.tipo ? ", " + p.tipo : ""));
         b.addEventListener("click", function () { if (movio) return; o.alPunto && o.alPunto(p, b); });
         botones.push(b);
@@ -35,6 +45,7 @@
         ox = 0; oy = ry ? 0 : (vh - H) / 2;
         mundo.style.width = W + "px"; mundo.style.height = H + "px";
         capas.forEach(function (c) { c.el.style.width = W + "px"; c.el.style.height = H + "px"; });
+        imgs.forEach(function (r) { r.el.style.width = Math.round(W * r.tam / 100) + "px"; });   // tam = % del ancho del mundo
         cx = Math.min(rx, Math.max(0, cx)); cy = Math.min(ry, Math.max(0, cy));
       }
       function pintar() {

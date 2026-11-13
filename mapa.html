@@ -24,6 +24,23 @@ html,body{height:100%;overflow:hidden;background:#0b1d1f;color:#fff}
 .ke-punto.dormido .ke-nom{opacity:.88;font-weight:600}
 .ke-punto:hover .ke-nom,.ke-punto:focus-visible .ke-nom{box-shadow:0 0 32px color-mix(in srgb,var(--ac) 75%,transparent)}
 .ke-punto:focus-visible{outline:2px solid #7be6d6;border-radius:28px}
+/* Punto con imagen PNG propia: el punto (x,y) es el centro de la imagen; el nombre cuelga debajo */
+.ke-punto.con-img{padding:0}
+.ke-img{display:block;height:auto;position:relative;pointer-events:none;-webkit-user-drag:none;transition:transform .35s ease;
+ filter:drop-shadow(0 0 8px color-mix(in srgb,var(--ac) 70%,transparent)) drop-shadow(0 0 26px color-mix(in srgb,var(--ac) 55%,transparent));
+ animation:brillo 4.5s ease-in-out infinite,isla 8s ease-in-out infinite}
+.ke-punto.con-img:hover .ke-img,.ke-punto.con-img:focus-visible .ke-img{transform:scale(1.06)}
+.ke-punto.con-img.dormido .ke-img{opacity:.88;animation-name:brillo-suave,isla}
+.ke-punto.con-img .ke-luz,.ke-punto.con-img.activo .ke-luz,.ke-punto.con-img.dormido .ke-luz{width:150%;height:150%;transform:translate(-50%,-50%)}
+.ke-punto.con-img .ke-nom{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:-8px}
+.ke-punto.con-img:focus-visible{outline-offset:-4px}
+@keyframes brillo{
+ 0%,100%{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--ac) 60%,transparent)) drop-shadow(0 0 18px color-mix(in srgb,var(--ac) 40%,transparent))}
+ 50%{filter:drop-shadow(0 0 14px color-mix(in srgb,var(--ac) 90%,transparent)) drop-shadow(0 0 44px color-mix(in srgb,var(--ac) 75%,transparent))}}
+@keyframes brillo-suave{
+ 0%,100%{filter:drop-shadow(0 0 4px color-mix(in srgb,var(--ac) 40%,transparent)) drop-shadow(0 0 12px color-mix(in srgb,var(--ac) 25%,transparent))}
+ 50%{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--ac) 65%,transparent)) drop-shadow(0 0 28px color-mix(in srgb,var(--ac) 50%,transparent))}}
+@keyframes isla{0%,100%{translate:0 0}50%{translate:0 -7px}}
 .neblina{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}
 .niebla{position:absolute;width:1500px;opacity:.16;filter:blur(10px)}
 .n1{top:-5%;left:-40%;animation:n1 60s linear infinite}
@@ -42,7 +59,7 @@ html,body{height:100%;overflow:hidden;background:#0b1d1f;color:#fff}
 .volver{position:fixed;top:14px;left:14px;z-index:50;padding:11px 16px;border:0;border-radius:20px;background:rgba(255,255,255,.88);color:#17393b;font-weight:700;cursor:pointer;font-size:14px}
 .nombre-usuario{position:fixed;top:14px;right:14px;z-index:50;padding:10px 14px;border-radius:20px;background:rgba(6,20,22,.6);backdrop-filter:blur(10px);border:1px solid rgba(123,230,214,.3);font-size:13px;font-weight:600;max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(min-width:900px){.ke-nom{font-size:16px;padding:10px 20px}.avatar-usuario{width:68px;height:68px;bottom:100px;left:24px}#pista{bottom:84px}}
-@media(prefers-reduced-motion:reduce){.niebla,.particulas span,.ke-luz{animation:none}}
+@media(prefers-reduced-motion:reduce){.niebla,.particulas span,.ke-luz,.ke-img{animation:none}}
 </style>
 </head>
 <body>
@@ -79,7 +96,7 @@ fetch("ka-mundo.json").then(function (r) { return r.json(); }).then(function (m)
       { src: "capa-medio.webp", k: 0, z: 2 },
       { src: "capa-frente.webp", k: .09, z: 9 }
     ],
-    puntos: m.tepuy.puntos, inicio: { x: 55, y: 55 },
+    puntos: m.tepuy.puntos, inicio: { x: 50, y: 55 },
     alMover: function () { pista.style.opacity = 0; },
     alPunto: function (p, el) {
       kaUi.classList.remove("baja"); clearTimeout(window._t); window._t = setTimeout(function () { kaUi.classList.add("baja"); }, 6000);

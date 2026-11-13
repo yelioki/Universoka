@@ -94,45 +94,52 @@
   ],
   "puntos": [
    {
-    "id": "creacion",
-    "nombre": "Región de Creación",
-    "tipo": "islas para crear",
-    "x": 67.6,
-    "y": 45,
-    "acento": "#ffe58f",
-    "estado": "activo",
-    "destino": "region-creacion.html"
-   },
-   {
     "id": "viva",
     "nombre": "Región Viva",
     "tipo": "pronto",
-    "x": 30,
-    "y": 53,
+    "x": 27,
+    "y": 42,
     "acento": "#6fe3b0",
-    "estado": "activo",
-    "destino": "circulo-ka.html",
-    "aviso": "La Región Viva aún duerme… pronto despertará con sus guardianes y su bosque ✨"
+    "estado": "dormido",
+    "aviso": "La Región Viva aún duerme… pronto despertará con sus guardianes y su bosque ✨",
+    "imagen": "mapa-viva.png",
+    "tam": 14
    },
    {
     "id": "espiritual",
     "nombre": "Región Espiritual",
     "tipo": "pronto",
-    "x": 78,
-    "y": 11,
+    "x": 50,
+    "y": 16,
     "acento": "#b9a6ff",
     "estado": "dormido",
-    "aviso": "La Región Espiritual guarda sus memorias… todavía no se abre ✨"
+    "aviso": "La Región Espiritual guarda sus memorias… todavía no se abre ✨",
+    "imagen": "mapa-espiritual.png",
+    "tam": 12
+   },
+   {
+    "id": "creacion",
+    "nombre": "Región de Creación",
+    "tipo": "islas para crear",
+    "x": 73,
+    "y": 42,
+    "acento": "#ffe58f",
+    "estado": "activo",
+    "destino": "region-creacion.html",
+    "imagen": "region-creacion.png",
+    "tam": 15
    },
    {
     "id": "circulo",
     "nombre": "Círculo Ka",
     "tipo": "comunidad",
     "x": 50,
-    "y": 84,
+    "y": 60,
     "acento": "#ffe58f",
     "estado": "activo",
-    "destino": "circulo-ka.html"
+    "destino": "circulo-ka.html",
+    "imagen": "mapa-circulo.png",
+    "tam": 15
    }
   ]
  }
