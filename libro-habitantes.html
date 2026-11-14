@@ -38,17 +38,13 @@ main{max-width:680px}
 <body>
 <button class="volver" onclick="location.href='circulo-ka.html'">← Círculo Ka</button>
 <div class="neblina"><img src="niebla1.png" class="niebla n1" alt=""><img src="niebla2.png" class="niebla n2" alt=""></div>
-
 <main>
   <h1>Libro de los Habitantes</h1>
   <p class="sub">Tu identidad en el Universo Ka. Lo que compartas aquí es voluntario y visible para otras habitantes.</p>
-
   <div class="tabs">
     <button class="tab on" id="tabMiPerfil" onclick="mostrarTab('perfil')">Mi perfil</button>
     <button class="tab" id="tabOtros" onclick="mostrarTab('otros')">Otras habitantes</button>
   </div>
-
-  <!-- Tab: Mi perfil -->
   <div id="vistaPerfil">
     <div class="glass panel perfil-cabecera" id="cabeceraPerfil">
       <div class="perfil-avatar"><img id="miAvatar" src="mawari.png" alt=""></div>
@@ -59,164 +55,92 @@ main{max-width:680px}
         <div class="perfil-creado" id="miCreado"></div>
       </div>
     </div>
-
     <div class="glass panel panel-editar">
       <div class="etq">Editar tu Libro</div>
-      <div class="campo">
-        <label>Nombre del universo</label>
-        <input type="text" id="editNombre" maxlength="30" placeholder="Tu nombre en el Universo">
-      </div>
-      <div class="campo">
-        <label>Avatar</label>
-        <div class="avatares" id="avatares">
-          <button data-img="mawari.png" class="on"><img src="mawari.png" alt="Mawari"></button>
-          <button data-img="kaorai.png"><img src="kaorai.png" alt="Kaorai"></button>
-          <button data-img="seyuma.png"><img src="seyuma.png" alt="Seyuma"></button>
-          <button data-img="orukai.png"><img src="orukai.png" alt="Orukai"></button>
-        </div>
-      </div>
-      <div class="campo">
-        <label>Guardián</label>
-        <select id="editGuardia">
-          <option>Custodio de las Raíces Vivas</option>
-          <option>Portador del Cielo Luminoso</option>
-          <option>Guardián de Corrientes Antiguas</option>
-          <option>Tejedor de Energía Sagrada</option>
-        </select>
-      </div>
-      <div class="campo">
-        <label>Presentación (máximo 500 caracteres)</label>
-        <textarea id="editPresentacion" maxlength="500" placeholder="Cuéntale al Universo quién eres… (voluntario)"></textarea>
-      </div>
-      <div class="acciones">
-        <button class="btn" id="btnGuardar">Guardar mi Libro</button>
-      </div>
+      <div class="campo"><label>Nombre del universo</label><input type="text" id="editNombre" maxlength="30" placeholder="Tu nombre en el Universo"></div>
+      <div class="campo"><label>Avatar</label><div class="avatares" id="avatares">
+        <button data-img="mawari.png" class="on"><img src="mawari.png" alt="Mawari"></button>
+        <button data-img="kaorai.png"><img src="kaorai.png" alt="Kaorai"></button>
+        <button data-img="seyuma.png"><img src="seyuma.png" alt="Seyuma"></button>
+        <button data-img="orukai.png"><img src="orukai.png" alt="Orukai"></button>
+      </div></div>
+      <div class="campo"><label>Guardián</label><select id="editGuardia">
+        <option>Custodio de las Raíces Vivas</option>
+        <option>Portador del Cielo Luminoso</option>
+        <option>Guardián de Corrientes Antiguas</option>
+        <option>Tejedor de Energía Sagrada</option>
+      </select></div>
+      <div class="campo"><label>Presentación (máx 500 caracteres)</label><textarea id="editPresentacion" maxlength="500" placeholder="Cuéntale al Universo quién eres… (voluntario)"></textarea></div>
+      <div class="acciones"><button class="btn" id="btnGuardar">Guardar mi Libro</button></div>
       <p class="msg" id="msgPerfil"></p>
     </div>
   </div>
-
-  <!-- Tab: Otras habitantes -->
   <div id="vistaOtros" style="display:none">
-    <div class="habitantes-lista" id="listaHabitantes">
-      <p class="sub" style="text-align:center">Cargando habitantes…</p>
-    </div>
+    <div class="habitantes-lista" id="listaHabitantes"><p class="sub" style="text-align:center">Cargando habitantes…</p></div>
   </div>
 </main>
-
 <script src="supabase-client.js"></script>
 <script src="circulo-auth.js"></script>
 <script>
-var AVATAR_SEL = "mawari.png";
-var msgPerfil = document.getElementById("msgPerfil");
-var miId = null;
-
-function mostrarTab(t) {
-  document.getElementById("tabMiPerfil").classList.toggle("on", t === "perfil");
-  document.getElementById("tabOtros").classList.toggle("on", t === "otros");
-  document.getElementById("vistaPerfil").style.display = t === "perfil" ? "" : "none";
-  document.getElementById("vistaOtros").style.display = t === "otros" ? "" : "none";
-  if (t === "otros") cargarHabitantes();
+var AVATAR_SEL="mawari.png",msgPerfil=document.getElementById("msgPerfil"),miId=null;
+function mostrarTab(t){
+  document.getElementById("tabMiPerfil").classList.toggle("on",t==="perfil");
+  document.getElementById("tabOtros").classList.toggle("on",t==="otros");
+  document.getElementById("vistaPerfil").style.display=t==="perfil"?"":"none";
+  document.getElementById("vistaOtros").style.display=t==="otros"?"":"none";
+  if(t==="otros")cargarHabitantes();
 }
-
-async function inicializar() {
-  if (window.supabaseConfigurado === undefined) {
-    await new Promise(function (r) { window.addEventListener("supabase-listo", r); });
-  }
-  if (!CirculoAuth.configurado()) {
-    document.getElementById("cabeceraPerfil").innerHTML = '<div class="perfil-datos"><h2>El Libro está descansando</h2><p class="sub">Vuelve pronto.</p></div>';
-    return;
-  }
-  var sesion = await CirculoAuth.sesionActual();
-  if (!sesion) { location.href = "circulo-auth.html"; return; }
-  miId = sesion.user.id;
+async function inicializar(){
+  if(window.supabaseConfigurado===undefined){await new Promise(function(r){window.addEventListener("supabase-listo",r)})}
+  if(!CirculoAuth.configurado()){document.getElementById("cabeceraPerfil").innerHTML='<div class="perfil-datos"><h2>El Libro está descansando</h2></div>';return}
+  var sesion=await CirculoAuth.sesionActual();
+  if(!sesion){location.href="circulo-auth.html";return}
+  miId=sesion.user.id;
   await cargarMiPerfil();
 }
-
-async function cargarMiPerfil() {
-  try {
-    var r = await supabaseClient.from("perfiles").select("*").eq("id", miId).single();
-    if (r.error) throw r.error;
-    var p = r.data;
-    document.getElementById("miAvatar").src = p.avatar;
-    document.getElementById("miNombre").textContent = p.nombre_universo;
-    document.getElementById("miGuardia").textContent = p.guardia;
-    document.getElementById("miPresentacion").textContent = p.presentacion || "";
-    document.getElementById("miCreado").textContent = "Habitante desde " + new Date(p.creado_en).toLocaleDateString("es", { month: "long", year: "numeric" });
-
-    document.getElementById("editNombre").value = p.nombre_universo;
-    document.getElementById("editGuardia").value = p.guardia;
-    document.getElementById("editPresentacion").value = p.presentacion || "";
-    AVATAR_SEL = p.avatar;
-    document.querySelectorAll(".avatares button").forEach(function (b) {
-      b.classList.toggle("on", b.dataset.img === p.avatar);
-    });
-  } catch (e) {
-    msgPerfil.textContent = "No se pudo cargar tu perfil: " + e.message;
-    msgPerfil.style.color = "#f2a0a8";
-  }
-}
-
-// Selección de avatar
-document.querySelectorAll(".avatares button").forEach(function (b) {
-  b.addEventListener("click", function () {
-    document.querySelectorAll(".avatares button").forEach(function (x) { x.classList.remove("on"); });
-    b.classList.add("on");
-    AVATAR_SEL = b.dataset.img;
-  });
-});
-
-document.getElementById("btnGuardar").addEventListener("click", async function () {
-  var nombre = document.getElementById("editNombre").value.trim();
-  if (!nombre) { msgPerfil.textContent = "Ka susurra… tu nombre es parte de tu esencia."; msgPerfil.style.color = "#f2a0a8"; return; }
-  try {
-    var r = await supabaseClient.from("perfiles").update({
-      avatar: AVATAR_SEL,
-      nombre_universo: nombre,
-      guardia: document.getElementById("editGuardia").value,
-      presentacion: document.getElementById("editPresentacion").value.trim() || null,
-      actualizado_en: new Date().toISOString()
-    }).eq("id", miId);
-    if (r.error) throw r.error;
-    msgPerfil.textContent = "Tu Libro se ha guardado ✨";
-    msgPerfil.style.color = "#6fe3b0";
-    await cargarMiPerfil();
-  } catch (e) {
-    msgPerfil.textContent = "No se pudo guardar: " + e.message;
-    msgPerfil.style.color = "#f2a0a8";
-  }
-});
-
-async function cargarHabitantes() {
-  try {
-    var r = await supabaseClient
-      .from("perfiles")
-      .select("id,nombre_universo,avatar,guardia,presentacion")
-      .order("creado_en", { ascending: false })
-      .limit(30);
-    if (r.error) throw r.error;
-    var lista = document.getElementById("listaHabitantes");
-    if (!r.data.length) {
-      lista.innerHTML = '<p class="sub" style="text-align:center">Aún no hay otras habitantes. Vuelve pronto.</p>';
-      return;
+async function cargarMiPerfil(){
+  try{
+    var r=await supabaseClient.from("perfiles").select("*").eq("id",miId).maybeSingle();
+    if(r.error)throw r.error;
+    if(!r.data){
+      var ins=await supabaseClient.from("perfiles").insert({id:miId,avatar:"mawari.png",nombre_universo:"Viajera"}).select().single();
+      if(ins.error)throw ins.error;
+      r.data=ins.data;
     }
-    lista.innerHTML = r.data.map(function (h) {
-      return '<div class="habitante-card">' +
-        '<img src="' + esc(h.avatar) + '" alt="">' +
-        '<div><b>' + esc(h.nombre_universo) + '</b>' +
-        '<small>' + esc(h.guardia) + '</small></div>' +
-      '</div>';
-    }).join("");
-  } catch (e) {
-    document.getElementById("listaHabitantes").innerHTML = '<p class="sub" style="text-align:center">No se pudieron cargar las habitantes.</p>';
-  }
+    var p=r.data;
+    document.getElementById("miAvatar").src=p.avatar;
+    document.getElementById("miNombre").textContent=p.nombre_universo;
+    document.getElementById("miGuardia").textContent=p.guardia;
+    document.getElementById("miPresentacion").textContent=p.presentacion||"";
+    document.getElementById("miCreado").textContent="Habitante desde "+new Date(p.creado_en).toLocaleDateString("es",{month:"long",year:"numeric"});
+    document.getElementById("editNombre").value=p.nombre_universo;
+    document.getElementById("editGuardia").value=p.guardia;
+    document.getElementById("editPresentacion").value=p.presentacion||"";
+    AVATAR_SEL=p.avatar;
+    document.querySelectorAll(".avatares button").forEach(function(b){b.classList.toggle("on",b.dataset.img===p.avatar)});
+  }catch(e){msgPerfil.textContent="No se pudo cargar: "+e.message;msgPerfil.style.color="#f2a0a8"}
 }
-
-function esc(t) {
-  return String(t).replace(/[&<>"]/g, function (c) {
-    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
-  });
+document.querySelectorAll(".avatares button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".avatares button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");AVATAR_SEL=b.dataset.img})});
+document.getElementById("btnGuardar").addEventListener("click",async function(){
+  var nombre=document.getElementById("editNombre").value.trim();
+  if(!nombre){msgPerfil.textContent="Ka susurra… tu nombre es parte de tu esencia.";msgPerfil.style.color="#f2a0a8";return}
+  try{
+    var r=await supabaseClient.from("perfiles").update({avatar:AVATAR_SEL,nombre_universo:nombre,guardia:document.getElementById("editGuardia").value,presentacion:document.getElementById("editPresentacion").value.trim()||null,actualizado_en:new Date().toISOString()}).eq("id",miId);
+    if(r.error)throw r.error;
+    msgPerfil.textContent="Tu Libro se ha guardado ✨";msgPerfil.style.color="#6fe3b0";
+    await cargarMiPerfil();
+  }catch(e){msgPerfil.textContent="No se pudo guardar: "+e.message;msgPerfil.style.color="#f2a0a8"}
+});
+async function cargarHabitantes(){
+  try{
+    var r=await supabaseClient.from("perfiles").select("id,nombre_universo,avatar,guardia").order("creado_en",{ascending:false}).limit(30);
+    if(r.error)throw r.error;
+    var lista=document.getElementById("listaHabitantes");
+    if(!r.data.length){lista.innerHTML='<p class="sub" style="text-align:center">Aún no hay otras habitantes.</p>';return}
+    lista.innerHTML=r.data.map(function(h){return '<div class="habitante-card"><img src="'+esc(h.avatar)+'" alt=""><div><b>'+esc(h.nombre_universo)+'</b><small>'+esc(h.guardia)+'</small></div></div>'}).join("");
+  }catch(e){document.getElementById("listaHabitantes").innerHTML='<p class="sub" style="text-align:center">No se pudieron cargar.</p>'}
 }
-
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 inicializar();
 </script>
 <script src="ka-nav.js" data-aqui="circulo" data-sin-presencia></script>
