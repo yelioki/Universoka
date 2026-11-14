@@ -125,7 +125,7 @@ document.getElementById("btnGuardar").addEventListener("click",async function(){
   var nombre=document.getElementById("editNombre").value.trim();
   if(!nombre){msgPerfil.textContent="Ka susurra… tu nombre es parte de tu esencia.";msgPerfil.style.color="#f2a0a8";return}
   try{
-    var r=await supabaseClient.from("perfiles").update({avatar:AVATAR_SEL,nombre_universo:nombre,guardia:document.getElementById("editGuardia").value,presentacion:document.getElementById("editPresentacion").value.trim()||null,actualizado_en:new Date().toISOString()}).eq("id",miId);
+        var r=await supabaseClient.from("perfiles").update({avatar:AVATAR_SEL,nombre_universo:nombre,guardia:document.getElementById("editGuardia").value,presentacion:document.getElementById("editPresentacion").value.trim()||null}).eq("id",miId);
     if(r.error)throw r.error;
     msgPerfil.textContent="Tu Libro se ha guardado ✨";msgPerfil.style.color="#6fe3b0";
     await cargarMiPerfil();
