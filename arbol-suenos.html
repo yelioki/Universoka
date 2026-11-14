@@ -105,7 +105,7 @@ async function cargarSuenos() {
     // Sueños aprobados (públicos) + propios (cualquier estado)
     var r = await supabaseClient
       .from("suenos")
-      .select("id,habitante_id,texto,simbolo,color,estado,creado_en,perfiles!inner(nombre_universo,avatar)")
+      .select("id,habitante_id,texto,simbolo,color,estado,creado_en")
       .or("estado.eq.aprobado,habitante_id.eq." + (await CirculoAuth.sesionActual()).user.id)
       .order("creado_en", { ascending: false })
       .limit(50);
